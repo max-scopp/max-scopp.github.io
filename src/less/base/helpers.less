@@ -1,0 +1,37 @@
+
+// ***
+// * BASIC DEFINITIONS + BASE BOOTSTRAP
+// *
+
+* {
+    // cuz we love that property
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+
+    // globalize as default font
+    #webfont.khula(400);
+
+    background-color: @black;
+    color: @white;
+}
+
+::selection { // style the text selection
+    background-color: fade(@color, 99%);
+    color: @white;
+}
+
+/**
+ * BASIC BOOTSTRAP
+ * ****************************************************************************
+ */
+
+.container {
+    width: 450px;
+    max-width: 100%;
+
+    margin: 0 auto;
+    padding: 0 10px;
+}

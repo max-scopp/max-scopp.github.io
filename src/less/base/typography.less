@@ -1,0 +1,67 @@
+
+// ***
+// * TYPOGRAPHY DEFINITIONS
+// *
+
+@import url('https://fonts.googleapis.com/css?family=Passion+One:400,700,900|Khula:400,300,600,700,800');
+
+#webfont {
+    // PASSION ONE WEBFONT ******************************************************
+
+    .passion(@weight: 0) { // basics
+        font-family: 'Passion One', sans-serif;
+        font-weight: @weight;
+        font-style: normal;
+    }
+
+    // KHULA WEBFONT ************************************************************
+
+    .khula(@weight: 0) { // basics
+        font-family: 'Khula', sans-serif;
+        font-weight: @weight;
+        font-style: normal;
+    }
+}
+
+a {
+    color: @color;
+    text-decoration: none;
+
+    transition: none ease .15s;
+    transition-property: color, background-color;
+
+    &:focus,
+    &:hover {
+        color: lighten(@color, 10%);
+        text-decoration: underline;
+    }
+}
+
+p {
+    span.huge {
+        font-size: 3em;
+        line-height: 0;
+    }
+}
+
+ul {
+    width: 100%;
+
+    li {
+        max-width: 50%;
+        position: relative;
+
+        list-style-type: square;
+
+        span.clamped {
+            position: absolute;
+            left: 50%;
+            width: 200%;
+
+            color: mix(@black, @white, 75%);
+
+            &:before { content: '('; }
+            &:after { content: ')'; }
+        }
+    }
+}

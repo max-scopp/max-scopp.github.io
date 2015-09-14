@@ -1,0 +1,43 @@
+.tab-container {
+    .tab-row {
+        input[type='checkbox']:first-child {
+            display: none;
+
+            + label {
+                user-select: none;
+                cursor: pointer;
+
+                h3 {
+                    #webfont.khula(400);
+
+                    font-size: 1.5em;
+                    display: block;
+
+                    &:before {
+                        content: '> ';
+                        display: inline-block;
+                        width: 1em;
+                    }
+                }
+            }
+
+            &:checked + label {
+                h3 {
+                    border-bottom: 2px solid mix(@black, @white, 75%);
+
+                    &:before {
+                        content: '^ ';
+                    }
+                }
+                + .tab-inner {
+                    display: block;
+                }
+            }
+        }
+
+        .tab-inner {
+            display: none;
+        }
+    }
+
+    }
