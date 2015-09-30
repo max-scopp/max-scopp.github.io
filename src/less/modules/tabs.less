@@ -8,36 +8,52 @@
                 cursor: pointer;
 
                 h3 {
-                    #webfont.khula(400);
+                    #webfont.sans(400);
 
                     font-size: 1.5em;
                     display: block;
 
+                    margin-bottom: 0;
+
                     &:before {
-                        content: '> ';
+                        content: '\0203A';
                         display: inline-block;
-                        width: 1em;
+
+                        width: 1.5em;
+                        height: 1.6em;
+
+                        text-align: center;
+                        transition: all ease .15s;
+
+                        backface-visibility: hidden;
+                        perspective: 1000;
                     }
                 }
             }
 
             &:checked + label {
                 h3 {
-                    border-bottom: 2px solid mix(@black, @white, 75%);
-
                     &:before {
-                        content: '^ ';
+                        transform: rotateZ(-90deg);
                     }
                 }
-                + .tab-inner {
-                    display: block;
+
+                + .tab-inner > .inner-wrap {
+                    transform: translateY(0);
+                    margin-top: 0;
                 }
             }
         }
 
         .tab-inner {
-            display: none;
+            overflow: hidden;
+            position: relative;
+
+            > .inner-wrap {
+                transform: translateY(-65%);
+                margin-top: -150%;
+                transition: all ease-in-out .5s;
+            }
         }
     }
-
-    }
+}

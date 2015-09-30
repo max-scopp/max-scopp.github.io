@@ -12,7 +12,7 @@ html, body {
     margin: 0;
 
     // globalize as default font
-    #webfont.khula(400);
+    #webfont.sans(400);
 
     background-color: @black;
     color: @white;
@@ -21,6 +21,12 @@ html, body {
 ::selection { // style the text selection
     background-color: fade(@color, 99%);
     color: @white;
+}
+
+// The fancy Animation
+@keyframes "hue" {
+    from {  filter: hue-rotate(0deg);    }
+    to   {  filter: hue-rotate(360deg);  }
 }
 
 /**
@@ -32,6 +38,6 @@ html, body {
     width: 450px;
     max-width: 100%;
 
-    margin: 0 auto;
+    margin: 25px auto;
     padding: 0 10px;
 }

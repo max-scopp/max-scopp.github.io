@@ -14,24 +14,20 @@
         background: center no-repeat;
 
         background-size: 50%;
-        border-radius: 100px;
 
-        background-color: mix(@black, @white);
-
-        transition: box-shadow ease .15s;
+        border-bottom: 3px solid transparent;
+        transition: border-bottom ease .15s;
 
         &:focus,
         &:hover {
-            box-shadow: inset 0 0 8px 24px fade(@white, 25%);
+            border-bottom: 3px solid @white;
         }
 
         &.facebook {
-            background-color: #3B5998;
             background-image: data-uri('image/png;base64', 'img/facebook-logo.png');
         }
 
         &.codepen {
-            background-color: #231F20;
             background-image: data-uri('image/png;base64', 'img/codepen-logo.png');
         }
     }

@@ -6,6 +6,8 @@
 
     %body
         %header
+            %img{:src => "//graph.facebook.com/100009831876615/picture?type=large"}/
+
             %h1
                 Max
                 %span Scopp
@@ -32,36 +34,37 @@
                         %h3 What I play with
 
                     .tab-inner
-                        %p
-                            \ I'm interested into programming in general,
-                            \ although I'm currently playing with:
-                        %ul
-                            %li
-                                PHP
-                                %span.clamped Typo3 Extensions
-                            %li
-                                JavaScript
-                                %span.clamped mainly jQuery
-                            %li
-                                LESS
-                                %span.clamped CSS pre-preprocessor in Node.js
-                            %li
-                                HAML
-                                %span.clamped HTML pre-preprocessor in Ruby
-                            %li
-                                Python3
-                                %span.clamped sneaker, raspery-pi 😍
+                        .inner-wrap
+                            %p
+                                \ I'm interested into programming in general,
+                                \ although I'm currently playing with:
+                            %ul
+                                %li
+                                    PHP
+                                    %span.clamped Typo3 Extensions
+                                %li
+                                    JavaScript
+                                    %span.clamped mainly jQuery
+                                %li
+                                    LESS
+                                    %span.clamped CSS pre-preprocessor in Node.js
+                                %li
+                                    HAML
+                                    %span.clamped HTML pre-preprocessor in Ruby
+                                %li
+                                    Python3
+                                    %span.clamped sneaker, raspery-pi 😍
 
-                        %p
-                            \ Planed in the future is:
-                        %ul
-                            %li
-                                Objective-C
-                                %span.clamped or C-sharp
-                            %li
-                                Java
-                                %span.clamped Android App-Development
-                            %li Maybe Go too, I'll see.
+                            %p
+                                \ Planed in the future is:
+                            %ul
+                                %li
+                                    Objective-C
+                                    %span.clamped or C-sharp
+                                %li
+                                    Java
+                                    %span.clamped Android App-Development
+                                %li Maybe Go too, I'll see.
 
 
         = Haml::Engine.new(File.read("src/haml/footer.haml")).render
