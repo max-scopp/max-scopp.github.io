@@ -1,4 +1,4 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
     "use strict";
 
     grunt.loadNpmTasks('grunt-contrib-less');
@@ -35,7 +35,6 @@ module.exports = function(grunt) {
         },
         haml: {
             options: {
-                style: 'expanded',
                 format: 'html5'
             },
 
