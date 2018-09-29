@@ -1,97 +1,92 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang="en">
 
 <head>
-  <meta charset=UTF-8>
+  <meta charset="UTF-8">
   <title>maxscopp.de</title>
-  <meta
-    name=viewport
-    content="width=device-width, initial-scale=1"
-  >
-    <link
-      rel=stylesheet
-      href=https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.min.css
-    >
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/minireset.css/0.0.2/minireset.min.css" rel="stylesheet">
       <style>
-        @import url("https://fonts.googleapis.com/css?family=Overpass:400,600,800");
-        body {
-          margin: 0;
-          padding: 0 0 12vmin 0;
-          display: grid;
-          justify-content: center;
-          align-content: center;
-          font-family: system-ui, sans-serif;
-          font-size: 16px
-        }
+      @import url("https://fonts.googleapis.com/css?family=Overpass:400,600,800");
+body {
+  margin: 0;
+  padding: 0 0 12vmin 0;
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  font-family: system-ui, sans-serif;
+  font-size: 16px;
+}
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+}
+body > main {
+  flex: 1;
+  max-width: 420px;
+  padding: 40px;
+  box-sizing: unset;
+}
 
-        @media screen and (max-width:768px) {
-          body {
-            font-size: 14px
-          }
-        }
+a {
+  color: #075CC6;
+  font-weight: 600;
+}
 
-        body>main {
-          flex: 1;
-          max-width: 420px;
-          padding: 40px;
-          box-sizing: unset
-        }
+p {
+  margin: 1em 0;
+}
 
-        a {
-          color: #075cc6;
-          font-weight: 600
-        }
+h1 {
+  flex: 1;
+  align-self: center;
+  padding: 40px;
+  text-align: center;
+  font-size: 5vmax;
+  font-family: "Overpass";
+  font-weight: 600;
+  letter-spacing: -1px;
+  -webkit-transform: scalex(1.133);
+          transform: scalex(1.133);
+}
+@media screen and (min-width: 800px) {
+  h1 {
+    font-size: 64px;
+  }
+}
 
-        p {
-          margin: 1em 0
-        }
+li {
+  line-height: 1.5;
+}
 
-        h1 {
-          flex: 1;
-          align-self: center;
-          padding: 40px;
-          text-align: center;
-          font-size: 5vmax;
-          font-family: "Overpass";
-          font-weight: 600;
-          letter-spacing: -1px;
-          -webkit-transform: scalex(1.133);
-          transform: scalex(1.133)
-        }
-
-        li {
-          line-height: 1.5
-        }
-
-        ul {
-          list-style-type: square;
-          margin-bottom: 1em
-        }
-
-        ul.list-horizontal {
-          list-style-type: none;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-evenly
-        }
-
+ul {
+  list-style-type: square;
+  margin-bottom: 1em;
+}
+ul.list-horizontal {
+  list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}
       </style>
 </head>
 
-<body translate=no>
+<body translate="no">
   <main>
     <h1>Max Scopp</h1>
     <ul>
       <li>
         Lead Designer & Frontend Dev at
-        <a href=//timelessarts.de>TimelessArts</a>
+        <a href="//timelessarts.de">TimelessArts</a>
       </li>
       <li>Sleepy but highly passionate and efficient Developer</li>
       <li>Don't talk cheap, do it</li>
       <li>Change is good, change is future</li>
     </ul>
     <p>Don't ask me about Backend, .NET the way. Seeking to support open-source projects.</p>
-    <ul class=list-horizontal>
+    <ul class="list-horizontal">
       <li>Git, GoAbstract, Sketch, VSCode, Slack</li>
       <li>JS/ES, TypeScript, Flow, SCSS, ACSS, BEM</li>
       <li>PWA, Stencil, React, Angular >4</li>
@@ -101,4 +96,3 @@
 </body>
 
 </html>
-
