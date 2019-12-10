@@ -28,10 +28,6 @@
   for = "/*"
 
   [headers.values]
-
-    # Damn, you found a password!
-    Basic-Auth = "preview:e2katRo"
-
       # Multi-value headers are expressed with multi-line strings.
     cache-control = '''
     max-age=0,
