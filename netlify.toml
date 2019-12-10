@@ -25,15 +25,16 @@
   to = "/"
 
 [[headers]]
-  # Define which paths this specific [[headers]] block will cover.
   for = "/*"
 
-    # Multi-value headers are expressed with multi-line strings.
-	cache-control = '''
-	max-age=0,
-	no-cache,
-	no-store,
-	must-revalidate'''
+  [headers.values]
 
-    # Damn, you found a password!w
+    # Damn, you found a password!
     Basic-Auth = "preview:e2katRo"
+
+      # Multi-value headers are expressed with multi-line strings.
+    cache-control = '''
+    max-age=0,
+    no-cache,
+    no-store,
+    must-revalidate'''
