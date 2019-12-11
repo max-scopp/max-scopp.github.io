@@ -1,3 +1,10 @@
 vscode:
   extensions:
     - be5invis.toml@0.4.0:a7EFEKQe5YoU2zZjNbvGQQ==
+    - ecmel.vscode-html-css@0.2.3:RBTpzQbz8rn5KTlc82tnsQ==
+    - mrmlnc.vscode-scss@0.8.1:z0J2Fq7FMcEW7g7VgzPwxw==
+    - sibiraj-s.vscode-scss-formatter@1.4.2:ibPjGgF3dgRcqlt+uh73ng==
+    - natemoo-re.vscode-stencil-tools@2.0.1:JXm1mXq3W0S4Mo6ArCbmAw==
+    - glen-84.sass-lint@1.0.6:v/pV/IcLwms3xCUrRlrVjw==
+    - ionutvmi.path-autocomplete@1.13.3:XzX3IFyeQJx3JGiFjNXD2g==
+    - gencer.html-slim-scss-css-class-completion@1.5.23:cO11F9JQ6L0s6CWLFc3FaA==

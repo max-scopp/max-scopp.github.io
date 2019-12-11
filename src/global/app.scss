@@ -1,0 +1,31 @@
+@import "setup";
+@import "objects";
+
+svg {
+  display: inline-block;
+  margin-bottom: -4px;
+}
+
+::selection {
+  background-color: var(--blue);
+  color: var(--dark);
+}
+
+article {
+  position: relative;
+  max-width: 43.5rem;
+
+  &.center {
+    margin: auto;
+  }
+}
+
+stencil-router {
+  grid-area: back;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+}

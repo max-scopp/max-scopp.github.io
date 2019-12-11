@@ -1,0 +1,38 @@
+button,
+%button {
+  appearance: none;
+
+  padding: 0.8rem 1.6rem;
+  border-radius: 0.4rem;
+
+  font-size: 110%;
+  letter-spacing: 0.05rem;
+
+  background-color: var(--blue-transparency);
+  border: 0.2rem solid transparent;
+
+  color: inherit;
+  cursor: pointer;
+
+  box-shadow: 0 0 26px 0 rgba(black, 0), 0 2px 3px -1px rgba(black, 0);
+  /*
+  @include reducable-motion {
+    transition: all 90ms ease, box-shadow 600ms ease;
+  }
+ */
+  &:focus {
+    outline: none;
+    border-color: var(--blue);
+  }
+
+  &:hover {
+    background-color: var(--blue);
+    color: var(--light);
+
+    box-shadow: 0 0 24px -2px rgba(black, 0.08), 0 3px 2px -2px rgba(black, 0.12);
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: 0 0 24px -2px rgba(white, 0.08), 0 3px 2px -2px rgba(white, 0.12);
+    }
+  }
+}

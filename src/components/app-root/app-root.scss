@@ -1,0 +1,25 @@
+@import "engine";
+
+app-root {
+  display: grid;
+  grid-template:
+    "name name    name"
+    ".    .       back"
+    ".    content .   " / 0 minmax(auto, 68rem) 0;
+
+  @include desktop {
+    grid-template-rows: auto 0 auto;
+    grid-template:
+      "name name    name"
+      "back    .    .   "
+      ".    content .   " / 64px minmax(auto, 68rem) 64px;
+  }
+
+  > h1 {
+    grid-area: name;
+  }
+
+  > main {
+    grid-area: content;
+  }
+}

@@ -1,0 +1,24 @@
+@media (inverted-colors) {
+  // when screen fully inverted, keep original image colors
+  img {
+    filter: invert(100%);
+  }
+
+  // when inverted dark/white, these effects usually are distracting
+  * {
+    text-shadow: none !important;
+    box-shadow: none !important;
+  }
+}
+
+@media (prefers-contrast: high) {
+  :root {
+    filter: contrast(1.3);
+  }
+}
+
+@media (prefers-contrast: low) {
+  :root {
+    filter: contrast(0.7);
+  }
+}

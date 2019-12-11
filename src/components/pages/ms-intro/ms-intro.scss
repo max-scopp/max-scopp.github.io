@@ -1,0 +1,79 @@
+ms-intro {
+  .actions {
+    display: flex;
+    justify-content: space-evenly;
+
+    cursor: pointer;
+    user-select: none;
+
+    @media (max-width: 45rem) {
+      flex-direction: column;
+
+      > button:not(:last-child) {
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  .tags {
+    display: inline-flex;
+    flex-flow: row wrap;
+    justify-content: center;
+
+    margin-top: 10rem;
+    margin-bottom: 15rem;
+    user-select: none;
+
+    &:hover > .tag {
+      &.util {
+        background-color: var(--util);
+        color: var(--light);
+      }
+
+      &.tech {
+        background-color: var(--tech);
+      }
+
+      &.metholigy {
+        background-color: var(--metholigy);
+      }
+
+      &.framework {
+        background-color: var(--framework);
+        color: #fff;
+      }
+    }
+  }
+
+  .tag {
+    padding: 0.2em 0.72em;
+    margin: 0.2em;
+
+    font-size: 13px;
+    font-weight: 500;
+
+    border: 1px solid var(--light-transparency);
+
+    @include reducable-motion {
+      transition: all ease-out 80ms;
+
+      @for $i from 1 through 20 {
+        &:nth-child(#{$i}) {
+          transition-delay: #{random(60) / 2 * $i}ms;
+        }
+      }
+    }
+  }
+
+  .comment {
+    order: 1;
+
+    width: 100%;
+    text-align: center;
+    line-height: 2.5;
+
+    > span {
+      opacity: 0.5;
+    }
+  }
+}
