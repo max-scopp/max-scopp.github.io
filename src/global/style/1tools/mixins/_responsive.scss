@@ -1,0 +1,24 @@
+@mixin phone() {
+  @media (max-width: 45rem) {
+    @content;
+  }
+}
+
+@mixin desktop() {
+  @media (min-width: 45rem) {
+    @content;
+  }
+}
+
+@mixin hover-touch-compatible {
+  @media (hover: none) {
+    &.touch-hover {
+      @content;
+    }
+  }
+  @media (pointer: fine) {
+    &:hover {
+      @content;
+    }
+  }
+}

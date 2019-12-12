@@ -1,4 +1,4 @@
-import { Component, Element, h } from '@stencil/core';
+import { Component, Element, h, State } from '@stencil/core';
 import { RouterHistory } from '@stencil/router';
 
 @Component({
@@ -10,6 +10,13 @@ export class MsBack {
   @Element()
   public host: HTMLElement;
 
+  @State()
+  public currentPathname: string = null;
+
+  componentWillLoad() {
+    this.checkHref();
+  }
+
   componentDidLoad() {
     this.host.addEventListener('click', () => {
       ((this.host as any).history as RouterHistory).push('/')
@@ -19,7 +26,19 @@ export class MsBack {
     root.appendChild(this.host);
   }
 
+  checkHref = () => {
+    const newPathname = location.pathname;
+
+    if (this.currentPathname !== newPathname) {
+      this.currentPathname = newPathname;
+    }
+
+    requestAnimationFrame(this.checkHref)
+  }
+
   render() {
+    this.host.hidden = this.currentPathname === '/';
+
     return (
       <ms-icon name="back"></ms-icon>
     );

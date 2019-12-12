@@ -19,9 +19,9 @@ export class MsIntro {
   componentDidLoad() {
     const tagContainer = this.host.querySelector('[data-randomize-tags]');
 
-    tagContainer.childNodes.forEach((tagNode, i, all) => {
+    tagContainer.childNodes.forEach((tagNode) => {
       const beforeNode = tagContainer.childNodes.item(
-        Math.floor((Math.random() * all.length) - i)
+        Math.floor((Math.random() * tagContainer.childNodes.length))
       );
 
       tagContainer.insertBefore(beforeNode, tagNode);

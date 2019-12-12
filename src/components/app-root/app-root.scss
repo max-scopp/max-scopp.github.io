@@ -15,11 +15,16 @@ app-root {
       ".    content .   " / 64px minmax(auto, 68rem) 64px;
   }
 
-  > h1 {
-    grid-area: name;
-  }
-
   > main {
     grid-area: content;
+
+    > h1 {
+      grid-area: name;
+      text-align: center;
+    }
+  }
+
+  > ms-back {
+    grid-area: back;
   }
 }

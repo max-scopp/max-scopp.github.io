@@ -1,6 +1,6 @@
-button,
 %button {
   appearance: none;
+  user-select: none;
 
   padding: 0.8rem 1.6rem;
   border-radius: 0.4rem;
@@ -15,17 +15,17 @@ button,
   cursor: pointer;
 
   box-shadow: 0 0 26px 0 rgba(black, 0), 0 2px 3px -1px rgba(black, 0);
-  /*
+
   @include reducable-motion {
     transition: all 90ms ease, box-shadow 600ms ease;
   }
- */
+
   &:focus {
     outline: none;
     border-color: var(--blue);
   }
 
-  &:hover {
+  @include hover-touch-compatible {
     background-color: var(--blue);
     color: var(--light);
 

@@ -1,5 +1,4 @@
-//@import "engine";
-@import "objects/button";
+@import "4objects/button";
 
 ms-back {
   @extend %button;
@@ -18,7 +17,9 @@ ms-back {
   place-items: center;
 
   @include reducable-motion {
-    animation: fadeIn 600ms ease-out;
+    &:not([hidden]) {
+      animation: fadeIn 600ms ease-out forwards;
+    }
   }
 
   @media (prefers-color-scheme: dark) {

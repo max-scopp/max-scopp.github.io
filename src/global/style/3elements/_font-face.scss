@@ -1,0 +1,72 @@
+%heading {
+  font-size: 1.6rem;
+  font-weight: normal;
+  font-family: "Overpass", sans-serif;
+
+  letter-spacing: -0.025em;
+  line-height: 1.7;
+}
+
+// #region "Heading overwrites"
+
+h1,
+.h1 {
+  @extend %heading;
+
+  font-size: 3.4rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+h2,
+.h2 {
+  @extend %heading;
+
+  font-size: 2.6rem;
+}
+
+h3,
+.h3 {
+  @extend %heading;
+
+  font-size: 2.4rem;
+  font-weight: 500;
+}
+
+h4,
+.h4 {
+  @extend %heading;
+  font-size: 2rem;
+}
+
+h5,
+.h5 {
+  @extend %heading;
+}
+
+h6,
+.h6 {
+  @extend %heading;
+
+  font-size: 1.4rem;
+  font-weight: bold;
+}
+
+// #endregion
+
+// #region "Content and Paragraphs"
+
+p + p {
+  margin-top: 1.5em;
+}
+
+p {
+  margin-bottom: 1em;
+}
+
+a,
+.link {
+  @extend %link;
+}
+
+// #endregion

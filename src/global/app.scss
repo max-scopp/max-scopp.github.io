@@ -1,9 +1,8 @@
 @import "setup";
-@import "objects";
 
 svg {
   display: inline-block;
-  margin-bottom: -4px;
+  margin-bottom: -1px;
 }
 
 ::selection {
@@ -15,6 +14,8 @@ article {
   position: relative;
   max-width: 43.5rem;
 
+  margin-bottom: 33vh;
+
   &.center {
     margin: auto;
   }
@@ -22,10 +23,4 @@ article {
 
 stencil-router {
   grid-area: back;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
 }

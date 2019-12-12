@@ -8,10 +8,12 @@ export default async () => {
    */
 
   if (config.emulateToucHover) {
-    window.addEventListener('touchstart',
-      (event: TouchEvent) =>
-        (event.target as HTMLElement).classList.add(config.emulatedToucHoverClassName)
-    );
+
+    const handleStart = (event: TouchEvent) =>
+      (event.target as HTMLElement).classList.add(config.emulatedToucHoverClassName)
+
+    window.addEventListener('touchmove', handleStart);
+    window.addEventListener('touchstart', handleStart);
 
     window.addEventListener('touchend',
       (event: TouchEvent) =>
