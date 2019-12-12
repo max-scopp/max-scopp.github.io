@@ -19,11 +19,6 @@
   command = "npm run build"
   environment = { PRODUCTION = "true" }
 
-# A basic redirect rule
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-
 [[headers]]
   for = "/*"
 
