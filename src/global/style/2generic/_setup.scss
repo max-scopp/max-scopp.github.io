@@ -7,9 +7,6 @@
   background-color: var(--light);
   color: var(--dark);
 
-  transition: none ease 200ms;
-  transition-property: background, color;
-
   @media (prefers-color-scheme: dark) {
     --light: #121212;
     --dark: #fff;
@@ -49,4 +46,8 @@
   --tech: var(--red);
   --metholigy: #57cd5c;
   --framework: #9c27b0;
+
+  // down here so the initialization already has set the background and won't animate it
+  transition: none ease 200ms;
+  transition-property: background, color;
 }
