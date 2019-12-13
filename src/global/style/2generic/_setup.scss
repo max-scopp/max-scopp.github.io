@@ -10,26 +10,6 @@
   transition: none ease 200ms;
   transition-property: background, color;
 
-  --light: #fff;
-  --dark: #333;
-
-  --light-half: #{rgba(#fff, 0.5)};
-  --dark-half: #{rgba(#333, 0.5)};
-
-  --light-transparency: #{rgba(#333, 0.3)};
-  --dark-transparency: #{rgba(#fff, 0.2)};
-
-  --blue: #2196f3;
-  --red: #ffa726;
-
-  --blue-transparency: #{hsla(205, 90%, 50%, 0.16)};
-  --red-transparency: #{rgba(#ff9800, 0.5)};
-
-  --util: var(--blue);
-  --tech: var(--red);
-  --metholigy: #57cd5c;
-  --framework: #9c27b0;
-
   @media (prefers-color-scheme: dark) {
     --light: #121212;
     --dark: #fff;
@@ -49,4 +29,24 @@
     --metholigy: #2e7d32;
     --framework: #9c27b0;
   }
+
+  --light: #fff;
+  --dark: #333;
+
+  --light-half: #{rgba(#fff, 0.5)};
+  --dark-half: #{rgba(#333, 0.5)};
+
+  --light-transparency: #{rgba(#333, 0.3)};
+  --dark-transparency: #{rgba(#fff, 0.2)};
+
+  --blue: #2196f3;
+  --red: #ffa726;
+
+  --blue-transparency: #{hsla(205, 90%, 50%, 0.16)};
+  --red-transparency: #{rgba(#ff9800, 0.5)};
+
+  --util: var(--blue);
+  --tech: var(--red);
+  --metholigy: #57cd5c;
+  --framework: #9c27b0;
 }
