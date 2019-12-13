@@ -13,7 +13,7 @@ export class MsBackground {
     return (
       <article>
         <h2>Personal Background</h2>
-        <p>Growing up with a passion for computers isn't that uncommon nowadays. But unlike most others, I've always been interested in simple and self-explainatory software that <i>just works</i>. Starting with <a href="https://de.wikipedia.org/wiki/Microsoft_Windows_Vista" target="_blank" data-tip="Windows Vista™ was released 30th January, 2007">Windows Vista</a>, I've been exploring what make's a fast, visually pleasing and efficient software.</p>
+        <p>Growing up with a passion for computers isn't that uncommon nowadays. But unlike most others, I've always been interested in simple and self-explainatory software that <i>just works</i>. Starting with <a rel="noreferrer" href="https://de.wikipedia.org/wiki/Microsoft_Windows_Vista" target="_blank" data-tip="Windows Vista™ was released 30th January, 2007">Windows Vista</a>, I've been exploring what make's a fast, visually pleasing and efficient software.</p>
         <p>Continuing with this target in mind, I've been exploring techniques in various languages and frameworks:</p>
         <h3>Professional Experiences</h3>
         <h4>Languages</h4>

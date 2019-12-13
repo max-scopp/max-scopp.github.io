@@ -35,10 +35,10 @@ export class MsIntro {
         <p>A young, passionate individual who loves to support open-source projects. To hire. Simplification over complexity.</p>
         <nav class='actions'>
 
-          <button on-click={() => this.history.push("/commercial/work")}>Hire me</button>
-          <button on-click={() => this.history.push("/about/my/background")}>Background</button>
-          <button on-click={() => this.history.push("/my/work")}>My Work</button>
-          <button on-click={() => this.history.push("/about/my/open-source-projects")}>
+          <button aria-label="Sub Page" on-click={() => this.history.push("/commercial/work")}>Hire me</button>
+          <button aria-label="Sub Page" on-click={() => this.history.push("/about/my/background")}>Background</button>
+          <button aria-label="Sub Page" on-click={() => this.history.push("/my/work")}>My Work</button>
+          <button aria-label="Sub Page" on-click={() => this.history.push("/about/my/open-source-projects")}>
             <ms-icon name="github" width="1em" />
           </button>
         </nav>
