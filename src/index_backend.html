@@ -45,7 +45,18 @@ var PostPreview = createClass({
   }
 });
 
-CMS.registerPreviewTemplate("page", PagePreview);
+
+CMS.registerPreviewStyle("/build/app.css");
+
+CMS.registerPreviewTemplate("page", function(props) {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src = location.origin + "/build/app.js";
+  head.appendChild(script);
+
+  return h('ms-page-content', {}, JSON.stringify(this.props));
+});
+
 CMS.registerPreviewTemplate("post", PostPreview);
 	</script>
 </body>
