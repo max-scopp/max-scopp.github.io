@@ -21,6 +21,10 @@ export const config: Config = {
     copy({
       targets: [
         {
+          src: 'backend/',
+          dest: 'www/content/'
+        },
+        {
           src: 'src/index_backend.html',
           dest: 'www/admin/',
           rename: 'index.html'
