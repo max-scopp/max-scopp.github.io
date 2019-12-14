@@ -10,6 +10,8 @@ media_folder: "backend/assets/"
 # The src attribute for uploaded media will begin with /images/uploads
 public_folder: "/content/assets"
 
+publish_mode: editorial_workflow
+
 collections:
   - name: "page"
     label: "Pages"
