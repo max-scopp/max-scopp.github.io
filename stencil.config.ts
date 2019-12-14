@@ -21,10 +21,6 @@ export const config: Config = {
     copy({
       targets: [
         {
-          src: 'backend/',
-          dest: 'www/content/'
-        },
-        {
           src: 'src/index_backend.html',
           dest: 'www/admin/',
           rename: 'index.html'
@@ -33,7 +29,12 @@ export const config: Config = {
           src: 'src/backend_config.yml',
           dest: 'www/admin/',
           rename: 'config.yml'
-        }
+        },
+        {
+          src: 'backend/',
+          dest: 'www/',
+          rename: "content"
+        },
       ]
     }),
     sass({

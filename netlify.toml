@@ -19,11 +19,16 @@
   command = "npm run build"
   environment = { PRODUCTION = "true" }
 
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 [[headers]]
   for = "/*"
 
   [headers.values]
-      # Multi-value headers are expressed with multi-line strings.
+    Access-Control-Allow-Origin = "*"
     cache-control = '''
     max-age=0,
     no-cache,
