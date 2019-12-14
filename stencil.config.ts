@@ -21,7 +21,12 @@ export const config: Config = {
     copy({
       targets: [
         {
-          src: 'netlify_backend_config.yml',
+          src: 'src/index_backend.html',
+          dest: 'www/admin/',
+          rename: 'index.html'
+        },
+        {
+          src: 'src/backend_config.yml',
           dest: 'www/admin/',
           rename: 'config.yml'
         }
