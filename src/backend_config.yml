@@ -14,6 +14,8 @@ collections:
   - name: "page"
     label: "Pages"
     folder: "_pages"
+    create: true
+    slug: "{{year}}-{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Preview Image", name: "preview", widget: "image" }
@@ -29,6 +31,8 @@ collections:
   - name: "post"
     label: "Blog Posts"
     folder: "_posts"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Preview Image", name: "preview", widget: "image" }
