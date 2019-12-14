@@ -13,6 +13,7 @@ public_folder: "/content/assets"
 collections:
   - name: "pages"
     label: "Pages"
+    folder: "_pages"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Preview Image", name: "preview", widget: "image" }
@@ -27,6 +28,7 @@ collections:
 
   - name: "blog"
     label: "Blog"
+    folder: "_posts"
     fields:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Preview Image", name: "preview", widget: "image" }
