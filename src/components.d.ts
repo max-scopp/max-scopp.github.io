@@ -37,6 +37,8 @@ export namespace Components {
     'history': RouterHistory;
   }
   interface MsOpensource {}
+  interface MsPageContent {}
+  interface MsPostContent {}
   interface MsRenderTarget {
     'setActiveTemplate': (templateName: string, additionalProps?: { [key: string]: any; }) => Promise<void>;
   }
@@ -112,6 +114,18 @@ declare global {
     new (): HTMLMsOpensourceElement;
   };
 
+  interface HTMLMsPageContentElement extends Components.MsPageContent, HTMLStencilElement {}
+  var HTMLMsPageContentElement: {
+    prototype: HTMLMsPageContentElement;
+    new (): HTMLMsPageContentElement;
+  };
+
+  interface HTMLMsPostContentElement extends Components.MsPostContent, HTMLStencilElement {}
+  var HTMLMsPostContentElement: {
+    prototype: HTMLMsPostContentElement;
+    new (): HTMLMsPostContentElement;
+  };
+
   interface HTMLMsRenderTargetElement extends Components.MsRenderTarget, HTMLStencilElement {}
   var HTMLMsRenderTargetElement: {
     prototype: HTMLMsRenderTargetElement;
@@ -135,6 +149,8 @@ declare global {
     'ms-icon': HTMLMsIconElement;
     'ms-intro': HTMLMsIntroElement;
     'ms-opensource': HTMLMsOpensourceElement;
+    'ms-page-content': HTMLMsPageContentElement;
+    'ms-post-content': HTMLMsPostContentElement;
     'ms-render-target': HTMLMsRenderTargetElement;
     'ms-work': HTMLMsWorkElement;
   }
@@ -165,6 +181,8 @@ declare namespace LocalJSX {
     'history'?: RouterHistory;
   }
   interface MsOpensource {}
+  interface MsPageContent {}
+  interface MsPostContent {}
   interface MsRenderTarget {}
   interface MsWork {}
 
@@ -180,6 +198,8 @@ declare namespace LocalJSX {
     'ms-icon': MsIcon;
     'ms-intro': MsIntro;
     'ms-opensource': MsOpensource;
+    'ms-page-content': MsPageContent;
+    'ms-post-content': MsPostContent;
     'ms-render-target': MsRenderTarget;
     'ms-work': MsWork;
   }
@@ -202,6 +222,8 @@ declare module "@stencil/core" {
       'ms-icon': LocalJSX.MsIcon & JSXBase.HTMLAttributes<HTMLMsIconElement>;
       'ms-intro': LocalJSX.MsIntro & JSXBase.HTMLAttributes<HTMLMsIntroElement>;
       'ms-opensource': LocalJSX.MsOpensource & JSXBase.HTMLAttributes<HTMLMsOpensourceElement>;
+      'ms-page-content': LocalJSX.MsPageContent & JSXBase.HTMLAttributes<HTMLMsPageContentElement>;
+      'ms-post-content': LocalJSX.MsPostContent & JSXBase.HTMLAttributes<HTMLMsPostContentElement>;
       'ms-render-target': LocalJSX.MsRenderTarget & JSXBase.HTMLAttributes<HTMLMsRenderTargetElement>;
       'ms-work': LocalJSX.MsWork & JSXBase.HTMLAttributes<HTMLMsWorkElement>;
     }
