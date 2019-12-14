@@ -11,7 +11,7 @@ media_folder: "backend/assets/"
 public_folder: "/content/assets"
 
 collections:
-  - name: "pages"
+  - name: "page"
     label: "Pages"
     folder: "_pages"
     fields:
@@ -26,8 +26,8 @@ collections:
           - { label: "Description", name: "description", widget: "text" }
           - { label: "Link", name: "link", widget: "string" }
 
-  - name: "blog"
-    label: "Blog"
+  - name: "post"
+    label: "Blog Posts"
     folder: "_posts"
     fields:
       - { label: "Title", name: "title", widget: "string" }

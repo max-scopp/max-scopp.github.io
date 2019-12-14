@@ -16,6 +16,37 @@
 		netlifyIdentity.init({
   APIUrl: 'https://vibrant-haibt-9b208d.netlify.com/.netlify/functions/identity'
 });
+
+var PagePreview = createClass({
+  // For list fields, the widgetFor function returns an array of objects
+  // that you can map over in your template. If our field is a list of
+  // authors containing two entries, with fields `name` and `description`,
+  // the return value of `widgetsFor` would look like this:
+  //
+  // [{
+  //   data: { name: 'Mathias', description: 'Co-Founder'},
+  //   widgets: { name: (<WidgetComponent>), description: (WidgetComponent>)}
+  // },
+  // {
+  //   data: { name: 'Chris', description: 'Co-Founder'},
+  //   widgets: { name: (<WidgetComponent>), description: (WidgetComponent>)}
+  // }]
+  //
+  // Templating would look something like this:
+
+  render: function() {
+    return h('ms-page-content', {}, JSON.stringify(this.props));
+  }
+});
+
+var PostPreview = createClass({
+  render: function() {
+    return h('ms-post-content', {}, JSON.stringify(this.props));
+  }
+});
+
+CMS.registerPreviewTemplate("page", PagePreview);
+CMS.registerPreviewTemplate("post", PostPreview);
 	</script>
 </body>
 
