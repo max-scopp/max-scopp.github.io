@@ -1,6 +1,6 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
-import path from 'path';
+import copy from 'rollup-plugin-copy';
 
 import * as sassConfig from './testsass';
 
@@ -18,9 +18,17 @@ export const config: Config = {
     }
   ],
   plugins: [
+    copy({
+      targets: [
+        {
+          src: 'netlify_backend_config.yml',
+          dest: 'www/admin/',
+          rename: 'config.yml'
+        }
+      ]
+    }),
     sass({
       importer: sassConfig.globImporter(),
-
 
       includePaths: [
         sassConfig.globalPath,
