@@ -25,6 +25,9 @@ export namespace Components {
   }
   interface MsBack {}
   interface MsBackground {}
+  interface MsContent {
+    'file': string;
+  }
   interface MsHire {}
   interface MsIcon {
     'fill'?: string;
@@ -90,6 +93,12 @@ declare global {
     new (): HTMLMsBackgroundElement;
   };
 
+  interface HTMLMsContentElement extends Components.MsContent, HTMLStencilElement {}
+  var HTMLMsContentElement: {
+    prototype: HTMLMsContentElement;
+    new (): HTMLMsContentElement;
+  };
+
   interface HTMLMsHireElement extends Components.MsHire, HTMLStencilElement {}
   var HTMLMsHireElement: {
     prototype: HTMLMsHireElement;
@@ -145,6 +154,7 @@ declare global {
     'ms-activate': HTMLMsActivateElement;
     'ms-back': HTMLMsBackElement;
     'ms-background': HTMLMsBackgroundElement;
+    'ms-content': HTMLMsContentElement;
     'ms-hire': HTMLMsHireElement;
     'ms-icon': HTMLMsIconElement;
     'ms-intro': HTMLMsIntroElement;
@@ -169,6 +179,9 @@ declare namespace LocalJSX {
   }
   interface MsBack {}
   interface MsBackground {}
+  interface MsContent {
+    'file'?: string;
+  }
   interface MsHire {}
   interface MsIcon {
     'fill'?: string;
@@ -194,6 +207,7 @@ declare namespace LocalJSX {
     'ms-activate': MsActivate;
     'ms-back': MsBack;
     'ms-background': MsBackground;
+    'ms-content': MsContent;
     'ms-hire': MsHire;
     'ms-icon': MsIcon;
     'ms-intro': MsIntro;
@@ -218,6 +232,7 @@ declare module "@stencil/core" {
       'ms-activate': LocalJSX.MsActivate & JSXBase.HTMLAttributes<HTMLMsActivateElement>;
       'ms-back': LocalJSX.MsBack & JSXBase.HTMLAttributes<HTMLMsBackElement>;
       'ms-background': LocalJSX.MsBackground & JSXBase.HTMLAttributes<HTMLMsBackgroundElement>;
+      'ms-content': LocalJSX.MsContent & JSXBase.HTMLAttributes<HTMLMsContentElement>;
       'ms-hire': LocalJSX.MsHire & JSXBase.HTMLAttributes<HTMLMsHireElement>;
       'ms-icon': LocalJSX.MsIcon & JSXBase.HTMLAttributes<HTMLMsIconElement>;
       'ms-intro': LocalJSX.MsIntro & JSXBase.HTMLAttributes<HTMLMsIntroElement>;

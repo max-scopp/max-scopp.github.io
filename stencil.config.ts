@@ -1,6 +1,7 @@
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
 import copy from 'rollup-plugin-copy';
+import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 import * as sassConfig from './testsass';
 
@@ -11,10 +12,7 @@ export const config: Config = {
   globalScript: 'src/global/app.ts',
   outputTargets: [
     {
-      type: 'www',
-      // comment the following line to disable service workers in production
-      serviceWorker: null,
-      baseUrl: 'https://myapp.local/'
+      type: 'www'
     }
   ],
   plugins: [
@@ -31,9 +29,8 @@ export const config: Config = {
           rename: 'config.yml'
         },
         {
-          src: 'backend/',
+          src: 'content/*',
           dest: 'www/',
-          rename: "content"
         },
       ]
     }),
@@ -46,6 +43,7 @@ export const config: Config = {
       injectGlobalPaths: [
         sassConfig.enginePath
       ]
-    })
+    }),
+    nodePolyfills(),
   ]
 };

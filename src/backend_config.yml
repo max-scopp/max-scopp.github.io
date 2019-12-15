@@ -3,7 +3,7 @@ backend:
   branch: v2
 
 # Media files will be stored in the repo under static/images/uploads
-media_folder: "backend/assets/"
+media_folder: "content/assets/"
 
 # The src attribute for uploaded media will begin with /images/uploads
 public_folder: "/content/assets"
@@ -13,7 +13,7 @@ publish_mode: editorial_workflow
 collections:
   - name: "page"
     label: "Pages"
-    folder: "_pages"
+    folder: "content/_pages"
     create: true
     slug: "{{year}}-{{slug}}"
     fields:
@@ -30,7 +30,7 @@ collections:
 
   - name: "post"
     label: "Blog Posts"
-    folder: "_posts"
+    folder: "content/_posts"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
