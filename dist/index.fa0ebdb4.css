@@ -1,0 +1,208 @@
+@charset "UTF-8";
+:root {
+  --scheme: white;
+  --scheme-contrast: black;
+  --dark: black;
+  --dark-contrast: white;
+  --dark-secondary: #666;
+  --primary: #6f14cb;
+  --primary-secondary: #ac69f0;
+  --primary-contrast: white;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --scheme: var(--dark);
+    --scheme-contrast: var(--dark-contrast);
+    --primary: #ffd485;
+    --primary-secondary: #ffa90b;
+    --primary-contrast: var(--scheme);
+  }
+}
+:root {
+  font-family: system-ui, sans-serif;
+  font-weight: 300;
+  font-size: 10px;
+  background: var(--scheme);
+  color: var(--scheme-contrast);
+}
+@media screen and (max-width: 375px) {
+  :root {
+    font-size: 8px;
+  }
+  :root a {
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+    line-height: 1.6;
+  }
+}
+::selection {
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  display: flex;
+  justify-content: center;
+}
+html main {
+  transition: none cubic-bezier(0.55, 0.55, 0.36, 1) 120ms;
+  transition-property: filter, transform, opacity;
+  transform-origin: top left;
+}
+html.unloading main {
+  transform: scale(0.8);
+}
+html:not(.loaded) main {
+  opacity: 0;
+}
+html::after {
+  all: unset;
+  content: "Still loading...";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-content: center;
+  font-size: 3rem;
+  font-weight: 500;
+  pointer-events: none;
+  opacity: 0;
+}
+html.loading::after {
+  transition: opacity ease-out 120ms 500ms;
+  opacity: 0.3;
+}
+body {
+  flex: 1;
+  max-width: 120rem;
+  background: inherit;
+  display: grid;
+  grid-template-rows: auto minmax(auto, 1fr) auto;
+  font-size: 1.6rem;
+}
+body > main {
+  min-height: 100%;
+}
+html,
+body {
+  margin: 0;
+  min-height: calc(100vh - env(safe-area-inset-bottom));
+}
+a {
+  cursor: pointer;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+  will-change: color;
+  user-select: none;
+}
+a:not(:hover) {
+  transition: color ease-out 600ms;
+}
+a:hover {
+  color: var(--primary-secondary);
+}
+a[target=_blank]::after {
+  content: "";
+  display: inline-block;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg height='1024' width='768' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E @media (prefers-color-scheme: dark) %7B%0Apath %7B%0Afill: white;%0A%7D %3C/style%3E%3Cpath d='M640 768H128V257.90599999999995L256 256V128H0v768h768V576H640V768zM384 128l128 128L320 448l128 128 192-192 128 128V128H384z'/%3E%3C/svg%3E");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  margin: 0 0.1em;
+  padding: 0.24em;
+  opacity: 0.3;
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+.tag-bubble {
+  display: inline-flex;
+  flex-wrap: wrap;
+  max-width: 75%;
+}
+.tag-bubble li {
+  display: inline-block;
+  padding: 0.4em 0.6em;
+  margin: 0.2em;
+  font-weight: 500;
+  line-height: 1;
+  background: var(--primary);
+  color: var(--primary-contrast);
+  border-radius: 0.2em;
+  cursor: default;
+  user-select: none;
+}
+.four-o-four {
+  display: grid;
+  place-content: center;
+  place-items: center;
+}
+header {
+  position: sticky;
+  top: 0;
+  padding: 1rem 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(0deg, transparent, var(--scheme) 100%), linear-gradient(0deg, transparent 10%, var(--scheme));
+}
+header > h1 {
+  font-size: 2.4rem;
+  font-weight: 400;
+}
+header > h1 a {
+  color: inherit;
+}
+header > h1 a:hover {
+  color: var(--dark-secondary);
+}
+header > nav > ul {
+  display: flex;
+}
+header > nav > ul a {
+  margin: 1ch;
+}
+main.home {
+  padding: 6rem;
+  max-width: 48rem;
+}
+main.home h2 {
+  font-size: 3.2rem;
+}
+main.home h3 {
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: #999999;
+  margin-bottom: 3em;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 4rem 3rem;
+  font-size: 2.4rem;
+}
+footer #footer a {
+  font-size: 1.6rem;
+  color: gray;
+}
+footer #footer a::after {
+  content: " →";
+  color: inherit;
+  opacity: 0.3;
+}
+footer li {
+  line-height: 1.5;
+}
+footer a {
+  font-weight: 400;
+  color: inherit;
+}
+/*# sourceMappingURL=index.fa0ebdb4.css.map */

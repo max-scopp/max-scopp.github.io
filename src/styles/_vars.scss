@@ -1,0 +1,26 @@
+:root {
+
+
+	--scheme: white;
+	--scheme-contrast: black;
+
+	--dark: black;
+	--dark-contrast: white;
+	--dark-secondary: #666;
+
+	--primary: #6f14cb;
+	--primary-secondary: #{lighten(#6f14cb, 24%)};
+	--primary-contrast: white;
+
+}
+
+@media (prefers-color-scheme: dark) {
+	:root {
+		--scheme: var(--dark);
+		--scheme-contrast: var(--dark-contrast);
+
+		--primary: #ffd485;
+		--primary-secondary: #{darken(#ffd485, 24%)};
+		--primary-contrast: var(--scheme);
+	}
+}

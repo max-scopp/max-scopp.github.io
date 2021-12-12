@@ -1,0 +1,29 @@
+
+.tag-bubble {
+	display: inline-flex;
+    flex-wrap: wrap;
+    max-width: 75%;
+
+	li {
+		display: inline-block;
+		padding: .4em .6em;
+		margin: .2em;
+
+		font-weight: 500;
+		line-height: 1;
+
+		background: var(--primary);
+		color: var(--primary-contrast);
+
+		border-radius: .2em;
+
+		cursor: default;
+		user-select: none;
+	}
+}
+
+.four-o-four{
+    display: grid;
+    place-content: center;
+    place-items: center;
+}

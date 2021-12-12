@@ -1,1 +1,1 @@
-# maxscopp.de
+# maxscopp.de (2022)

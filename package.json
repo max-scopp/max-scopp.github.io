@@ -1,0 +1,30 @@
+{
+  "devDependencies": {
+    "@parcel/transformer-sass": "^2.0.1",
+    "@types/hyperscript": "^0.0.4",
+    "parcel": "^2.0.1",
+    "posthtml-include": "^1.7.2"
+  },
+  "name": "max-scopp.github.io",
+  "description": "",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/max-scopp/max-scopp.github.io.git"
+  },
+  "author": "Max Scopp <me@maxscopp.de>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/max-scopp/max-scopp.github.io/issues"
+  },
+  "homepage": "https://github.com/max-scopp/max-scopp.github.io#readme",
+  "dependencies": {
+    "hyperscript": "^2.0.2"
+  }
+}
