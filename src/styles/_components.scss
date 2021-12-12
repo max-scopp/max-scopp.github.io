@@ -29,6 +29,8 @@
 }
 
 .not-available {
-	text-decoration: line-through;
-	cursor: not-allowed;
+	&, a {
+		text-decoration: line-through;
+		cursor: not-allowed;
+	}
 }
