@@ -2,7 +2,7 @@ import h from 'hyperscript';
 
 export const parentClass = "home";
 
-export function render () {
+export function render() {
   return [
     <h2>I'm a web developer working to create great user experiences.</h2>,
     <h3>Based in Bremen, Germany</h3>,
@@ -17,6 +17,6 @@ export function render () {
   ];
 };
 
-export function renderFooter () {
-  return <a onClick={() => go("/stack")}>Technologies I use</a>
-};
+// export function renderFooter() {
+//   return <a onClick={() => go("/stack")}>Technologies I use</a>
+// };
