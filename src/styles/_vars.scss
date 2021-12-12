@@ -1,10 +1,11 @@
 :root {
 
 
+	--scheme-rgb: 255, 255, 255;
 	--scheme: white;
 	--scheme-contrast: black;
 
-	--dark: black;
+	--dark: #111;
 	--dark-contrast: white;
 	--dark-secondary: #666;
 
@@ -16,6 +17,7 @@
 
 @media (prefers-color-scheme: dark) {
 	:root {
+		--scheme-rgb: 17, 17, 17;
 		--scheme: var(--dark);
 		--scheme-contrast: var(--dark-contrast);
 

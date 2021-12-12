@@ -14,8 +14,8 @@ header {
 	align-items: center;
 
 	background:
-		linear-gradient(0deg, transparent, var(--scheme) 100%),
-		linear-gradient(0deg, transparent 10%, var(--scheme));
+		linear-gradient(0deg, rgba(var(--scheme-rgb), 0), var(--scheme) 100%),
+		linear-gradient(0deg, rgba(var(--scheme-rgb), 0) 10%, var(--scheme));
 
 	> h1 {
 		font-size: 2.4rem;

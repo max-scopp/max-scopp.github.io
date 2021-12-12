@@ -1,6 +1,6 @@
-const animationTime = 120;
-const $content = document.getElementById("content");
-const $footer = document.getElementById("footer");
+const animationTime = 0;
+const $content = <HTMLElement>document.getElementById("content");
+const $footer = <HTMLElement>document.getElementById("footer");
 
 interface Page {
   render(): Promise<HTMLElement | HTMLElement[]>;
@@ -12,18 +12,18 @@ async function importPage(key: string): Promise<unknown> {
   switch (key) {
     case "/":
       return import("./pages/home");
-    case "/stack":
-      return import("./pages/stack");
-    case "/about":
-      return import("./pages/about");
-    case "/contact":
-      return import("./pages/contact");
+    // case "/stack":
+    //   return import("./pages/stack");
+    // case "/about":
+    //   return import("./pages/about");
+    // case "/contact":
+    //   return import("./pages/contact");
     default:
       return import("./pages/not-found");
   }
 }
 
-let _lastPageState;
+let _lastPageState: string;
 async function setPageState(state: string) {
   document.documentElement.classList.remove(_lastPageState);
   document.documentElement.classList.add(state);
@@ -40,7 +40,7 @@ async function load(key: string) {
 
   $footer.innerHTML = "";
 
-  if(page.renderFooter) {
+  if (page.renderFooter) {
     const footerRendered = await page.renderFooter();
 
     $footer.append(...(footerRendered instanceof Array ? footerRendered : [footerRendered]));
@@ -55,7 +55,7 @@ async function go(href: string, force: boolean = false) {
   return new Promise((resolve) => {
     setPageState("unloading");
 
-    history.pushState({}, null, href);
+    history.pushState({}, "", href);
 
     setTimeout(async () => {
       setPageState("loading");

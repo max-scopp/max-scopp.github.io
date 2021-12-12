@@ -31,13 +31,13 @@ html {
   justify-content: center;
 
   main {
-    transition: none cubic-bezier(.55,.55,.36,1) 120ms;
+    transition: none ease 180ms;
     transition-property: filter, transform, opacity;
     transform-origin: top left;
   }
 
   &.unloading main {
-    transform: scale(.8);
+    transform: scale(.9);
   }
 
   &:not(.loaded) main {
