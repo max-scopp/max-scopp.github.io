@@ -1,0 +1,69 @@
+main.dev-stack {
+  @extend .home;
+
+  max-width: 100rem;
+
+  display: grid;
+  grid-template-areas:
+    "lead lead"
+    "sub-lead sub-lead"
+    "left right";
+
+  gap: 0 6rem;
+  align-content: start;
+
+  @media screen and (max-width: $break-medium) {
+    grid-template-areas:
+      "lead"
+      "sub-lead"
+      "left"
+      "right";
+  }
+
+  h2 {
+    grid-area: lead;
+  }
+
+  h3 {
+    grid-area: sub-lead;
+  }
+
+  %list-common {
+    font-size: 1.8rem;
+    font-weight: 400;
+
+    li::before {
+      font-size: 72%;
+      font-weight: 800;
+    }
+
+    span {
+      color: var(--scheme-medium);
+      font-weight: 400;
+      font-size: 72%;
+      font-style: italic;
+    }
+  }
+
+  .list-yes-yes {
+    @extend %list-common;
+
+    li {
+      &::before {
+        color: var(--green);
+        content: "✔ ";
+      }
+    }
+  }
+
+  .list-no-go {
+    @extend %list-common;
+
+    li {
+      &::before {
+        color: var(--red);
+        content: "❌ ";
+      }
+    }
+  }
+}

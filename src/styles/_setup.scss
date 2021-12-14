@@ -6,7 +6,9 @@
   background: var(--scheme);
   color: var(--scheme-contrast);
 
-  @media screen and (max-width: 375px) {
+  scroll-behavior: smooth;
+
+  @media screen and (max-width: $break-small) {
     font-size: 8px;
 
     a {
@@ -14,6 +16,10 @@
       padding-bottom: 0.3em;
       line-height: 1.6;
     }
+  }
+
+  @media screen and (max-width: $break-tiny) {
+    font-size: 7px;
   }
 }
 
@@ -30,23 +36,32 @@ html {
   display: flex;
   justify-content: center;
 
-  main {
-    transition: none ease 180ms;
-    transition-property: filter, transform, opacity;
+  main,
+  #footer {
+    will-change: transform, opacity;
+    transition: none ease 260ms;
+    transition-property: transform, opacity;
     transform-origin: top left;
   }
 
-  &.unloading main {
-    transform: scale(.9);
-  }
-
-  &:not(.loaded) main {
-    //transform: scale(1.1);
+  &:not(.footer-loaded) #footer {
     opacity: 0;
   }
 
+  &:not(.loaded) main {
+    // transform: scale(1.1);
+    opacity: 0;
+  }
+
+  &.unload main {
+    transition-property: filter, transform, opacity;
+    filter: blur(10px);
+    transform: translateY(20px);
+    //transform: scale(0.9);
+  }
+
   &.loaded main {
-    //transform: translateX(0);
+    transform: translateX(0);
   }
 
   &::after {
@@ -72,9 +87,8 @@ html {
 
   &.loading::after {
     transition: opacity ease-out 120ms 500ms;
-    opacity: .3;
+    opacity: 0.3;
   }
-
 }
 
 body {
@@ -82,6 +96,7 @@ body {
   max-width: 120rem;
 
   background: inherit;
+  overflow-y: scroll;
 
   display: grid;
   grid-template-rows: auto minmax(auto, 1fr) auto;

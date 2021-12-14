@@ -1,28 +1,41 @@
+$break-tiny: 320px;
+$break-small: 400px;
+$break-medium: 1024px;
+$break-large: 1200px;
+
 :root {
+  --green: green;
+  --red: red;
 
+  --scheme-medium: hsl(0, 0%, 28%);
+  --scheme-medium-secondary: hsl(0, 0%, 40%);
 
-	--scheme-rgb: 255, 255, 255;
-	--scheme: white;
-	--scheme-contrast: black;
+  --scheme-rgb: 255, 255, 255;
+  --scheme: white;
+  --scheme-contrast: black;
 
-	--dark: #111;
-	--dark-contrast: white;
-	--dark-secondary: #666;
+  --dark: #111;
+  --dark-contrast: white;
+  --dark-secondary: #666;
 
-	--primary: #6f14cb;
-	--primary-secondary: #{lighten(#6f14cb, 24%)};
-	--primary-contrast: white;
-
+  --primary-rgb: 111, 20, 203;
+  --primary: #6f14cb;
+  --primary-secondary: #{lighten(#6f14cb, 24%)};
+  --primary-contrast: white;
 }
 
 @media (prefers-color-scheme: dark) {
-	:root {
-		--scheme-rgb: 17, 17, 17;
-		--scheme: var(--dark);
-		--scheme-contrast: var(--dark-contrast);
+  :root {
+    --scheme-medium: hsl(0, 0%, 72%);
+    --scheme-medium-secondary: hsl(0, 0%, 60%);
 
-		--primary: #ffd485;
-		--primary-secondary: #{darken(#ffd485, 24%)};
-		--primary-contrast: var(--scheme);
-	}
+    --scheme-rgb: 17, 17, 17;
+    --scheme: var(--dark);
+    --scheme-contrast: var(--dark-contrast);
+
+    --primary-rgb: 255, 212, 133;
+    --primary: #ffd485;
+    --primary-secondary: #{darken(#ffd485, 24%)};
+    --primary-contrast: var(--scheme);
+  }
 }
