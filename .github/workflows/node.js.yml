@@ -6,8 +6,6 @@ name: Node.js CI
 on:
   push:
     branches: ["master"]
-  pull_request:
-    branches: ["master"]
 
 jobs:
   build:
@@ -18,15 +16,14 @@ jobs:
         node-version: [20.x]
 
     steps:
-      - name: Checkout 🛎️
+      - name: Checkout
         uses: actions/checkout@v3
 
       - name: Install and Build
         run: |
           npm ci
           npm run build
+          mv dist github-pages
 
-      - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: dist
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v2
