@@ -1,0 +1,38 @@
+.host {
+  max-width: 48rem;
+  margin-top: 8rem;
+
+  span {
+    display: inline-block;
+
+    animation: slide-up ease-out 200ms forwards;
+    opacity: 0;
+
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 10}ms;
+      }
+    }
+  }
+}
+
+.host + .host {
+  margin-top: 3rem;
+  span {
+    @for $i from 1 through 20 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 10 + 75}ms;
+      }
+    }
+  }
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(50%);
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

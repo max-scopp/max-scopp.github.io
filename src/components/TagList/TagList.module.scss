@@ -1,0 +1,21 @@
+.host {
+  display: flex;
+  flex-flow: row wrap;
+  gap: 1ch;
+
+  max-width: 40rem;
+}
+
+.tag {
+  display: inline-block;
+
+  padding: 0.3rem 0.8rem;
+  border-radius: 0.3rem;
+
+  background-color: var(--ms-color-primary);
+  color: var(--ms-color-primary-foreground);
+
+  font-weight: 700;
+
+  user-select: none;
+}
