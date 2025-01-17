@@ -1,5 +1,7 @@
-$primary: hsl(278, 68%, 49%);
-$primary-dark-mode: saturate(mix(white, $primary, 42%), 32%);
+@use 'sass:color';
+
+$primary: hsl(278, 68%, 50%);
+$primary-dark-mode: color.scale(color.mix(white, $primary, 42%), $saturation: 32%);
 
 :root {
   --ms-color-foreground: hsl(0, 0%, 92%);
@@ -9,8 +11,8 @@ $primary-dark-mode: saturate(mix(white, $primary, 42%), 32%);
 
   --ms-color-primary-foreground: #000;
   --ms-color-primary: #{$primary-dark-mode};
-  --ms-color-primary-lighter: #{mix(white, $primary-dark-mode, 24%)};
-  --ms-color-primary-darker: #{mix(black, $primary-dark-mode, 24%)};
+  --ms-color-primary-lighter: #{color.mix(white, $primary-dark-mode, 24%)};
+  --ms-color-primary-darker: #{color.mix(black, $primary-dark-mode, 24%)};
 
   @media screen and (prefers-color-scheme: light) {
     --ms-color-foreground: hsl(0, 0%, 14%);
@@ -20,8 +22,8 @@ $primary-dark-mode: saturate(mix(white, $primary, 42%), 32%);
 
     --ms-color-primary-foreground: #fff;
     --ms-color-primary: #{$primary};
-    --ms-color-primary-lighter: #{mix(white, $primary, 24%)};
-    --ms-color-primary-darker: #{mix(black, $primary, 24%)};
+    --ms-color-primary-lighter: #{color.mix(white, $primary, 24%)};
+    --ms-color-primary-darker: #{color.mix(black, $primary, 24%)};
   }
 }
 
