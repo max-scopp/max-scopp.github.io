@@ -21,13 +21,6 @@ export default function Footer() {
           </Link>
         </li>
       </ul>
-      <a
-        href="https://simple.wikipedia.org/wiki/Polysexuality"
-        target="_blank"
-        className={styles.polyFlag}
-        aria-hidden="true"
-        role="presentation"
-      />
     </footer>
   );
 }
