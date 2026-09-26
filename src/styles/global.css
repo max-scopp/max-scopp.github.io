@@ -24,6 +24,22 @@
   --btn-bg: var(--ink);
   --btn-fg: #ffffff;
 
+  /* Syntax highlighting (Shiki css-variables theme, see CodeBlock.astro) */
+  --astro-code-foreground: var(--ink-2);
+  --astro-code-background: var(--surface);
+  --astro-code-token-keyword: var(--violet);
+  --astro-code-token-string: #b5179e;
+  --astro-code-token-string-expression: #b5179e;
+  --astro-code-token-constant: #2563eb;
+  --astro-code-token-function: #2563eb;
+  --astro-code-token-parameter: var(--ink);
+  --astro-code-token-punctuation: var(--ink-3);
+  --astro-code-token-comment: var(--ink-3);
+  --astro-code-token-link: var(--violet);
+  --astro-code-token-inserted: #15803d;
+  --astro-code-token-deleted: #b91c1c;
+  --astro-code-token-changed: #b45309;
+
   /* Liquid glass tint (colour channels + alpha, read by liquid-glass.ts) */
   --lg-tint: 255 255 255;
   --lg-tint-a: 0.34;
@@ -59,6 +75,14 @@
 
     --btn-bg: #f3f1f8;
     --btn-fg: #0c0b11;
+
+    --astro-code-token-string: #f0abfc;
+    --astro-code-token-string-expression: #f0abfc;
+    --astro-code-token-constant: #93c5fd;
+    --astro-code-token-function: #93c5fd;
+    --astro-code-token-inserted: #86efac;
+    --astro-code-token-deleted: #fca5a5;
+    --astro-code-token-changed: #fcd34d;
 
     --lg-tint: 26 24 38;
     --lg-tint-a: 0.46;
@@ -126,6 +150,14 @@ p {
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* The UA stylesheet sets a bare `monospace` on these, which beats inheritance. */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--mono);
 }
 
 ::selection {

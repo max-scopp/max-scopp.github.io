@@ -18,7 +18,8 @@ npm run preview   # serve the production build locally
 | Path                   | What                                                   |
 | ---------------------- | ------------------------------------------------------ |
 | `src/data/site.ts`     | Content: nav, links, projects, process steps, stats    |
-| `src/components/`      | Shared pieces: floating nav, footer, hero, page header |
+| `src/components/`      | Shared pieces: floating nav, footer, hero, page header, |
+|                        | code block (Shiki, build-time highlighting)            |
 | `src/styles/global.css`| Light/dark tokens, pill buttons, scroll reveal         |
 | `src/lib/ascii.ts`     | Build-time ASCII sparkle used in the hero              |
 | `src/lib/liquid-glass.ts` | Liquid glass refraction (port of liqui.design, MIT) |

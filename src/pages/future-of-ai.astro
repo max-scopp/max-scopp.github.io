@@ -2,6 +2,7 @@
 import Base from '../layouts/Base.astro';
 import PageHead from '../components/PageHead.astro';
 import Icon from '../components/Icon.astro';
+import CodeBlock from '../components/CodeBlock.astro';
 
 // Single place to adjust the name of the workflow model used throughout the essay.
 const CAO = { short: 'CAO', long: 'Continuous Agent Orchestration' };
@@ -103,7 +104,7 @@ const stages = [
   { stage: 'Merge queue', runs: 'Update from the base branch, re-run the gates', finds: 'Keeps pull requests current', cost: 'Automatic' },
 ];
 
-const hookConfig = `# lefthook.yml — fix what doesn't change behaviour, before it's committed
+const hookConfig = `# fix what doesn't change behaviour, before it's committed
 pre-commit:
   commands:
     fix:
@@ -115,19 +116,6 @@ pre-push:
   commands:
     types:
       run: npx tsc --noEmit`;
-
-// Minimal YAML highlighting: keys and comments.
-const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-const hookHtml = hookConfig
-  .split('\n')
-  .map((line) => {
-    const hash = line.indexOf('#');
-    const code = hash === -1 ? line : line.slice(0, hash);
-    const note = hash === -1 ? '' : `<span class="c">${esc(line.slice(hash))}</span>`;
-    const m = code.match(/^(\s*)([\w-]+:)(.*)$/);
-    return (m ? `${m[1]}<span class="k">${esc(m[2])}</span>${esc(m[3])}` : esc(code)) + note;
-  })
-  .join('\n');
 
 const lost = [
   'Time to reflect: stepping back to ask whether the last feature actually worked',
@@ -436,7 +424,7 @@ const redesign = [
           code does, or changes it negligibly at worst. A git hook manager like lefthook turns that
           into a single file:
         </p>
-        <pre class="code" aria-label="Example lefthook.yml"><code set:html={hookHtml}></code></pre>
+        <CodeBlock code={hookConfig} lang="yaml" title="lefthook.yml" />
         <p>
           Biome here — Prettier, ESLint, Ruff or gofmt work the same way. Install the hooks from the
           project’s setup script, so agent sandboxes run them too, not just laptops.
@@ -697,24 +685,6 @@ const redesign = [
     border-radius: 6px;
     background: var(--chip);
     color: var(--ink);
-  }
-  .code {
-    margin: 20px 0 0;
-    padding: 18px 22px;
-    overflow-x: auto;
-    border: 1px solid var(--line);
-    border-radius: 20px;
-    background: var(--surface);
-    font-family: var(--mono);
-    font-size: 12.5px;
-    line-height: 1.7;
-    color: var(--ink-2);
-  }
-  .code :global(.k) {
-    color: var(--violet);
-  }
-  .code :global(.c) {
-    color: var(--ink-3);
   }
 
   /* Note for leads, PMs and stakeholders */
@@ -1098,9 +1068,6 @@ const redesign = [
     }
     .stages .cost {
       white-space: normal;
-    }
-    .code {
-      font-size: 11.5px;
     }
 
     .frictions li {
