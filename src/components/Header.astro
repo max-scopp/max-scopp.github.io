@@ -1,5 +1,4 @@
 ---
-import GlassLayers from './GlassLayers.astro';
 import { nav } from '../data/site';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -8,7 +7,6 @@ const isActive = (href: string) => path === href;
 
 <header class="header">
   <div class="bar lg">
-    <GlassLayers />
     <a class="brand" href="/" aria-label="maxscopp — home">
       <svg class="mark" viewBox="0 0 32 32" width="16" height="16" aria-hidden="true">
         <path
@@ -58,7 +56,6 @@ const isActive = (href: string) => path === href;
     max-width: 100%;
     padding: 6px;
     border-radius: 999px;
-    box-shadow: var(--shadow);
   }
   .brand {
     display: inline-flex;

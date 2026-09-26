@@ -3,8 +3,11 @@
  * liqui.design (@liqui-design/glass, MIT © 2026 Fan Li,
  * https://github.com/leefanv/liqui-design).
  *
- * Anatomy (see `.lg` rules in global.css):
- *   backdrop (blur + saturate) → refract (SVG displacement) → tint → shine → content
+ * Each `.lg` element gets a single backdrop-filter chain:
+ *   url(#filter) (SVG displacement = refraction) → blur (frost) → saturate
+ * Refracting first bends the sharp backdrop through the convex bezel; the frost
+ * then scatters it — blurring first would erase the detail the lens bends.
+ * with the tint as its own background. No shadows or rim highlights.
  *
  * The displacement map is rendered per surface size on a canvas: a rounded-rect
  * signed distance field gives depth + outward normal per pixel, and a lookup
@@ -205,27 +208,35 @@ function ensureFilter(w: number, h: number, mapHref: string): string {
   return id;
 }
 
+/** Frost (blur) and saturation applied after the refraction in the chain. */
+const FROST = 'blur(10.8px) saturate(1.7)';
+
 /** Upgrade every `.lg` surface on the page to refraction where supported. */
 export function initLiquidGlass() {
   if (!supportsRefraction()) return;
   const lut = refractionLUT(GLASS.profile);
 
   document.querySelectorAll<HTMLElement>('.lg').forEach((el) => {
-    const layer = el.querySelector<HTMLElement>(':scope > .lg__refract');
-    if (!layer) return;
-
     let last = '';
-    const apply = (w: number, h: number) => {
+    const apply = async (w: number, h: number) => {
       if (w <= 0 || h <= 0) return;
       const radius = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
       const key = `${w}x${h}r${radius}`;
       if (key === last) return;
       last = key;
+
       const map = displacementMap(w, h, radius, GLASS.bezel, lut);
-      const id = ensureFilter(w, h, map);
-      layer.style.setProperty('backdrop-filter', `url(#${id})`);
-      layer.style.setProperty('-webkit-backdrop-filter', `url(#${id})`);
-      el.classList.add('lg--refract');
+      // Chromium treats the whole backdrop-filter chain as inert while an
+      // feImage is still decoding, so decode the map first and only then swap
+      // the frosted fallback for the refracting chain.
+      const img = new Image();
+      img.src = map;
+      await img.decode().catch(() => {});
+      if (key !== last) return; // resized again meanwhile
+
+      const chain = `url(#${ensureFilter(w, h, map)}) ${FROST}`;
+      el.style.setProperty('-webkit-backdrop-filter', chain);
+      el.style.setProperty('backdrop-filter', chain);
     };
 
     // Layout sizes, unaffected by transforms (e.g. the reveal animation).

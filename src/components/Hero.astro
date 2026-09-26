@@ -1,6 +1,5 @@
 ---
 import Icon from './Icon.astro';
-import GlassLayers from './GlassLayers.astro';
 import { focusAreas } from '../data/site';
 import { sparkle } from '../lib/ascii';
 
@@ -10,7 +9,6 @@ const art = sparkle(84, 42);
 <section class="hero container">
   <div class="copy">
     <a class="note lg" href="/future-of-ai" data-reveal>
-      <GlassLayers />
       <span class="dot"></span>
       <span>From human-in-the-loop to orchestration</span>
       <Icon name="arrow" size={14} />
