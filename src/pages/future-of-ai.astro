@@ -94,9 +94,44 @@ const frictions = [
   },
 ];
 
+const stages = [
+  { stage: 'On save / agent edit', runs: 'Formatter', finds: 'Fixes it silently', cost: 'Nothing' },
+  { stage: 'Pre-commit (lefthook)', runs: 'Formatting, import and key order, safe lint fixes — staged files only', finds: 'Fixes and re-stages; never blocks on style', cost: 'Milliseconds' },
+  { stage: 'Pre-push', runs: 'Type checks, affected tests', finds: 'Stops the push, locally', cost: 'Seconds' },
+  { stage: 'CI', runs: 'Everything again, plus full and end-to-end tests, CodeQL, Sonar, builds', finds: 'Blocks the merge — the binding bar', cost: 'Minutes, runners' },
+  { stage: 'Merge queue', runs: 'Update from the base branch, re-run the gates', finds: 'Keeps pull requests current', cost: 'Automatic' },
+];
+
+const hookConfig = `# lefthook.yml — fix what doesn't change behaviour, before it's committed
+pre-commit:
+  commands:
+    fix:
+      glob: "*.{js,ts,tsx,json}"
+      run: npx biome check --write --no-errors-on-unmatched {staged_files}
+      stage_fixed: true # re-stage what was fixed
+
+pre-push:
+  commands:
+    types:
+      run: npx tsc --noEmit`;
+
+// Minimal YAML highlighting: keys and comments.
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const hookHtml = hookConfig
+  .split('\n')
+  .map((line) => {
+    const hash = line.indexOf('#');
+    const code = hash === -1 ? line : line.slice(0, hash);
+    const note = hash === -1 ? '' : `<span class="c">${esc(line.slice(hash))}</span>`;
+    const m = code.match(/^(\s*)([\w-]+:)(.*)$/);
+    return (m ? `${m[1]}<span class="k">${esc(m[2])}</span>${esc(m[3])}` : esc(code)) + note;
+  })
+  .join('\n');
+
 const redesign = [
   'Define intent and acceptance criteria up front — clear enough that an agent can tell when it is done.',
   'Invest in the gates before the agents: strict linting, types, tests, CodeQL/Sonar and preview builds on every change.',
+  'Let the tools fix what they can before anything is committed — formatting, whitespace, import and key order — so CI never fails on style and nobody reviews it.',
   'Write context down where agents can read it: conventions, decisions, architecture, product principles.',
   'Give agents real, scoped environments — safe to run unattended, easy to throw away.',
   'Move human review from the diff to the product: previews, real devices, real data, real edge cases.',
@@ -106,7 +141,7 @@ const redesign = [
 
 <Base
   title="The loop is moving — maxscopp"
-  description="How AI in software development is shifting from human-in-the-loop assistance to orchestrated agent workflows — why static quality gates matter more than ever, where humans belong, and why bolting AI onto enterprise processes rarely delivers."
+  description="How AI in software development is shifting from human-in-the-loop assistance to orchestrated agent workflows — why static quality gates — configured right — matter more than ever, where humans belong, and why bolting AI onto enterprise processes rarely delivers."
 >
   <article class="container page">
     <PageHead eyebrow="Essay · Future of AI in development" title="The loop is moving." accent="Are you moving with it?">
@@ -291,7 +326,106 @@ const redesign = [
       </section>
 
       <section data-reveal>
-        <h2><span class="num mono">08</span>Why forcing AI into enterprise workflows gets clunky</h2>
+        <h2><span class="num mono">08</span>A better tale: the right configuration, right for you</h2>
+        <p>
+          Picture two teams with the same agents, the same models and — on paper — the same tools:
+          a formatter, a linter, type checks, tests, CodeQL, Sonar. Six months in, one of them is
+          flying and the other is drowning in noise. The difference isn’t the tools. It’s how they
+          are configured, where they run, and how they fit into the rest of the environment.
+        </p>
+        <p>
+          The first team bolted the tools on. Formatting is only checked in CI, so every push is a
+          gamble: an agent opens a pull request, waits eight minutes, fails on a trailing comma,
+          reads the log, fixes it, pushes, and waits again. Two branches format the same file
+          differently and collide on whitespace. Import and key order drift with whoever touched a
+          file last, so every update to a pull request conflicts — and keeping pull requests current
+          quietly becomes someone’s job. Review threads fill up with style nits. And when a rule gets
+          in the way, the fastest fix, for a person or an agent, is to switch it off. It’s every habit
+          we developers had before AI, just faster and more expensive: CI minutes, tokens and
+          attention spent on things that don’t change what the product does.
+        </p>
+        <p>
+          The second team made a handful of decisions once, and wrote them down as configuration.
+          Formatting is canonical and automatic, so two people — or two agents — writing the same
+          change produce the same bytes. Imports and keys are sorted by the tools, so parallel
+          branches don’t fight over order. Whitespace and line endings are settled by
+          <code>.editorconfig</code> and <code>.gitattributes</code>. Lint rules that can fix
+          themselves do; the few that remain exist to catch bugs, not to police taste. A merge queue
+          keeps pull requests up to date with the base branch and re-runs the gates, so nobody
+          babysits a rebase — and with canonical formatting, those updates almost never conflict.
+        </p>
+      </section>
+    </div>
+
+    <div class="table-wrap stages" data-reveal>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Where</th>
+            <th scope="col">What runs</th>
+            <th scope="col">When it finds something</th>
+            <th scope="col">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            stages.map((row) => (
+              <tr>
+                <th scope="row">{row.stage}</th>
+                <td data-label="Runs">{row.runs}</td>
+                <td data-label="Finds something">{row.finds}</td>
+                <td class="cost" data-label="Cost">{row.cost}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <section data-reveal>
+        <p>
+          The cheap, obvious fixes happen first, and locally: everything that doesn’t change what the
+          code does, or changes it negligibly at worst. A git hook manager like lefthook turns that
+          into a single file:
+        </p>
+        <pre class="code" aria-label="Example lefthook.yml"><code set:html={hookHtml}></code></pre>
+        <p>
+          Biome here — Prettier, ESLint, Ruff or gofmt work the same way. Install the hooks from the
+          project’s setup script, so agent sandboxes run them too, not just laptops.
+        </p>
+        <p>
+          The costs follow the same order. A pre-commit fix costs milliseconds and no tokens. A CI
+          round-trip to fix the same trailing comma costs minutes of runner time plus a full agent
+          turn to read the log and try again — multiplied by every pull request, every agent, every
+          day.
+        </p>
+        <p>
+          Here is the subtle part. CI still runs every check; it stays the binding, black-or-white
+          bar, and if a hook is ever skipped, the bar still holds. But the checks about form rather
+          than function can no longer fail — by the time a commit exists, they have already been
+          applied. The minimum bar is secured before it is ever tested, and it creates no friction:
+          not for the people, and not for the agents.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <blockquote>
+          Agents write code and features — not formatting. Tools format, sort and flag. People judge
+          the product.
+        </blockquote>
+        <p>
+          There is no universal preset to copy. The right configuration is the one that fits your
+          stack, your repository, your CI budget and your team — decided once, versioned with the
+          code, identical on every laptop, in every agent sandbox and in CI, and fast enough that
+          nobody is ever tempted to bypass it. Get that right, and everyone does what they are best
+          at: the tools do what they were built for, agents spend their iterations on behaviour, and
+          people spend theirs on the product.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">09</span>Why forcing AI into enterprise workflows gets clunky</h2>
         <p>
           Most large organisations are adopting AI the same way: take the existing process — tickets,
           handoffs, approvals, sprint ceremonies — and add an assistant to each step. It feels safe
@@ -327,7 +461,7 @@ const redesign = [
       </section>
 
       <section data-reveal>
-        <h2><span class="num mono">09</span>What works instead</h2>
+        <h2><span class="num mono">10</span>What works instead</h2>
         <p>
           The teams that get step changes don’t add AI to their workflow — they rebuild the workflow
           so that people, agents and gates each do what they are best at.
@@ -424,6 +558,49 @@ const redesign = [
   }
   td {
     color: var(--ink-2);
+  }
+
+  .table-wrap.stages {
+    margin: 36px 0 40px;
+  }
+  .stages table {
+    min-width: 720px;
+  }
+  .stages thead th:last-child {
+    color: var(--ink-3);
+  }
+  .stages .cost {
+    white-space: nowrap;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+
+  .prose p code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    padding: 1px 6px;
+    border-radius: 6px;
+    background: var(--chip);
+    color: var(--ink);
+  }
+  .code {
+    margin: 20px 0 0;
+    padding: 18px 22px;
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    color: var(--ink-2);
+  }
+  .code :global(.k) {
+    color: var(--violet);
+  }
+  .code :global(.c) {
+    color: var(--ink-3);
   }
 
   /* Flow: intent → build → gates (loop) → use & approve → ship */
@@ -635,6 +812,53 @@ const redesign = [
     }
   }
   @media (max-width: 640px) {
+    /* Stage table: one labelled block per row */
+    .stages table {
+      min-width: 0;
+    }
+    .stages thead {
+      display: none;
+    }
+    .stages tbody,
+    .stages tr,
+    .stages th,
+    .stages td {
+      display: block;
+    }
+    .stages tr {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .stages tbody tr:last-child {
+      border-bottom: 0;
+    }
+    .stages th,
+    .stages td {
+      padding: 0;
+      border: 0;
+    }
+    .stages td {
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 12px;
+      margin-top: 6px;
+    }
+    .stages td::before {
+      content: attr(data-label);
+      padding-top: 2px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-3);
+    }
+    .stages .cost {
+      white-space: normal;
+    }
+    .code {
+      font-size: 11.5px;
+    }
+
     .frictions li {
       grid-template-columns: 1fr;
     }
