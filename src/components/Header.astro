@@ -2,7 +2,8 @@
 import { nav } from '../data/site';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
-const isActive = (href: string) => path === href;
+// Localised pages (e.g. /de/future-of-ai) highlight their English nav entry.
+const isActive = (href: string) => path === href || path === `/de${href}`;
 ---
 
 <header class="header">

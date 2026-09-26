@@ -25,6 +25,8 @@ npm run preview   # serve the production build locally
 | `src/lib/liquid-glass.ts` | Liquid glass refraction (port of liqui.design, MIT) |
 | `src/pages/`           | One file per route: home, work, process, open-source,  |
 |                        | contact, future-of-ai (essay), 404                     |
+| `src/essay/`           | The essay's text in English (`en.ts`) and German        |
+|                        | (`de.ts`), rendered by `components/Essay.astro`        |
 | `public/`              | Static files copied as-is (favicon)                    |
 
 ## Deployment

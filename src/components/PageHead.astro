@@ -25,6 +25,9 @@ const { eyebrow, title, accent } = Astro.props;
     margin-top: 16px;
     font-size: clamp(40px, 6vw, 64px);
   }
+  .lede :global(p + p) {
+    margin-top: 14px;
+  }
   .lede {
     margin-top: 20px;
     max-width: 56ch;

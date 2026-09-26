@@ -6,23 +6,29 @@ import Footer from '../components/Footer.astro';
 interface Props {
   title?: string;
   description?: string;
+  lang?: string;
+  /** Other language versions of this page, for hreflang links. */
+  alternates?: { lang: string; href: string }[];
 }
 
 const {
   title = 'Max Scopp — AI-Native Product Designer',
   description = 'Design × Engineering × AI. I design and build digital products end to end, using AI to accelerate exploration, execution and iteration — with human judgment at the center.',
+  lang = 'en',
+  alternates = [],
 } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang={lang} class="no-js">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.lang} href={new URL(a.href, Astro.site)} />)}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="theme-color" content="#fbfaff" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0c0b11" media="(prefers-color-scheme: dark)" />
