@@ -234,12 +234,16 @@ pre {
 }
 
 .link {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  display: inline;
   color: var(--violet);
   font-size: 15px;
   font-weight: 450;
+  text-wrap: balance;
+}
+/* keep the arrow attached to the last word when the link wraps */
+.link svg {
+  margin-left: 6px;
+  vertical-align: -3px;
 }
 
 .pill {

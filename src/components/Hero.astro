@@ -8,7 +8,7 @@ const art = sparkle(84, 42);
 
 <section class="hero container">
   <div class="copy">
-    <a class="note lg" href="/future-of-ai" data-reveal>
+    <a class="note" href="/future-of-ai" data-reveal>
       <span class="dot"></span>
       <span>From human-in-the-loop to orchestration</span>
       <Icon name="arrow" size={14} />
@@ -54,8 +54,6 @@ const art = sparkle(84, 42);
     display: inline-flex;
     align-items: center;
     gap: 10px;
-    padding: 6px 14px 6px 10px;
-    border-radius: 999px;
     font-size: 13px;
     color: var(--ink-2);
     transition: color 0.2s;
@@ -118,7 +116,7 @@ const art = sparkle(84, 42);
   .focus {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 0;
+    gap: 10px 22px;
     margin: 48px 0 0;
     padding: 0;
     list-style: none;
@@ -126,11 +124,20 @@ const art = sparkle(84, 42);
     color: var(--ink-3);
   }
   .focus li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     white-space: nowrap;
   }
-  .focus li:not(:last-child)::after {
-    content: '·';
-    margin-inline: 12px;
+  .focus li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--line-2);
+  }
+  .focus li:first-child::before {
+    background: var(--violet);
   }
 
   .star {
