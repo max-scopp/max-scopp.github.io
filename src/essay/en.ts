@@ -10,13 +10,13 @@ export const en: Essay = {
   heading: 'The loop is moving.',
   accent: 'Are you moving with it?',
   intro: [
-    'Look, I’ll be honest with you: most teams still use AI like a faster intern. Finish the line, knock out a function, answer a question in the side panel. Sure, that helps. But the real shift? It’s structural.',
-    'People step out of every keystroke. Into direction and judgement. Agents take over execution. Automated gates hold the quality line. And keeping those three roles cleanly apart – without mixing them up – that’s the whole game.',
+    'I’ll be straight with you: most teams still use AI like a faster intern. Finish the line, knock out a function, answer a question in the side panel. Sure, that helps. But the real shift? It’s structural.',
+    'People step back from every keystroke – and into direction and judgement. Agents take over execution. Automated gates hold the quality line. And keeping those three roles cleanly apart – without mixing them up – that’s the whole game.',
   ],
   blocks: [
     h2('Where we are: human-in-the-loop'),
     p('Today, AI is an assistant. You drive every step. You sign off every change. The gain is real, but it has a hard ceiling: <strong>one person reading and deciding in the middle of every loop – at human speed.</strong>'),
-    p('That made sense while models were unreliable. Today, when they can plan, execute and check their own work? That exact model is the bottleneck.'),
+    p('That made sense while models were unreliable. Today, when they can plan, execute and check their own work? That exact model <em>is</em> the bottleneck.'),
 
     h2('Where it’s going: CAO – Continuous Agent Orchestration'),
     p('With CAO, you move <strong>out of the loop and above it</strong>. You define intent, constraints and what “good” looks like. Agents break the work down, run in parallel and deliver results – not suggestions. Gates decide whether a change is even allowed to exist. You decide whether it’s worth shipping.'),
@@ -35,7 +35,7 @@ export const en: Essay = {
     },
 
     h2('Three roles, cleanly separated'),
-    p('The mistake: treating “AI” as one mush that replaces everything. In practice there are <strong>three parties</strong>, and each is good at something the others fail at. Mix them up? You get either a human bottleneck or an unsupervised slop machine.'),
+    p('The mistake: treating “AI” as one big blob that replaces everything. In practice there are <strong>three parties</strong>, and each is good at something the others fail at. Mix them up? You get either a human bottleneck or an unsupervised slop machine.'),
     {
       type: 'flow',
       label: 'The loop, step by step',
@@ -117,7 +117,7 @@ export const en: Essay = {
     },
     quote('<strong>Every corner = a step into slop.</strong> And slop compounds faster than you can generate it.'),
 
-    h2('A warning: more, faster, messier'),
+    h2('A warning: more, faster, more broken'),
     p('For the first time, most teams are <strong>no longer blocked by output</strong>. Code, PRs, features – practically on demand. The natural reflex: go all in. More features. Even faster. Even more. Velocity charts look incredible.'),
     p('Nobody feels that pull harder than the people whose job is to push things forward: dev leads, PMs, stakeholders. Usually the most motivated people in the room. For years, their frustration was capacity. Suddenly capacity seems solved – the whole roadmap reachable this quarter. Every conversation turns into: “What else can we ship?”'),
     p('And then the product stops making sense. Features overlap. Flows contradict each other. Nobody remembers why anything exists. Every new change builds on a layer nobody really understands. The team didn’t get slower – it just stopped noticing the mess it ships.'),
@@ -165,7 +165,7 @@ export const en: Essay = {
     h2('The last mile: one click from “done” to “try it”'),
     p('Back to that corner: merging without clicking through the feature yourself. Usually not laziness. It’s that <strong>trying it is simply harder than it should be.</strong> That’s a CI/CD problem, not a discipline problem.'),
     p('Agents write a feature in minutes. Well-configured gates prove the minimum bar minutes later. Then it reaches a person – and <strong>everything stops</strong>. To see it: check out the branch, install dependencies, dig up tokens, run migrations, seed data, hope your local setup matches. Local AI tools and skills take away some of the grind, but: context switch. Minutes to hours. A reason to skip it.'),
-    p('<strong>That’s where the speed quietly leaks out.</strong> Nothing gained if writing is automated but validating stays the bottleneck. Good gates say: “the change is sound.” They <em>can’t</em> say: “it’s right – for your team, for your users.” If the check is expensive, it gets skipped. And the cut corner becomes the process.'),
+    p('<strong>That’s where the speed quietly leaks out.</strong> Automating the writing gains you nothing if validating stays the bottleneck. Good gates say: “the change is sound.” They <em>can’t</em> say: “it’s right – for your team, for your users.” If the check is expensive, it gets skipped. And the cut corner becomes the process.'),
     quote('Writing a feature in minutes doesn’t make you fast if trying it eats an afternoon.'),
     p('So: <strong>make trying it the cheapest step.</strong> Every change gets its own environment, built by the pipeline:'),
     {

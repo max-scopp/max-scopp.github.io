@@ -124,8 +124,9 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
                               <td
                                 class:list={[table.variant === 'stages' && i === row.length - 2 && 'cost']}
                                 data-label={table.head[i + 1]}
-                                set:html={cell}
-                              />
+                              >
+                                <span set:html={cell} />
+                              </td>
                             ))}
                           </tr>
                         ))}
@@ -153,7 +154,9 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
                         <p class="lead" set:html={l.lead} />
                         <ul>
                           {l.items.map((it) => (
-                            <li set:html={it} />
+                            <li>
+                          <span set:html={it} />
+                        </li>
                           ))}
                         </ul>
                       </section>
@@ -240,14 +243,18 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
                   {list && list.variant === 'checklist' && (
                     <ol class="checklist" data-reveal>
                       {list.items.map((it) => (
-                        <li set:html={it} />
+                        <li>
+                          <span set:html={it} />
+                        </li>
                       ))}
                     </ol>
                   )}
                   {list && list.variant !== 'checklist' && (
                     <ul class={list.variant} data-reveal>
                       {list.items.map((it) => (
-                        <li set:html={it} />
+                        <li>
+                          <span set:html={it} />
+                        </li>
                       ))}
                     </ul>
                   )}
@@ -257,7 +264,9 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
                       <p set:html={note.intro} />
                       <ul>
                         {note.items.map((it) => (
-                          <li set:html={it} />
+                          <li>
+                          <span set:html={it} />
+                        </li>
                         ))}
                       </ul>
                       <p class="lead-close" set:html={note.close} />

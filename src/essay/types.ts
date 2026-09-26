@@ -43,7 +43,7 @@ pre-commit:
     fix:
       glob: "*.{js,ts,tsx,json}"
       run: npx biome check --write --no-errors-on-unmatched {staged_files}
-      stage_fixed: true # re-stage what was fixed
+      stage_fixed: true
 
 pre-push:
   commands:

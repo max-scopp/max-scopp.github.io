@@ -10,7 +10,7 @@ export const de: Essay = {
   heading: 'Der Loop bewegt sich.',
   accent: 'Bewegst du dich mit?',
   intro: [
-    'Mensch, ich sag’s dir ganz ehrlich: Die meisten Teams nutzen KI immer noch wie einen schnelleren Praktikanten. Zeile vervollständigen, Funktion hinschmeißen, Frage im Side-Panel beantworten. Klar, das bringt was. Aber der echte Shift? Der ist strukturell.',
+    'Mensch, ich sag’s dir ehrlich: Die meisten Teams nutzen KI immer noch wie einen schnelleren Praktikanten. Zeile vervollständigen, Funktion hinschmeißen, Frage im Side-Panel beantworten. Klar, das bringt was. Aber der echte Shift? Der ist strukturell.',
     'Menschen steigen aus jedem Tastendruck aus. Rein in Richtung und Urteil. Agenten übernehmen die Ausführung. Automatisierte Gates halten die Qualitätslinie. Und genau diese drei Rollen sauber zu trennen – ohne sie zu vermischen – das ist das ganze Spiel.',
   ],
   blocks: [
@@ -35,7 +35,7 @@ export const de: Essay = {
     },
 
     h2('Drei Rollen, sauber getrennt'),
-    p('Der Fehler: „KI“ als einen Brei behandeln, der alles ersetzt. In der Praxis sind es <strong>drei Parteien</strong>, und jede ist gut in etwas, worin die anderen scheitern. Vermischst du sie? Entweder Mensch-Flaschenhals oder unüberwachte Slop-Maschine.'),
+    p('Der Fehler: „KI“ als einen Brei behandeln, der alles ersetzt. In der Praxis sind es <strong>drei Parteien</strong>, und jede ist gut in etwas, worin die anderen scheitern. Vermischst du sie? Entweder Mensch-Flaschenhals oder unüberwachter Slop-Maschine.'),
     {
       type: 'flow',
       label: 'Der Loop, Schritt für Schritt',
@@ -91,12 +91,12 @@ export const de: Essay = {
 
     h2('Gates sind wichtiger denn je'),
     p('Ein Modell findet viele Patterns, die auch CodeQL oder Sonar finden. Heißt nicht, dass die Tools obsolet sind. Heißt: <strong>Sie werden wertvoller.</strong> Sie sind deterministisch. Gleicher Input = gleiches Verdikt. Jedes Mal. In Sekunden. Für fast nichts. Sie werden nicht müde. Man redet sie nicht um. Sie haben keine schlechten Tage.'),
-    p('Genau das willst du von einer <em>Minimum Bar</em>. CI/CD wird zum kontinuierlichen, binären Gate auf jeder Änderung: Baut es? Halten Types? Passen Tests? Keine bekannten Vulns? Oder nicht. Merge oder nicht.'),
+    p('Genau das willst du von einer <em>Minimum Bar</em>. CI/CD wird zur kontinuierlichen, binären Gate auf jeder Änderung: Baut es? Halten Types? Passen Tests? Keine bekannten Vulns? Oder nicht. Merge oder nicht.'),
     p('Agenten sind super darin, diese Bar zu räumen – fütter sie mit Failures, sie fixen sie. Aber sie sind ein <strong>schlechter Ersatz dafür, die Bar <em>zu sein</em></strong>.'),
     p('Und genau dieser garantierte Floor befreit dich. Wenn du vertraust, dass nichts unterhalb der Linie shipped, geht deine Aufmerksamkeit dahin, wo sie hingehört: <strong>Das Produkt.</strong> Du kannst in Details gehen, mehr iterieren, schneller iterieren – ohne jedes Mal die Basics neu zu prüfen.'),
 
     h2('Wo der Mensch hingehört: Usage Approval'),
-    p('Mit Gates, die Code bewachen, und Agenten, die ihn produzieren, wird Zeile-für-Zeile-PR-Review nebensächlich. Spot-Checks okay. Aber jeden Diff lesen? Skaliert nicht. Und dupliziert größtenteils, was Tools schon verifizieren.'),
+    p('Mit Gates, die Code bewachen, und Agenten, die ihn produzieren, wird Zeile-für-Zeile-PR-Review nebensächlich. Spot-Checks okay. Aber jeden Diff lesen? Skaliert nicht. Und dupliziert mostly, was Tools schon verifizieren.'),
     p('Deine Approval-Ebene rutscht hoch: Von „ist der Code okay?“ zu <strong>„ist das Produkt richtig?“</strong>'),
     p('Das heißt: <strong>Eigentlich benutzen.</strong> Auf nem echten Device durchklicken. Empty State, Error State, langsames Netz, absurder Input, zweiter User, Tastatur only. Fragen: Wie liest jemand, der das nie sah, das Label? Merken, was sich falsch anfühlt – auch wenn alle Checks grün sind.'),
     p('Automation sagt dir: „Funktioniert wie spezifiziert.“ Nur ein Mensch sagt: „Funktioniert für Menschen.“'),
@@ -107,7 +107,7 @@ export const de: Essay = {
       type: 'list',
       variant: 'corners',
       items: [
-        'Tests „nur diesmal“ skippen, weil der Agent sagte „läuft“',
+        'Tests „nur diesmal“ skippen, weil Agent sagte „läuft“',
         'Lint-Regel deaktivieren oder Warning suppressen statt Ursache fixen',
         'Mergen, ohne selbst durchs Feature geklickt zu haben',
         'Generierten Code akzeptieren, den niemand im Team erklären könnte',
@@ -117,9 +117,9 @@ export const de: Essay = {
     },
     quote('<strong>Jede Ecke = ein Schritt in den Slop.</strong> Und Slop compoundiert schneller, als du ihn generieren kannst.'),
 
-    h2('Eine Warnung: Mehr, schneller, chaotischer'),
+    h2('Eine Warnung: Mehr, schneller, kaputter'),
     p('Zum ersten Mal sind die meisten Teams <strong>nicht mehr durch Output geblockt</strong>. Code, PRs, Features – quasi on demand. Der natürliche Reflex: Reinhauen. Mehr Features. Noch schneller. Noch mehr. Velocity-Charts sehen unglaublich aus.'),
-    p('Niemand spürt den Pull stärker als die, deren Job es ist, Dinge voranzutreiben: Dev Leads, PMs, Stakeholders. Meist die motiviertesten im Raum. Jahrelang war ihr Frust: Kapazität. Plötzlich wirkt Kapazität gelöst – die ganze Roadmap erreichbar dieses Quartal. Jedes Gespräch wird zu: „Was können wir noch shippen?“'),
+    p('Niemand spürt den Pull stärker als die, deren Job es ist, Dinge voranzutreiben: Dev Leads, PMs, Stakeholders. Meist die motiviertesten im Raum. Jahrelang war ihr Frust: Kapazität. Plötzlich wirkt Kapazität gelöst – der ganze Roadmap erreichbar dieses Quartal. Jedes Gespräch wird zu: „Was können wir noch shippen?“'),
     p('Und dann hört das Produkt auf, Sinn zu ergeben. Features überlappen. Flows widersprechen sich. Niemand erinnert sich, warum was existiert. Jede neue Änderung baut auf einem Layer, den niemand wirklich versteht. Das Team wurde nicht langsamer – es hat nur aufgehört, den Mist zu bemerken, den es shipped.'),
     {
       type: 'note',
@@ -136,7 +136,7 @@ export const de: Essay = {
       close: 'Agenten und Gates machen ein Produkt funktional. <strong>Nur Menschen – reflektierend, beobachtend, zuhörend, vergleichend – machen es großartig.</strong>',
     },
     p('Die Geschwindigkeit ist ein Geschenk, kein Mandat. Nutze sie, um zwei Versionen zu bauen und zu vergleichen. Um etwas <em>heute Nachmittag</em> vor echte User zu stellen statt nächsten Monat. Um am selben Feature dreimal weiterzuiterieren – nicht einfach die nächsten zehn draufzupacken.'),
-    p('Die Lektion ist alt und immer noch Gold: <strong>Test. Und bleib dran.</strong> Wissen, was du hast, bevor du mehr draufpackst. Statische Tools helfen hier auch – nicht als Verdikt über einzelne Änderungen, sondern als grober Kompass. Coverage, Complexity, Duplication, Hotspots zeigen dir, wo das Produkt <em>wirklich</em> steht als etwas, das du shippst und maintainable ist: Ein Codebase, den Devs lesen, verstehen und in die Tiefe gehen können, wenn sie müssen. Weil <em>irgendwann immer jemand muss</em>.'),
+    p('Die Lektion ist alt und immer noch Gold: <strong>Test. Und bleib dran.</strong> Wissen, was du hast, bevor du mehr draufpackst. Statische Tools helfen hier auch – nicht als Verdikt über einzelne Änderungen, sondern als grober Kompass. Coverage, Complexity, Duplication, Hotspots zeigen dir, wo das Produkt <em>really</em> steht als etwas, das du shippst und maintainable ist: Ein Codebase, den Devs lesen, verstehen und in die Tiefe gehen können, wenn sie müssen. Weil <em>irgendwann immer jemand muss</em>.'),
 
     h2('Die bessere Geschichte: Richtige Konfiguration, richtig für <em>dich</em>'),
     p('Zwei Teams. Gleiche Agenten. Gleiche Models. Auf Papier gleiche Tools: Formatter, Linter, Type-Checks, Tests, CodeQL, Sonar. Halbjahr später: Eines fliegt, das andere ertrinkt in Noise. Der Unterschied? <strong>Nicht die Tools. Sondern wie sie konfiguriert sind, wo sie laufen, wie sie ins Environment passen.</strong>'),
@@ -163,7 +163,7 @@ export const de: Essay = {
     p('Es gibt kein Universal-Preset zum Kopieren. Die richtige Config ist die, die zu <em>deinem</em> Stack, <em>deinem</em> Repo, <em>deinem</em> CI-Budget, <em>deinem</em> Team passt – einmal entschieden, mit dem Code versioniert, identisch auf jedem Laptop, in jeder Agent-Sandbox, in CI, und schnell genug, dass <strong>niemand je versucht ist, sie zu umgehen</strong>. Hast du das hin, macht jeder das, worin er am besten ist: Tools tun, wofür sie gebaut wurden. Agenten verbraten Iterationen auf Behavior. Menschen verbraten ihre auf das Produkt.'),
 
     h2('Die Last Mile: Ein Klick von „Done“ zu „Probier’s aus“'),
-    p('Zurück zu der Ecke: Mergen, ohne selbst durchs Feature geklickt zu haben. Meist nicht Faulheit. Sondern: <strong>Ausprobieren ist einfach härter, als es sein müsste.</strong> Das ist ein CI/CD-Problem, kein Disziplin-Problem.'),
+    p('Zurück zu der Ecke: Mergen, ohne selbst durchs Feature geklickt zu haben. Meist nicht Faulheit. Sondern: <strong>Ausprobieren ist einfach härter als es sein müsste.</strong> Das ist ein CI/CD-Problem, kein Disziplin-Problem.'),
     p('Agenten schreiben Feature in Minuten. Gut konfigurierte Gates beweisen Minimum Bar Minuten später. Dann erreicht es einen Menschen – und <strong>alles stoppt</strong>. Um’s zu sehen: Branch checkouten, Dependencies installieren, Tokens ausgraben, Migrationen laufen, Seed-Daten, hoffen dass lokales Setup matcht. Lokale KI-Tools und Skills nehmen etwas Grind weg, aber: Context Switch. Minuten bis Stunden. Grund, es zu skippen.'),
     p('<strong>Da sickert die Speed still aus.</strong> Nix gewonnen, wenn Schreiben automatisiert ist, aber Validieren der Flaschenhals bleibt. Gute Gates sagen: „Change ist sound.“ Sie können <em>nicht</em> sagen: „Ist es richtig – für dein Team, für deine User.“ Wenn der Check teuer ist, wird er geskippt. Und die abgeschnittene Ecke wird zum Prozess.'),
     quote('Feature in Minuten schreiben macht dich nicht schnell, wenn Ausprobieren einen Nachmittag frisst.'),
