@@ -39,11 +39,52 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
   lang={content.lang}
   alternates={languages.map(({ lang, href }) => ({ lang, href }))}
 >
+  <Fragment slot="head">
+    <script is:inline define:vars={{ current: content.lang, paths: Object.fromEntries(languages.map((l) => [l.lang, l.href])) }}>
+      // Language routing for the essay (static hosting, so it runs in the browser).
+      // 1. An explicit choice from the EN/DE switch always wins.
+      // 2. Otherwise, on the English page: the first of German/English in the
+      //    browser's language list decides; if neither is listed, a German or
+      //    Austrian time zone stands in for the country. Default is English.
+      // A direct link to the German page is never redirected by detection alone.
+      (function () {
+        var pref = null;
+        try {
+          pref = localStorage.getItem('lang');
+        } catch (e) {}
+        var target = pref;
+        if (!target && current === 'en') {
+          var list = navigator.languages && navigator.languages.length ? navigator.languages : [navigator.language || ''];
+          for (var i = 0; i < list.length && !target; i++) {
+            var code = String(list[i]).toLowerCase().slice(0, 2);
+            if (code === 'de' || code === 'en') target = code;
+          }
+          if (!target) {
+            var tz = '';
+            try {
+              tz = Intl.DateTimeFormat().resolvedOptions().timeZone || '';
+            } catch (e) {}
+            if (/^Europe\/(Berlin|Busingen|Vienna)$/.test(tz)) target = 'de';
+          }
+        }
+        if (target && target !== current && paths[target]) {
+          location.replace(paths[target] + location.search + location.hash);
+        }
+        document.addEventListener('click', function (event) {
+          var link = event.target.closest && event.target.closest('a[data-set-lang]');
+          if (!link) return;
+          try {
+            localStorage.setItem('lang', link.getAttribute('data-set-lang'));
+          } catch (e) {}
+        });
+      })();
+    </script>
+  </Fragment>
   <article class="container page" lang={content.lang}>
     <nav class="langs" aria-label="Language">
       {
         languages.map((l) => (
-          <a href={l.href} hreflang={l.lang} lang={l.lang} aria-current={l.lang === content.lang ? 'page' : undefined}>
+          <a href={l.href} hreflang={l.lang} lang={l.lang} data-set-lang={l.lang} aria-current={l.lang === content.lang ? 'page' : undefined}>
             {l.label}
           </a>
         ))

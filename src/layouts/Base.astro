@@ -39,6 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <script is:inline>
       document.documentElement.classList.remove('no-js');
     </script>
+    <slot name="head" />
   </head>
   <body>
     <Header />
