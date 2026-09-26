@@ -1,0 +1,32 @@
+---
+interface Props {
+  index: string;
+  label: string;
+}
+const { index, label } = Astro.props;
+---
+
+<div class="head" aria-hidden="true">
+  <span>{index}</span>
+  <i></i>
+  <span>{label}</span>
+</div>
+
+<style>
+  .head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: clamp(32px, 5vw, 48px);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  i {
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+</style>

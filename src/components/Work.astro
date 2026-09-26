@@ -1,0 +1,145 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { links, projects } from '../data/site';
+---
+
+<section id="work" class="section container">
+  <SectionHead index="01" label="Featured work" />
+  <div class="grid">
+    <div class="intro" data-reveal>
+      <h2>Selected<br />work</h2>
+      <p class="lede">
+        A selection of products, tools and ideas I’ve designed and built — from open source tools
+        to product experiences, always with a focus on real-world use and a clean, thoughtful
+        design.
+      </p>
+      <a class="link" href={links.github}>View all projects <Icon name="arrow" size={16} /></a>
+    </div>
+
+    <ul class="list">
+      {
+        projects.map((p, i) => (
+          <li data-reveal style={`--i:${i}`}>
+            <a class="item" href={p.href}>
+              <span class="icon">
+                <Icon name={p.icon} size={20} />
+              </span>
+              <span class="body">
+                <h3>{p.title}</h3>
+                <p>{p.description}</p>
+                <span class="tags">
+                  {p.tags.map((t) => (
+                    <span>{t}</span>
+                  ))}
+                </span>
+              </span>
+              <Icon name="arrow" size={18} class="go" />
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+    gap: 48px;
+  }
+  h2 {
+    font-size: clamp(36px, 4.4vw, 48px);
+  }
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    padding-top: 12px;
+  }
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .list li + li {
+    border-top: 1px solid var(--line);
+  }
+  .item {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 24px;
+    padding: 24px 12px;
+    margin-inline: -12px;
+    border-radius: 14px;
+    transition: background 0.3s var(--ease);
+  }
+  .item:hover {
+    background: rgb(255 255 255 / 0.7);
+  }
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--tint);
+    color: var(--violet);
+    border: 1px solid #ebe1ff;
+    transition: transform 0.4s var(--ease);
+  }
+  .item:hover .icon {
+    transform: rotate(-6deg) scale(1.04);
+  }
+  h3 {
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .body p {
+    margin-top: 4px;
+    color: var(--ink-2);
+    font-size: 14.5px;
+    max-width: 52ch;
+  }
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .tags span {
+    font-size: 12px;
+    padding: 3px 9px;
+    border-radius: 6px;
+    background: #f4f2f8;
+    color: var(--ink-2);
+  }
+  .item :global(.go) {
+    margin-top: 2px;
+    color: var(--ink);
+    transition: transform 0.3s var(--ease);
+  }
+  .item:hover :global(.go) {
+    transform: translateX(4px);
+    color: var(--violet);
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+  @media (max-width: 520px) {
+    .item {
+      grid-template-columns: auto 1fr;
+      gap: 16px;
+    }
+    .item :global(.go) {
+      display: none;
+    }
+  }
+</style>

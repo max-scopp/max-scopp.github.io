@@ -1,0 +1,131 @@
+---
+import Icon from './Icon.astro';
+import SectionHead from './SectionHead.astro';
+import { process } from '../data/site';
+---
+
+<section id="process" class="section container">
+  <SectionHead index="02" label="How I work" />
+  <div class="grid">
+    <div class="intro" data-reveal>
+      <h2>Human direction.<br /><span class="gradient-text">AI acceleration.</span></h2>
+      <p class="lede">
+        I use AI to explore faster, prototype earlier and automate the repetitive parts of the
+        process. The direction, taste and final decisions stay human.
+      </p>
+    </div>
+
+    <ol class="steps">
+      {
+        process.map((s, i) => (
+          <li data-reveal style={`--i:${i}`}>
+            <span class="icon">
+              <Icon name={s.icon} size={20} />
+            </span>
+            <span class="n mono">0{i + 1}</span>
+            <h3>{s.title}</h3>
+            <p>{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: 48px;
+    align-items: start;
+  }
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  h2 {
+    font-size: clamp(34px, 4vw, 44px);
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  li {
+    position: relative;
+  }
+  /* thin connector between steps */
+  li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: 60px;
+    right: -12px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line-2), transparent);
+  }
+  .icon {
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--tint);
+    color: var(--violet);
+    border: 1px solid #ebe1ff;
+  }
+  .n {
+    display: block;
+    margin-top: 16px;
+    font-size: 10.5px;
+    color: var(--ink-3);
+  }
+  h3 {
+    margin-top: 2px;
+    font-size: 15px;
+    font-weight: 500;
+  }
+  li p {
+    margin-top: 4px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  @media (max-width: 960px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 600px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+    li {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      column-gap: 16px;
+      padding-bottom: 24px;
+    }
+    li .icon {
+      grid-row: span 3;
+    }
+    .n {
+      margin-top: 0;
+    }
+    li:not(:last-child)::after {
+      top: 56px;
+      bottom: 4px;
+      left: 24px;
+      right: auto;
+      width: 1px;
+      height: auto;
+      background: linear-gradient(180deg, var(--line-2), transparent);
+    }
+  }
+</style>
