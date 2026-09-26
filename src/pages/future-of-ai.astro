@@ -134,11 +134,35 @@ const preview = [
   'A notification when it’s ready — not a dashboard you have to watch',
 ];
 
+const perspectives = [
+  { lens: 'Goalpost', title: 'Refines the goal', text: 'Keeps asking what we’re solving, for whom, and what success looks like — and moves the target as we learn.' },
+  { lens: 'Acceptance', title: 'Defines “done”', text: 'Turns intent into criteria, edge cases and tests that everyone else builds and checks against.' },
+  { lens: 'Usability', title: 'Judges the experience', text: 'Walks the flows like a user would: clarity, accessibility, empty and error states, the feel.' },
+  { lens: 'Architecture', title: 'Guards the seams', text: 'Checks every change against the contracts between products and services, so the whole still holds.' },
+];
+
+const guardrailsVsLint = [
+  { aspect: 'Encodes', lint: 'Form and known bug patterns', guardrails: 'Taste, boundaries and judgement' },
+  { aspect: 'Changes', lint: 'Rarely, if ever', guardrails: 'Continuously, with the product' },
+  { aspect: 'Checked by', lint: 'Deterministic tools', guardrails: 'Agents, reviewers and people' },
+  { aspect: 'Written for', lint: 'Machines', guardrails: 'Agents and developers alike' },
+];
+
+const gatewayClients = [
+  { who: 'Agent', where: 'checkout repo' },
+  { who: 'Agent', where: 'payments service' },
+  { who: 'Agent', where: 'CI pipeline' },
+  { who: 'Developer', where: 'IDE' },
+];
+
+const gatewayServes = ['Guardrails', 'Shared memory', 'Shared MCP servers', 'Access & audit', 'Cost & model routing'];
+
 const redesign = [
   'Define intent and acceptance criteria up front — clear enough that an agent can tell when it is done.',
   'Invest in the gates before the agents: strict linting, types, tests, CodeQL/Sonar and preview builds on every change.',
   'Let the tools fix what they can before anything is committed — formatting, whitespace, import and key order — so CI never fails on style and nobody reviews it.',
-  'Write context down where agents can read it: conventions, decisions, architecture, product principles.',
+  'Make memory shared infrastructure: principles, architecture, contracts and decisions available to every agent at every step — curated and correctable by people.',
+  'Write guardrails down like configuration, but keep them alive — owned, versioned, shared with developers, and served from one gateway along with memory and MCP servers.',
   'Give agents real, scoped environments — safe to run unattended, easy to throw away.',
   'Give every change a preview — a link or an installable build, with data and secrets wired in — and a ping when it’s ready, so human review moves from the diff to the product.',
   'Keep teams small and ownership end to end, so the loop from idea to shipped isn’t split across handoffs.',
@@ -148,7 +172,7 @@ const redesign = [
 
 <Base
   title="The loop is moving — maxscopp"
-  description="How AI in software development is shifting from human-in-the-loop assistance to orchestrated agent workflows — why static quality gates — configured right — matter more than ever, where humans belong, and why bolting AI onto enterprise processes rarely delivers."
+  description="How AI in software development is moving from human-in-the-loop to orchestrated agents — and what it takes: quality gates set up right, human judgement, one-click previews, shared memory and guardrails — and why bolting AI onto enterprise processes rarely delivers."
 >
   <article class="container page">
     <PageHead eyebrow="Essay · Future of AI in development" title="The loop is moving." accent="Are you moving with it?">
@@ -563,7 +587,175 @@ const redesign = [
       </section>
 
       <section data-reveal>
-        <h2><span class="num mono">11</span>What works instead</h2>
+        <h2><span class="num mono">11</span>Shared memory, different perspectives</h2>
+        <p>
+          Two of those frictions — context locked in heads, and tools built for people — aren’t
+          process problems. They are infrastructure problems, and they have infrastructure answers.
+          The first one is memory.
+        </p>
+        <p>
+          On a personal project, memory is simple: start Claude Code, turn its memory on, and it
+          gradually picks up your codebase, your conventions and your preferences. For one person and
+          one repository, that’s all you need.
+        </p>
+        <p>
+          In an organisation, that model breaks. Every agent starts from zero in its own repository,
+          its own sandbox, its own session. The agent in the payments service doesn’t know what the
+          checkout team decided last week; the one in the mobile app doesn’t know the API it calls is
+          being retired; nobody remembers why two products share a login. Each agent is locally
+          correct and globally lost.
+        </p>
+        <p>
+          So memory has to become shared infrastructure: available to every agent, at every step,
+          across products and microservices. Product principles, architecture, the contracts between
+          services, decisions and why they were made, vocabulary, known pitfalls. With that, even an
+          agent in an isolated repository or environment knows the other products exist, what they
+          expect and how everything should hold together — the missing piece most multi-repo
+          organisations never had, not even for their people.
+        </p>
+        <p>
+          And it has to be orchestratable by humans. Memory is where people steer at scale: correct a
+          wrong assumption once and every agent stops making it; shift a priority and every agent sees
+          it. That means owned, reviewable and versioned — not a pile of chat transcripts nobody can
+          edit.
+        </p>
+      </section>
+    </div>
+
+    <div class="memory" data-reveal>
+      <div class="memory-core">
+        <span class="memory-tag mono">Shared memory</span>
+        <span class="memory-items">
+          Principles · architecture · contracts between services · decisions and their why ·
+          vocabulary · known pitfalls
+        </span>
+        <span class="memory-owner mono">curated by people</span>
+      </div>
+      <ul class="perspectives" aria-label="Agents reading the same memory, each with its own perspective">
+        {
+          perspectives.map((item) => (
+            <li>
+              <span class="lens mono">{item.lens}</span>
+              <h3>{item.title}</h3>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div class="prose">
+      <section data-reveal>
+        <p>
+          The key is agents with perspectives. They all read the same memory, but each one focuses on
+          a different aspect. One keeps refining the goalpost — what are we actually trying to
+          achieve? Another owns acceptance — what does done mean, which edge cases count? A third
+          judges usability; a fourth guards the seams between services. Same facts, different lenses.
+          When they disagree, it surfaces early and in the open, where a human can settle it —
+          instead of late, in production.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">12</span>Guardrails: your taste, written down</h2>
+        <p>
+          Agents can do a lot — which is exactly why they need to know what not to do. Every product
+          has its own taste in do’s and don’ts: the patterns you use and the ones you’ve banned, the
+          libraries you trust, how errors are handled, what never goes into a log, which data never
+          leaves a region, how the interface talks to people, when to ask instead of guess.
+        </p>
+        <p>
+          Those rules deserve the same treatment as your CI/CD tooling: written down, versioned,
+          reviewed and applied everywhere automatically. But there is one big difference. A lint
+          configuration is set once and rarely touched again. Guardrails live with the product — they
+          change as it matures, as the team learns, as the market and regulation move. They need an
+          owner, a history and a place in the regular conversation.
+        </p>
+      </section>
+    </div>
+
+    <div class="table-wrap compare" data-reveal>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Lint &amp; CI configuration</th>
+            <th scope="col">Guardrails</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            guardrailsVsLint.map((row) => (
+              <tr>
+                <th scope="row">{row.aspect}</th>
+                <td>{row.lint}</td>
+                <td>{row.guardrails}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <div class="prose">
+      <section data-reveal>
+        <p>
+          That last row matters more than it looks. Guardrails shouldn’t be exclusive to agents.
+          Written well, they are the clearest statement of how your team builds, and they hold just as
+          much in a developer’s head. The same page that stops an agent from adding yet another state
+          library reminds a new hire why you don’t — and gives a reviewer something better than “I
+          don’t like it.”
+        </p>
+        <blockquote>
+          If a rule only lives in a prompt, it isn’t a guardrail — it’s a secret.
+        </blockquote>
+        <p>
+          Which leads to the step most organisations miss: the right infrastructure for the
+          architecture. When every team wires up its own agents, every repository ends up with its
+          own copy of the guardrails, its own MCP servers, its own keys and its own idea of what’s
+          allowed — drifting apart from day one. Put the shared pieces in one place instead: a single
+          gateway in front of inference, or a proxy to it, that every agent and every developer tool
+          goes through.
+        </p>
+      </section>
+    </div>
+
+    <figure class="gateway" data-reveal>
+      <ul class="clients" aria-label="Clients">
+        {
+          gatewayClients.map((c) => (
+            <li>
+              <span class="who mono">{c.who}</span>
+              {c.where}
+            </li>
+          ))
+        }
+      </ul>
+      <span class="gw-arrow" aria-hidden="true">↓</span>
+      <div class="gw">
+        <strong>One gateway to inference</strong>
+        <span class="gw-sub">or a proxy in front of it — every agent and developer tool goes through here</span>
+        <span class="chips">{gatewayServes.map((item) => <span>{item}</span>)}</span>
+      </div>
+      <span class="gw-arrow" aria-hidden="true">↓</span>
+      <span class="models mono">Models</span>
+      <figcaption>Isolated where it matters, shared where it should be.</figcaption>
+    </figure>
+
+    <div class="prose">
+      <section data-reveal>
+        <p>
+          That’s where guardrails are applied, where memory is served, where MCP servers are shared
+          instead of re-implemented in every repository, and where access, audit, cost and model
+          choice are managed once. Agents stay isolated where it matters — in their repositories,
+          sandboxes and environments — while everything that should be the same everywhere is the
+          same everywhere, by construction. Change a guardrail once and every agent picks it up on its
+          next request. That isn’t overhead; it’s what makes a hundred agents behave like one team.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">13</span>What works instead</h2>
         <p>
           The teams that get step changes don’t add AI to their workflow — they rebuild the workflow
           so that people, agents and gates each do what they are best at.
@@ -685,6 +877,184 @@ const redesign = [
     border-radius: 6px;
     background: var(--chip);
     color: var(--ink);
+  }
+
+  .prose p + blockquote {
+    margin-top: 32px;
+  }
+  .prose blockquote + p {
+    margin-top: 24px;
+  }
+
+  /* Shared memory, different perspectives */
+  .memory {
+    margin: 36px 0 48px;
+  }
+  .memory-core {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    padding: 18px 24px;
+    border-radius: 24px;
+    border: 1px solid var(--tint-line);
+    background: var(--tint);
+  }
+  .memory-tag {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--violet);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .memory-items {
+    flex: 1;
+    min-width: 240px;
+    font-size: 14px;
+    color: var(--ink);
+  }
+  .memory-owner {
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .perspectives {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 0;
+    padding: 16px 0 0;
+    list-style: none;
+  }
+  .perspectives li {
+    position: relative;
+    padding: 20px 22px;
+    border-radius: 24px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  /* thin line up to the shared memory */
+  .perspectives li::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: -17px;
+    width: 1px;
+    height: 16px;
+    background: var(--tint-line);
+  }
+  .lens {
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--violet);
+  }
+  .perspectives h3 {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .perspectives p {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+
+  /* Lint vs guardrails */
+  .table-wrap.compare {
+    margin: 36px 0 40px;
+  }
+
+  /* One gateway to inference */
+  .gateway {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin: 36px 0 48px;
+  }
+  .clients {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .clients li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+  }
+  .clients .who {
+    font-weight: 400;
+  }
+  .gw-arrow {
+    font-size: 14px;
+    line-height: 1;
+    color: var(--ink-3);
+  }
+  .gw {
+    width: 100%;
+    padding: 22px 26px;
+    border-radius: 28px;
+    border: 1px solid var(--tint-line);
+    background: var(--tint);
+    text-align: center;
+  }
+  .gw strong {
+    display: block;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .gw-sub {
+    display: block;
+    margin-top: 4px;
+    font-size: 13px;
+    color: var(--ink-2);
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .chips span {
+    padding: 5px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--tint-line);
+    background: var(--surface);
+    font-size: 13px;
+    color: var(--ink);
+  }
+  .models {
+    padding: 10px 22px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .gateway figcaption {
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--ink-3);
   }
 
   /* Note for leads, PMs and stakeholders */
@@ -1023,6 +1393,29 @@ const redesign = [
   @media (max-width: 900px) {
     .lanes {
       grid-template-columns: 1fr;
+    }
+    .perspectives {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 720px) {
+    .clients {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .clients li {
+      border-radius: 20px;
+    }
+  }
+  @media (max-width: 520px) {
+    .perspectives {
+      grid-template-columns: 1fr;
+    }
+    .compare table {
+      min-width: 0;
+    }
+    .compare th,
+    .compare td {
+      padding: 12px 14px;
     }
   }
   @media (max-width: 640px) {
