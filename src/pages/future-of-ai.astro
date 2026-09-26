@@ -58,6 +58,7 @@ const flow = [
   { who: 'Human', step: 'Intent' },
   { who: 'Agents', step: 'Build' },
   { who: 'Gates', step: 'Pass / fail', loop: true },
+  { who: 'CI/CD', step: 'Preview ready' },
   { who: 'Human', step: 'Use & approve' },
   { who: 'All', step: 'Ship & learn' },
 ];
@@ -128,13 +129,22 @@ const hookHtml = hookConfig
   })
   .join('\n');
 
+const preview = [
+  'A link for every change — or an installable build for apps, desktop and CLIs',
+  'Its own data: migrations applied, realistic seed data, test accounts ready',
+  'Secrets and integrations already wired in, so nobody passes tokens around',
+  'The same gates and configuration as production, just disposable',
+  'Torn down automatically when the change merges or closes',
+  'A notification when it’s ready — not a dashboard you have to watch',
+];
+
 const redesign = [
   'Define intent and acceptance criteria up front — clear enough that an agent can tell when it is done.',
   'Invest in the gates before the agents: strict linting, types, tests, CodeQL/Sonar and preview builds on every change.',
   'Let the tools fix what they can before anything is committed — formatting, whitespace, import and key order — so CI never fails on style and nobody reviews it.',
   'Write context down where agents can read it: conventions, decisions, architecture, product principles.',
   'Give agents real, scoped environments — safe to run unattended, easy to throw away.',
-  'Move human review from the diff to the product: previews, real devices, real data, real edge cases.',
+  'Give every change a preview — a link or an installable build, with data and secrets wired in — and a ping when it’s ready, so human review moves from the diff to the product.',
   'Keep teams small and ownership end to end, so the loop from idea to shipped isn’t split across handoffs.',
 ];
 ---
@@ -425,7 +435,74 @@ const redesign = [
       </section>
 
       <section data-reveal>
-        <h2><span class="num mono">09</span>Why forcing AI into enterprise workflows gets clunky</h2>
+        <h2><span class="num mono">09</span>The last mile: one click from “done” to “try it”</h2>
+        <p>
+          Go back to that corner: merging without ever clicking through the feature yourself. It’s
+          rarely laziness. Usually, trying a change is simply harder than it should be — and that’s a
+          CI/CD problem, not a discipline problem.
+        </p>
+        <p>
+          Agents can write a feature in minutes, and well-configured gates can prove it meets the
+          minimum bar minutes later. Then it reaches a person, and everything stops. To actually see
+          it, someone has to check out the branch, install dependencies, dig up the right tokens, run
+          the migrations, seed some data and hope their local setup matches everyone else’s. Local AI
+          tools and skills can take some of that grind away, but it’s still a context switch, still
+          minutes to hours, and still a reason to skip it.
+        </p>
+        <p>
+          That’s where the speed quietly leaks out. There is no value in automating the writing if
+          validating the result is the slow part. Great quality gates tell you a change is sound; they
+          can’t tell you whether it’s right — from your team’s perspective, for your users. If that
+          check is expensive, it gets skipped, and the corner cut becomes the process.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <blockquote>
+          Writing a feature in minutes doesn’t make you fast if trying it takes an afternoon.
+        </blockquote>
+        <p>
+          So make trying it the cheapest step of all. Every change gets its own environment, built by
+          the pipeline:
+        </p>
+        <ul class="ready">
+          {preview.map((item) => <li>{item}</li>)}
+        </ul>
+
+        <figure class="notify">
+          <div class="toast">
+            <span class="agent" aria-hidden="true">
+              <svg viewBox="0 0 32 32" width="14" height="14">
+                <path
+                  fill="currentColor"
+                  d="M16 2c.9 7.6 6.4 13.1 14 14-7.6.9-13.1 6.4-14 14-.9-7.6-6.4-13.1-14-14 7.6-.9 13.1-6.4 14-14Z"
+                ></path>
+              </svg>
+            </span>
+            <div>
+              <strong class="toast-title">Hey, I’m done — your preview is ready</strong>
+              <span class="toast-meta mono">checkout-redesign · gates passed · migrations applied</span>
+              <span class="toast-actions" aria-hidden="true">
+                <span class="mini mini--solid">Open preview</span>
+                <span class="mini">Download build</span>
+              </span>
+            </div>
+            <span class="toast-time mono">now</span>
+          </div>
+          <figcaption>What “done” should look like: a ping, a link, a decision.</figcaption>
+        </figure>
+
+        <p>
+          Then the loop closes the way it should. The agent finishes, the gates pass, and you get a
+          ping: “Hey, I’m done.” You click the link or download the build, use it like a user would,
+          poke at the edge cases, and decide — ship it, or adjust the next steps and focus points and
+          send the agents back in. Minutes, not an afternoon. That’s what moving fast with confidence
+          actually means: not just fast output, but fast, cheap and honest validation.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">10</span>Why forcing AI into enterprise workflows gets clunky</h2>
         <p>
           Most large organisations are adopting AI the same way: take the existing process — tickets,
           handoffs, approvals, sprint ceremonies — and add an assistant to each step. It feels safe
@@ -461,7 +538,7 @@ const redesign = [
       </section>
 
       <section data-reveal>
-        <h2><span class="num mono">10</span>What works instead</h2>
+        <h2><span class="num mono">11</span>What works instead</h2>
         <p>
           The teams that get step changes don’t add AI to their workflow — they rebuild the workflow
           so that people, agents and gates each do what they are best at.
@@ -600,6 +677,96 @@ const redesign = [
     color: var(--violet);
   }
   .code :global(.c) {
+    color: var(--ink-3);
+  }
+
+  .ready {
+    margin: 20px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .ready li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    padding: 10px 0;
+    border-top: 1px solid var(--line);
+    font-size: 16px;
+    color: var(--ink-2);
+  }
+  .ready li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .ready li::before {
+    content: '✓';
+    font-family: var(--mono);
+    color: var(--violet);
+  }
+
+  /* Mock "I'm done" notification */
+  .notify {
+    margin: 36px 0 8px;
+  }
+  .toast {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 14px;
+    max-width: 480px;
+    padding: 16px 18px;
+    border-radius: 24px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .agent {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: var(--tint);
+    color: var(--violet);
+  }
+  .toast-title {
+    display: block;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .toast-meta {
+    display: block;
+    margin-top: 3px;
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .toast-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+  }
+  .mini {
+    display: inline-flex;
+    align-items: center;
+    height: 30px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid var(--line-2);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+  .mini--solid {
+    background: var(--btn-bg);
+    border-color: var(--btn-bg);
+    color: var(--btn-fg);
+  }
+  .toast-time {
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  .notify figcaption {
+    margin-top: 12px;
+    font-size: 13px;
     color: var(--ink-3);
   }
 
