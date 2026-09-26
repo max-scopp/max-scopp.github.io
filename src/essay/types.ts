@@ -12,7 +12,7 @@ export type Block =
   | { type: 'note'; label: string; eyebrow: string; intro: string; items: string[]; close: string }
   | { type: 'code'; code: string; lang: 'yaml'; title?: string }
   | { type: 'toast'; title: string; meta: string; primary: string; secondary: string; time: string; caption: string }
-  | { type: 'cta'; text: string; button: string }
+  | { type: 'cta'; text: string; sub?: string; button: string }
   // Wide blocks, rendered outside the reading column:
   | { type: 'table'; variant: 'shift' | 'stages' | 'compare'; head: string[]; rows: string[][] }
   | { type: 'flow'; label: string; steps: { who: string; step: string; back?: string }[] }

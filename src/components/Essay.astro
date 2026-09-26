@@ -252,8 +252,11 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
                     </figure>
                   )}
                   {cta && (
-                    <footer class="end" data-reveal>
-                      <p>{cta.text}</p>
+                    <footer class:list={['end', cta.sub && 'end--long']} data-reveal>
+                      <div>
+                        <p set:html={cta.text} />
+                        {cta.sub && <p class="end-sub">{cta.sub}</p>}
+                      </div>
                       <a class="btn btn--solid" href="/contact">
                         {cta.button} <Icon name="arrow" size={16} />
                       </a>
@@ -980,6 +983,15 @@ const only = <T extends Block['type']>(b: Block, t: T) => (b.type === t ? (b as 
     .end {
       border-radius: 28px;
     }
+  }
+
+  .end--long {
+    border-radius: 28px;
+  }
+  .prose .end-sub {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--ink-2);
   }
 
   /* Language switch */
