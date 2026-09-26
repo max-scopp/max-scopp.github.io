@@ -26,7 +26,7 @@
 
   /* Liquid glass tint (colour channels + alpha, read by liquid-glass.ts) */
   --lg-tint: 255 255 255;
-  --lg-tint-a: 0.3;
+  --lg-tint-a: 0.34;
 
   --gradient: linear-gradient(100deg, var(--violet), var(--fuchsia));
 
@@ -61,7 +61,7 @@
     --btn-fg: #0c0b11;
 
     --lg-tint: 26 24 38;
-    --lg-tint-a: 0.42;
+    --lg-tint-a: 0.46;
   }
 }
 
@@ -234,13 +234,13 @@ a {
 
 /* Liquid glass surface.
    In Chromium, src/lib/liquid-glass.ts replaces this with a stacked SVG
-   backdrop filter — convex bezel refraction, a lightly frosted centre, a
-   clearer and more saturated rim, and the tint — and adds .lg--refract.
+   backdrop filter — convex bezel refraction, a frosted centre, a softer and
+   more saturated rim, and the tint — and adds .lg--refract.
    Safari and Firefox keep this frosted fallback. */
 .lg {
   background: rgb(var(--lg-tint) / var(--lg-tint-a));
-  -webkit-backdrop-filter: blur(8px) saturate(1.6);
-  backdrop-filter: blur(8px) saturate(1.6);
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  backdrop-filter: blur(12px) saturate(1.5);
 }
 .lg.lg--refract {
   background: none;

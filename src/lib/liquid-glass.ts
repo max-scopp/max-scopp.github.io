@@ -7,8 +7,8 @@
  * stacks the material in passes over the backdrop:
  *
  *   1. refraction — feDisplacementMap through a convex bezel (map R/B channels)
- *   2. inner      — light frost blur, mild saturation (the flat centre)
- *   3. outer      — nearly clear, strongly saturated (the bezel)
+ *   2. inner      — frost blur, mild saturation (the flat centre)
+ *   3. outer      — softer blur, stronger saturation (the bezel)
  *   4. stack      — outer over inner through the rim mask (map G channel)
  *   5. tint       — frost wash, full in the centre and thinner on the rim
  *
@@ -27,12 +27,12 @@ type Profile = 'squircle' | 'convex' | 'rim';
 
 export const GLASS = {
   profile: 'convex' as Profile,
-  refraction: 60, // px — displacement scale through the bezel
+  refraction: 45, // px — displacement scale through the bezel
   bezel: 12, // px — width of the curved rim (clamped to fit the shape)
   dispersion: 0, // chromatic split; 0 = single refraction pass
-  inner: { blur: 2.5, saturation: 1.2 }, // flat centre: light frost
-  outer: { blur: 0.5, saturation: 2.4 }, // bezel: clearer and more saturated
-  rimTint: 0.35, // tint strength on the rim, relative to the centre
+  inner: { blur: 5, saturation: 1.15 }, // flat centre: frosted
+  outer: { blur: 2.5, saturation: 1.9 }, // bezel: softly blurred, more saturated
+  rimTint: 0.6, // tint strength on the rim, relative to the centre
 };
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
