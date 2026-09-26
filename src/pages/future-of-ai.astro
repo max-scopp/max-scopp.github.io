@@ -8,16 +8,73 @@ const CAO = { short: 'CAO', long: 'Continuous Agent Orchestration' };
 
 const shift = [
   { aspect: 'Unit of work', before: 'A keystroke, a function, a suggestion', after: 'An outcome: a feature, a fix, a migration' },
-  { aspect: 'Human role', before: 'Operator — drives every step', after: 'Director — sets intent, constraints and the quality bar' },
-  { aspect: 'AI role', before: 'Assistant — autocomplete and chat', after: 'Agents that plan, execute and verify in parallel' },
-  { aspect: 'Review', before: 'Line by line, by a person', after: 'Automated checks first, human judgment on the result' },
+  { aspect: 'Human role', before: 'Operator — drives every step', after: 'Director and first user — sets intent, approves the experience' },
+  { aspect: 'AI role', before: 'Assistant — autocomplete and chat', after: 'Agents that plan, build and fix in parallel' },
+  { aspect: 'Quality bar', before: 'Upheld by reviewer attention', after: 'Enforced by CI/CD on every change — pass or fail' },
+  { aspect: 'Review', before: 'Line by line, by a person', after: 'Gates check the code; humans check the product' },
   { aspect: 'Bottleneck', before: 'How fast a person can type and read', after: 'How clearly intent and “done” are defined' },
+];
+
+const lanes = [
+  {
+    tag: 'Human',
+    title: 'Direction & usage approval',
+    lead: 'Decides what is worth building and whether it’s actually good to use.',
+    items: [
+      'Frames the problem, sets intent and acceptance criteria',
+      'Uses the product like a real user would',
+      'Hunts edge cases, empty states, errors and odd inputs',
+      'Judges interaction, copy, accessibility and feel',
+      'Owns the call to ship — and the consequences',
+    ],
+  },
+  {
+    tag: 'Agents',
+    title: 'Execution & iteration',
+    lead: 'Turns intent into working changes, fast and in parallel.',
+    items: [
+      'Plans, implements and refactors',
+      'Writes and extends tests alongside the code',
+      'Fixes whatever the gates reject, then tries again',
+      'Explores variants so the human can compare real options',
+      'Documents decisions where the next agent (or person) can read them',
+    ],
+  },
+  {
+    tag: 'Gates',
+    title: 'CI/CD — the static minimum bar',
+    lead: 'Deterministic, black-or-white approval on every single change.',
+    items: [
+      'Linting, formatting and type checks',
+      'Unit, integration and end-to-end tests',
+      'Static analysis and security: CodeQL, Sonar, dependency scans',
+      'Builds, bundle budgets, performance and accessibility checks',
+      'Same answer every time — not negotiable, not persuadable',
+    ],
+  },
+];
+
+const flow = [
+  { who: 'Human', step: 'Intent' },
+  { who: 'Agents', step: 'Build' },
+  { who: 'Gates', step: 'Pass / fail', loop: true },
+  { who: 'Human', step: 'Use & approve' },
+  { who: 'All', step: 'Ship & learn' },
+];
+
+const corners = [
+  'Skipping the tests “just this once” because the agent said it works',
+  'Disabling a lint rule or suppressing a warning instead of fixing the cause',
+  'Merging without ever clicking through the feature yourself',
+  'Accepting generated code nobody on the team could explain',
+  'Letting architecture drift because each change looked fine on its own',
+  'Shipping the happy path and calling the edge cases “later”',
 ];
 
 const frictions = [
   {
-    title: 'Gates sized for human output',
-    text: 'An agent can produce a working change in minutes. It then waits days for a ticket refinement, a review slot, a change-advisory board and a release train — all designed around the pace of people. The speedup disappears into the queue.',
+    title: 'Human gates sized for human output',
+    text: 'An agent can produce a working change in minutes, and automated checks can verify it in minutes more. It then waits days for a ticket refinement, a review slot, a change-advisory board and a release train — all designed around the pace of people. The speedup disappears into the queue.',
   },
   {
     title: 'Context locked in heads and meetings',
@@ -39,23 +96,24 @@ const frictions = [
 
 const redesign = [
   'Define intent and acceptance criteria up front — clear enough that an agent can tell when it is done.',
-  'Make verification automatic: tests, types, evals and previews become the first reviewer.',
+  'Invest in the gates before the agents: strict linting, types, tests, CodeQL/Sonar and preview builds on every change.',
   'Write context down where agents can read it: conventions, decisions, architecture, product principles.',
   'Give agents real, scoped environments — safe to run unattended, easy to throw away.',
+  'Move human review from the diff to the product: previews, real devices, real data, real edge cases.',
   'Keep teams small and ownership end to end, so the loop from idea to shipped isn’t split across handoffs.',
-  'Spend human time where it matters most: framing the problem, taste, trade-offs and accountability.',
 ];
 ---
 
 <Base
   title="The loop is moving — maxscopp"
-  description="How AI in software development is shifting from human-in-the-loop assistance to orchestrated agent workflows — and why forcing AI into existing enterprise processes rarely delivers."
+  description="How AI in software development is shifting from human-in-the-loop assistance to orchestrated agent workflows — why static quality gates matter more than ever, where humans belong, and why bolting AI onto enterprise processes rarely delivers."
 >
   <article class="container page">
     <PageHead eyebrow="Essay · Future of AI in development" title="The loop is moving." accent="Are you moving with it?">
-      Most teams use AI as a faster pair of hands. The bigger shift is structural: the human steps
-      out of every keystroke and into direction. That changes how work should be organised — and
-      it’s why bolting AI onto yesterday’s workflows rarely pays off.
+      Most teams use AI as a faster pair of hands. The bigger shift is structural: people step out
+      of every keystroke and into direction and judgment, agents take over execution, and automated
+      gates hold the line on quality. Getting those three roles right — and not confusing them — is
+      the whole game.
     </PageHead>
 
     <div class="prose">
@@ -78,12 +136,9 @@ const redesign = [
         <p>
           In <strong>{CAO.long}</strong> ({CAO.short}) workflows, the human moves from{' '}
           <em>in</em> the loop to <em>above</em> it. You define the intent, the constraints and what
-          “good” looks like. Agents break the work down, run in parallel, test and verify, and come
-          back with results — not suggestions. You review outcomes, steer, and decide.
-        </p>
-        <p>
-          Human judgment doesn’t disappear. It gets concentrated where it has the most leverage:
-          choosing the right problem, setting the bar, and owning the decision to ship.
+          “good” looks like. Agents break the work down, run in parallel and come back with results —
+          not suggestions. Automated gates decide whether a change is even allowed to exist. You
+          decide whether it is worth shipping.
         </p>
       </section>
     </div>
@@ -113,7 +168,130 @@ const redesign = [
 
     <div class="prose">
       <section data-reveal>
-        <h2><span class="num mono">03</span>Why forcing AI into enterprise workflows gets clunky</h2>
+        <h2><span class="num mono">03</span>Three roles, clearly separated</h2>
+        <p>
+          The mistake is treating “AI” as one blob that replaces everything. In practice there are
+          three distinct parties, and each is good at something the others are not. Blur them and you
+          get either a human bottleneck or an unsupervised slop machine.
+        </p>
+      </section>
+    </div>
+
+    <ol class="flow" aria-label="The loop, step by step" data-reveal>
+      {
+        flow.map((f) => (
+          <li class:list={[f.loop && 'loop']}>
+            <span class="who mono">{f.who}</span>
+            <span class="step">{f.step}</span>
+            {f.loop && <span class="back mono">fail → back to agents</span>}
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="lanes">
+      {
+        lanes.map((l, i) => (
+          <section class="lane" data-reveal style={`--i:${i}`}>
+            <span class="tag mono">{l.tag}</span>
+            <h3>{l.title}</h3>
+            <p class="lead">{l.lead}</p>
+            <ul>
+              {l.items.map((it) => (
+                <li>{it}</li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+    </div>
+
+    <div class="prose">
+      <section data-reveal>
+        <h2><span class="num mono">04</span>The gates still matter — more than ever</h2>
+        <p>
+          A model can spot many of the same patterns as CodeQL, Sonar, a linter or a test suite. That
+          doesn’t make those tools obsolete. It makes them more valuable. They are deterministic: the
+          same input gets the same verdict, every time, in seconds, for almost no cost. They don’t get
+          tired, don’t get talked out of a finding, and don’t have a good or bad day.
+        </p>
+        <p>
+          That is exactly what you want from a minimum bar. CI/CD becomes a continuous,
+          black-or-white approval on every change: it builds, the types hold, the tests pass, nothing
+          known-vulnerable slipped in, or it doesn’t merge. Agents are great at <em>clearing</em> that
+          bar — feed them the failures and they fix them. They are a poor substitute for
+          <em> being</em> the bar.
+        </p>
+        <p>
+          And a guaranteed floor is what frees people up. When you trust that nothing below the line
+          ships, your attention goes where it should: the product. You can go into the details,
+          iterate more, and iterate faster — without re-checking the basics every time.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">05</span>Where the human belongs: usage approval</h2>
+        <p>
+          With gates guarding the code and agents producing it, line-by-line PR review becomes much
+          less of a focus. Spot checks still matter; reading every diff doesn’t scale and mostly
+          duplicates what the tools already verify. The human’s approval moves up a level — from
+          “is this code acceptable?” to “is this product right?”
+        </p>
+        <p>
+          That means actually using it. Click through the flow on a real device. Try the empty
+          state, the error state, the slow network, the absurd input, the second user, the keyboard
+          only. Ask how someone who has never seen it would read that label. Notice what feels off
+          even when every check is green. Automation can tell you the product works as specified;
+          only a person can tell you it works for people.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">06</span>Every corner cut is a move into slop</h2>
+        <p>
+          With agents, corners can be cut at every angle — and each one looks harmless in isolation.
+          It’s faster to skip a step, the output looks plausible, and nothing breaks today.
+        </p>
+      </section>
+    </div>
+
+    <ul class="corners" data-reveal>
+      {corners.map((c) => <li>{c}</li>)}
+    </ul>
+
+    <div class="prose">
+      <section data-reveal>
+        <blockquote>
+          Corners can be cut at every angle. But every corner cut is a move into slop — and slop
+          compounds faster than you can generate it.
+        </blockquote>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">07</span>A cautionary tale: more, faster, messier</h2>
+        <p>
+          For the first time, most teams are no longer blocked by output. Code, pull requests and
+          features can be produced almost on demand. The natural reaction is to lean in: more
+          features, even faster, then even more. Velocity charts look incredible.
+        </p>
+        <p>
+          And then the product stops making sense. Features overlap, flows contradict each other,
+          nobody remembers why something exists, and every new change is built on a layer nobody
+          fully understands. The team didn’t slow down — it just stopped noticing the mess it was
+          shipping.
+        </p>
+        <p>
+          The lesson is old, and still invaluable: test, and keep up. Know what you have before you
+          add more. The static tools help here too — not as a verdict on individual changes, but as a
+          rough compass. Coverage, complexity, duplication and hotspots tell you where the product
+          really stands as something you’d ship, and whether it’s still maintainable: a codebase
+          developers can read, understand and get into the weeds of when they need to. Because
+          eventually, someone always needs to.
+        </p>
+      </section>
+
+      <section data-reveal>
+        <h2><span class="num mono">08</span>Why forcing AI into enterprise workflows gets clunky</h2>
         <p>
           Most large organisations are adopting AI the same way: take the existing process — tickets,
           handoffs, approvals, sprint ceremonies — and add an assistant to each step. It feels safe
@@ -149,27 +327,20 @@ const redesign = [
       </section>
 
       <section data-reveal>
-        <h2><span class="num mono">04</span>What works instead</h2>
+        <h2><span class="num mono">09</span>What works instead</h2>
         <p>
           The teams that get step changes don’t add AI to their workflow — they rebuild the workflow
-          around what agents are good at, and put people where people are irreplaceable.
+          so that people, agents and gates each do what they are best at.
         </p>
         <ol class="checklist">
           {redesign.map((r) => <li>{r}</li>)}
         </ol>
         <p>
           Start small and end to end: one product, one team, one value stream redesigned properly
-          beats AI sprinkled across a hundred unchanged processes.
-        </p>
-      </section>
-
-      <section data-reveal>
-        <h2><span class="num mono">05</span>What stays human</h2>
-        <p>
-          Knowing which problem is worth solving. Taste. Trade-offs between speed, quality and risk.
-          Empathy for the people using the thing. And accountability when it ships. The more work
-          agents take on, the more these become the job — which is exactly why I design and build
-          this way.
+          beats AI sprinkled across a hundred unchanged processes. The more work agents take on, the
+          more the human part — taste, judgment, empathy for the people using the thing, and
+          accountability when it ships — becomes the job. That is exactly why I design and build this
+          way.
         </p>
       </section>
 
@@ -255,6 +426,129 @@ const redesign = [
     color: var(--ink-2);
   }
 
+  /* Flow: intent → build → gates (loop) → use & approve → ship */
+  .flow {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 40px 0 24px;
+    padding: 0;
+    list-style: none;
+  }
+  .flow li {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 12px 20px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .flow li:not(:last-child)::after {
+    content: '→';
+    position: absolute;
+    right: -8px;
+    top: 50%;
+    translate: 50% -50%;
+    z-index: 1;
+    font-size: 12px;
+    color: var(--ink-3);
+  }
+  .flow li:not(:last-child) {
+    margin-right: 12px;
+  }
+  .who {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .step {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .flow .loop {
+    border-color: var(--tint-line);
+    background: var(--tint);
+  }
+  .flow .loop .who,
+  .back {
+    color: var(--violet);
+  }
+  .back {
+    font-size: 10px;
+  }
+
+  .lanes {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 72px;
+  }
+  .lane {
+    padding: 26px 26px 22px;
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .tag {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--tint);
+    color: var(--violet);
+    font-size: 10.5px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+  .lane h3 {
+    margin-top: 16px;
+    font-size: 18px;
+    font-weight: 500;
+    letter-spacing: -0.015em;
+  }
+  .lead {
+    margin-top: 6px;
+    font-size: 14px;
+    color: var(--ink-2);
+  }
+  .lane ul {
+    margin: 16px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .lane li {
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+
+  .corners {
+    max-width: 680px;
+    margin: 24px 0 40px;
+    padding: 0;
+    list-style: none;
+  }
+  .corners li {
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    padding: 11px 0;
+    border-top: 1px solid var(--line);
+    font-size: 16px;
+    color: var(--ink-2);
+  }
+  .corners li:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+  .corners li::before {
+    content: '×';
+    font-family: var(--mono);
+    color: var(--violet);
+  }
+
   .frictions {
     max-width: 820px;
     margin: 32px 0 56px;
@@ -280,11 +574,6 @@ const redesign = [
     font-size: 15px;
     line-height: 1.65;
     color: var(--ink-2);
-  }
-  @media (max-width: 640px) {
-    .frictions li {
-      grid-template-columns: 1fr;
-    }
   }
 
   blockquote {
@@ -339,7 +628,32 @@ const redesign = [
     font-size: 15px;
     color: var(--ink);
   }
-  @media (max-width: 560px) {
+
+  @media (max-width: 900px) {
+    .lanes {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 640px) {
+    .frictions li {
+      grid-template-columns: 1fr;
+    }
+    .flow {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .flow li:not(:last-child) {
+      margin-right: 0;
+      margin-bottom: 12px;
+    }
+    .flow li:not(:last-child)::after {
+      content: '↓';
+      right: auto;
+      left: 24px;
+      top: auto;
+      bottom: -10px;
+      translate: 0 50%;
+    }
     .end {
       border-radius: 28px;
     }
