@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { links } from '../data/site';
+---
+
+<Base title="Contact — maxscopp">
+  <div class="container page">
+    <PageHead eyebrow="Let’s build something" title="Have an idea?" accent="Let’s make it real.">
+      I’m always excited about new projects, interesting people and challenging ideas — whether
+      it’s a product, an open source collaboration or just a good conversation.
+    </PageHead>
+
+    <div class="actions" data-reveal>
+      <a class="btn btn--solid" href={links.email}>
+        <Icon name="mail" size={16} /> me@maxscopp.de
+      </a>
+      <a class="btn" href={links.linkedin}><Icon name="linkedin" size={16} /> LinkedIn</a>
+      <a class="btn" href={links.github}><Icon name="github" size={16} /> GitHub</a>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+</style>

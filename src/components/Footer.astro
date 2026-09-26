@@ -6,12 +6,11 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="container footer">
-  <a class="brand" href="/">maxscopp</a>
-  <span class="mono small">© {year} · designed &amp; built by a human, with AI</span>
+  <span class="mono small">© {year} maxscopp · designed &amp; built by a human, with AI</span>
   <ul>
     <li><a href={links.github}><Icon name="github" size={15} /> GitHub</a></li>
     <li><a href={links.linkedin}><Icon name="linkedin" size={15} /> LinkedIn</a></li>
-    <li><a href={links.email}><Icon name="mail" size={15} /> Contact</a></li>
+    <li><a href={links.email}><Icon name="mail" size={15} /> Email</a></li>
   </ul>
 </footer>
 
@@ -23,10 +22,6 @@ const year = new Date().getFullYear();
     gap: 16px 32px;
     padding: 28px 0 40px;
     border-top: 1px solid var(--line);
-  }
-  .brand {
-    font-weight: 500;
-    letter-spacing: -0.02em;
   }
   .small {
     font-size: 11px;

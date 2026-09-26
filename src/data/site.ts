@@ -4,6 +4,13 @@ export const links = {
   email: 'mailto:me@maxscopp.de',
 };
 
+export const nav: { label: string; short?: string; href: string }[] = [
+  { label: 'Work', href: '/work' },
+  { label: 'Process', href: '/process' },
+  { label: 'Open Source', short: 'OSS', href: '/open-source' },
+  { label: 'Future of AI', short: 'AI', href: '/future-of-ai' },
+];
+
 export const focusAreas = [
   'Product Thinking',
   'UX / UI Design',

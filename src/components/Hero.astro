@@ -4,124 +4,144 @@ import { focusAreas } from '../data/site';
 import { sparkle } from '../lib/ascii';
 
 const art = sparkle(84, 42);
-const stages = ['Idea', 'Design', 'Build', 'Ship', 'Open Source'];
 ---
 
 <section class="hero container">
   <div class="copy">
-    <p class="eyebrow" data-reveal>AI-Native</p>
+    <a class="note" href="/future-of-ai" data-reveal>
+      <span class="dot"></span>
+      From human-in-the-loop to orchestration
+      <Icon name="arrow" size={14} />
+    </a>
     <h1 data-reveal style="--i:1">
-      Product<br /><span class="gradient-text">Designer</span>
+      <span class="kicker">AI-Native</span>
+      Product <span class="gradient-text">Designer</span>
     </h1>
-    <p class="formula" data-reveal style="--i:2">Design <span>×</span> Engineering <span>×</span> AI</p>
+    <p class="formula" data-reveal style="--i:2">
+      Design <span>×</span> Engineering <span>×</span> AI
+    </p>
     <p class="intro" data-reveal style="--i:3">
-      I design and build digital products end to end — using AI to accelerate exploration,{' '}
-      <strong>execution</strong> and iteration, with human judgment at the center.
+      I take ideas from concept to finished product — combining product thinking, design and
+      engineering with AI-native workflows. AI accelerates the work;{' '}
+      <strong>human judgment stays at the center.</strong>
     </p>
     <div class="actions" data-reveal style="--i:4">
-      <a class="btn btn--dark" href="#work">View my work <Icon name="arrow" size={16} /></a>
-      <a class="btn" href="#contact">Get in touch</a>
+      <a class="btn btn--solid" href="/work">View my work <Icon name="arrow" size={16} /></a>
+      <a class="btn" href="/contact">Get in touch</a>
     </div>
+    <ul class="focus mono" data-reveal style="--i:5">
+      {focusAreas.map((f) => <li>{f}</li>)}
+    </ul>
   </div>
 
-  <div class="art" aria-hidden="true">
-    <pre class="texture code"><span class="ln">01</span>  <span class="c">// turn ideas</span>
-<span class="ln">02</span>  <span class="c">// into real things</span>
-<span class="ln">03</span>
-<span class="ln">04</span>  <span class="k">const</span> product =
-<span class="ln">05</span>    <span class="k">design</span>(idea)
-<span class="ln">06</span>    .withAI()
-<span class="ln">07</span>    .<span class="k">refine</span>(human);
-<span class="ln">08</span></pre>
-    <pre class="texture star">{art}</pre>
-    <ol class="stages texture">
-      {stages.map((s) => <li>{s}</li>)}
-    </ol>
-  </div>
-
-  <ul class="focus" data-reveal style="--i:5">
-    {focusAreas.map((f) => <li>{f}</li>)}
-  </ul>
+  <pre class="texture star" aria-hidden="true">{art}</pre>
 </section>
 
 <style>
   .hero {
     position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-    gap: 0 32px;
-    padding-top: clamp(40px, 7vw, 72px);
-    padding-bottom: 56px;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding-block: 120px 64px;
   }
   .copy {
     position: relative;
     z-index: 1;
+    max-width: 640px;
+  }
+  .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 14px 6px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--line);
+    background: var(--surface-glass);
+    font-size: 13px;
+    color: var(--ink-2);
+    transition: border-color 0.2s;
+  }
+  .note:hover {
+    border-color: var(--line-2);
+    color: var(--ink);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gradient);
   }
   h1 {
-    margin-top: 18px;
-    font-size: clamp(56px, 9vw, 104px);
+    margin-top: 28px;
+    font-size: clamp(52px, 8.4vw, 100px);
     font-weight: 600;
     letter-spacing: -0.045em;
-    line-height: 0.92;
+    line-height: 0.95;
+  }
+  .kicker {
+    display: block;
+    margin-bottom: 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--violet);
   }
   h1 .gradient-text {
-    /* keeps descenders from being clipped by background-clip */
+    display: inline-block;
     padding-bottom: 0.08em;
   }
   .formula {
-    margin-top: 22px;
+    margin-top: 20px;
     font-size: clamp(20px, 2.2vw, 24px);
-    font-weight: 450;
     letter-spacing: -0.02em;
     color: var(--ink-3);
   }
   .formula span {
     color: var(--violet);
-    opacity: 0.7;
   }
   .intro {
     margin-top: 20px;
-    max-width: 42ch;
+    max-width: 46ch;
     font-size: 17px;
-    line-height: 1.6;
     color: var(--ink-2);
   }
   .intro strong {
     color: var(--ink);
-    font-weight: 600;
+    font-weight: 500;
   }
   .actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 14px;
-    margin-top: 32px;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 0;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+  .focus li {
+    white-space: nowrap;
+  }
+  .focus li:not(:last-child)::after {
+    content: '·';
+    margin-inline: 12px;
   }
 
-  .art {
-    position: relative;
-    min-height: 380px;
-  }
-  .code {
-    position: absolute;
-    top: 24px;
-    left: 0;
-    font-size: 12px;
-    line-height: 1.75;
-    color: #9a93ad;
-  }
-  .code .ln {
-    color: #cfc9dc;
-  }
-  .code .c {
-    color: #b3adc3;
-  }
-  .code .k {
-    color: #a855f7;
-  }
   .star {
     position: absolute;
-    top: -40px;
-    right: -2%;
+    top: 50%;
+    right: -4%;
+    translate: 0 -50%;
+    margin: 0;
     font-size: 10px;
     line-height: 1.15;
     letter-spacing: 0.08em;
@@ -130,87 +150,31 @@ const stages = ['Idea', 'Design', 'Build', 'Ship', 'Open Source'];
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
-    animation: shimmer 14s ease-in-out infinite alternate;
-    mask-image: radial-gradient(closest-side, #000 60%, transparent);
+    opacity: 0.75;
+    mask-image: radial-gradient(closest-side, #000 55%, transparent);
+    animation: shimmer 16s ease-in-out infinite alternate;
   }
   @keyframes shimmer {
     to {
       background-position: 100% 100%;
     }
   }
-  .stages {
-    position: absolute;
-    top: 24px;
-    right: -24px;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    font-size: 10.5px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    line-height: 1.5;
-    color: #b9b3c9;
-  }
-  .stages::before {
-    content: '';
-    display: block;
-    width: 18px;
-    height: 2px;
-    margin-bottom: 10px;
-    background: var(--gradient);
-  }
 
-  .focus {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px 36px;
-    margin: 56px 0 0;
-    padding: 0;
-    list-style: none;
-    font-size: 13px;
-    color: var(--ink-2);
-  }
-  .focus li {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-  }
-  .focus li::before {
-    content: '';
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--line-2);
-  }
-  .focus li:first-child::before {
-    background: var(--violet);
-  }
-
-  @media (max-width: 1100px) {
-    .stages {
-      display: none;
+  @media (max-width: 960px) {
+    .star {
+      right: -40%;
+      opacity: 0.35;
     }
   }
-  @media (max-width: 860px) {
+  @media (max-width: 600px) {
     .hero {
-      grid-template-columns: 1fr;
       overflow-x: clip;
-    }
-    .art {
-      position: absolute;
-      inset: 0 0 auto auto;
-      width: 100%;
-      min-height: 0;
-      opacity: 0.45;
-      pointer-events: none;
-    }
-    .code {
-      display: none;
+      padding-top: 104px;
     }
     .star {
-      right: -45%;
-      top: -60px;
+      top: 110px;
+      translate: none;
+      right: -55%;
       font-size: 8px;
     }
   }

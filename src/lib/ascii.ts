@@ -22,7 +22,7 @@ export function sparkle(cols = 64, rows = 34): string {
       const d = Math.pow(Math.abs(x), 0.55) + Math.pow(Math.abs(y), 0.55);
       let v = Math.max(0, 1 - d) * 2.4;
       // Faint halo of scattered dots around the star.
-      if (v === 0 && d < 1.45 && noise(c, r) > 0.9) v = 0.12;
+      if (v === 0 && d < 1.4 && noise(c, r) > 0.95) v = 0.12;
       v *= 0.75 + noise(r, c) * 0.5;
       const i = Math.min(RAMP.length - 1, Math.floor(v * RAMP.length));
       line += RAMP[i];
