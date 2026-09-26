@@ -129,6 +129,14 @@ const hookHtml = hookConfig
   })
   .join('\n');
 
+const lost = [
+  'Time to reflect: stepping back to ask whether the last feature actually worked',
+  'Seeing it in the real world — real data, real devices, real workflows, not the demo',
+  'Human A/B judgement: two versions side by side, and someone choosing with taste',
+  'Listening to users and watching testers — the pause, the wrong click, the sigh',
+  'The iteration after “it works”, where good becomes great',
+];
+
 const preview = [
   'A link for every change — or an installable build for apps, desktop and CLIs',
   'Its own data: migrations applied, realistic seed data, test accounts ready',
@@ -146,6 +154,7 @@ const redesign = [
   'Give agents real, scoped environments — safe to run unattended, easy to throw away.',
   'Give every change a preview — a link or an installable build, with data and secrets wired in — and a ping when it’s ready, so human review moves from the diff to the product.',
   'Keep teams small and ownership end to end, so the loop from idea to shipped isn’t split across handoffs.',
+  'Measure outcomes, not output: protect time to reflect, to watch real users and to compare options side by side — that’s where good becomes great.',
 ];
 ---
 
@@ -320,10 +329,38 @@ const redesign = [
           features, even faster, then even more. Velocity charts look incredible.
         </p>
         <p>
+          Nobody feels that pull more than the people whose job is to move things forward: dev
+          leads, project managers, stakeholders. They are usually the most motivated people in the
+          room, and for years their frustration was capacity. Suddenly capacity seems solved — the
+          whole roadmap looks reachable this quarter, and every conversation turns into “what else
+          can we ship?”
+        </p>
+        <p>
           And then the product stops making sense. Features overlap, flows contradict each other,
           nobody remembers why something exists, and every new change is built on a layer nobody
           fully understands. The team didn’t slow down — it just stopped noticing the mess it was
           shipping.
+        </p>
+
+        <aside class="lead-note" aria-label="A note for leads, project managers and stakeholders">
+          <span class="eyebrow">For leads, PMs and stakeholders</span>
+          <p>
+            When the only direction is forward, the things that make products great are the first to
+            go — quietly, because none of them show up on a velocity chart:
+          </p>
+          <ul>
+            {lost.map((item) => <li>{item}</li>)}
+          </ul>
+          <p class="lead-close">
+            Agents and gates can make a product work. Only people — reflecting, watching, listening,
+            comparing — make it magnificent.
+          </p>
+        </aside>
+
+        <p>
+          The speed is a gift, not a mandate. Use it to build two versions and compare them, to put
+          something in front of real users this afternoon instead of next month, to iterate on the
+          same feature three more times — not just to pile on the next ten.
         </p>
         <p>
           The lesson is old, and still invaluable: test, and keep up. Know what you have before you
@@ -678,6 +715,46 @@ const redesign = [
   }
   .code :global(.c) {
     color: var(--ink-3);
+  }
+
+  /* Note for leads, PMs and stakeholders */
+  .lead-note {
+    margin: 32px 0;
+    padding: 26px 28px;
+    border-radius: 28px;
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+  .prose .lead-note p {
+    margin-top: 12px;
+    font-size: 16px;
+  }
+  .lead-note ul {
+    margin: 14px 0 0;
+    padding: 0;
+    list-style: none;
+  }
+  .lead-note li {
+    display: grid;
+    grid-template-columns: 22px 1fr;
+    padding: 9px 0;
+    border-top: 1px solid var(--line);
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .lead-note li::before {
+    content: '—';
+    color: var(--violet);
+  }
+  .prose .lead-note .lead-close {
+    margin-top: 18px;
+    padding-top: 16px;
+    border-top: 1px solid var(--line);
+    font-size: 18px;
+    line-height: 1.45;
+    letter-spacing: -0.01em;
+    color: var(--ink);
   }
 
   .ready {
