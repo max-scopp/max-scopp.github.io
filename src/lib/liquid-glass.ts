@@ -1,19 +1,23 @@
 /**
- * Liquid glass — a framework-free port of the refraction kernel from
- * liqui.design (@liqui-design/glass, MIT © 2026 Fan Li,
- * https://github.com/leefanv/liqui-design).
+ * Liquid glass — refraction kernel ported from liqui.design
+ * (@liqui-design/glass, MIT © 2026 Fan Li, https://github.com/leefanv/liqui-design),
+ * extended into a stacked, region-aware material.
  *
- * Each `.lg` element gets a single backdrop-filter chain:
- *   url(#filter) (SVG displacement = refraction) → blur (frost) → saturate
- * Refracting first bends the sharp backdrop through the convex bezel; the frost
- * then scatters it — blurring first would erase the detail the lens bends.
- * with the tint as its own background. No shadows or rim highlights.
+ * Every `.lg` surface gets a single `backdrop-filter: url(#id)`. The SVG filter
+ * stacks the material in passes over the backdrop:
+ *
+ *   1. refraction — feDisplacementMap through a convex bezel (map R/B channels)
+ *   2. inner      — light frost blur, mild saturation (the flat centre)
+ *   3. outer      — nearly clear, strongly saturated (the bezel)
+ *   4. stack      — outer over inner through the rim mask (map G channel)
+ *   5. tint       — frost wash, full in the centre and thinner on the rim
  *
  * The displacement map is rendered per surface size on a canvas: a rounded-rect
  * signed distance field gives depth + outward normal per pixel, and a lookup
  * table built from a convex glass profile (Snell's law, n = 1.5) gives the
- * refraction magnitude across the bezel. The map feeds an feDisplacementMap
- * that is applied via `backdrop-filter: url(#id)`.
+ * refraction magnitude across the bezel. The bezel is clamped to the shape so
+ * the lens profile always completes before the centre — a bezel wider than half
+ * the surface would flip the displacement at the centre line and tear it.
  *
  * Refraction only renders in Chromium; Safari and Firefox keep the frosted
  * fallback that the CSS provides by default.
@@ -21,14 +25,14 @@
 
 type Profile = 'squircle' | 'convex' | 'rim';
 
-/** Material settings (liqui.design playground values). */
 export const GLASS = {
   profile: 'convex' as Profile,
-  refraction: 60, // px — feDisplacementMap scale
-  bezel: 20, // px — width of the refracting rim
-  dispersion: 0, // chromatic split; 0 = single pass
-  // frost (0.7), blur (1px), specular (0) and saturation (1.7) are expressed
-  // in CSS: see the --lg-* tokens in global.css.
+  refraction: 60, // px — displacement scale through the bezel
+  bezel: 12, // px — width of the curved rim (clamped to fit the shape)
+  dispersion: 0, // chromatic split; 0 = single refraction pass
+  inner: { blur: 2.5, saturation: 1.2 }, // flat centre: light frost
+  outer: { blur: 0.5, saturation: 2.4 }, // bezel: clearer and more saturated
+  rimTint: 0.35, // tint strength on the rim, relative to the centre
 };
 
 const SVG_NS = 'http://www.w3.org/2000/svg';
@@ -73,18 +77,27 @@ function refractionLUT(profile: Profile): Float32Array {
   return mag;
 }
 
+const smoothstep = (x: number) => {
+  const t = Math.min(Math.max(x, 0), 1);
+  return t * t * (3 - 2 * t);
+};
+
+/** The bezel can't be wider than the shape allows, or the lens never completes. */
+const fitBezel = (w: number, h: number) => Math.max(1, Math.min(GLASS.bezel, (Math.min(w, h) / 2) * 0.75));
+
 const mapCache = new Map<string, string>();
 
 /**
- * R encodes horizontal displacement, B vertical, 128 is neutral. Pixels sample
- * toward the centre (convex-lens edge magnification).
+ * R = horizontal displacement, B = vertical (128 is neutral), sampling toward
+ * the centre (convex-lens edge magnification). G = rim mask: 255 at the outer
+ * edge, easing to 0 where the bezel meets the flat centre.
  */
-function displacementMap(fullW: number, fullH: number, fullRadius: number, fullBezel: number, lut: Float32Array) {
+function glassMap(fullW: number, fullH: number, fullRadius: number, fullBezel: number, lut: Float32Array) {
   const key = `${fullW}x${fullH}r${fullRadius}b${fullBezel}`;
   const hit = mapCache.get(key);
   if (hit) return hit;
 
-  // Large surfaces render at half resolution; the field is smooth.
+  // Large surfaces render at half resolution; both fields are smooth.
   const scale = fullW * fullH > 32000 ? 0.5 : 1;
   const w = Math.ceil(fullW * scale);
   const h = Math.ceil(fullH * scale);
@@ -109,7 +122,7 @@ function displacementMap(fullW: number, fullH: number, fullRadius: number, fullB
 
       // Signed distance to the rounded-rect boundary (negative inside).
       const sd = Math.hypot(Math.max(qx, 0), Math.max(qy, 0)) + Math.min(Math.max(qx, qy), 0) - r;
-      const depth = -sd;
+      const d = -sd / bezel; // 0 at the edge, 1 where the bezel ends
 
       let nx = 0;
       let ny = 0;
@@ -123,13 +136,13 @@ function displacementMap(fullW: number, fullH: number, fullRadius: number, fullB
         ny = Math.sign(py);
       }
 
-      const d = depth / bezel;
       const inRim = d >= 0 && d < 1;
       const mag = inRim ? lut[Math.min(Math.round(d * (LUT_SIZE - 1)), LUT_SIZE - 1)] : 0;
+      const rim = d < 0 ? 1 : 1 - smoothstep(d);
 
       const i = (y * w + x) * 4;
       data[i] = Math.round(128 - nx * mag * 127);
-      data[i + 1] = 128;
+      data[i + 1] = Math.round(rim * 255);
       data[i + 2] = Math.round(128 - ny * mag * 127);
       data[i + 3] = 255;
     }
@@ -139,6 +152,23 @@ function displacementMap(fullW: number, fullH: number, fullRadius: number, fullB
   const url = canvas.toDataURL();
   mapCache.set(key, url);
   return url;
+}
+
+/**
+ * Saturation matrix with the alpha row forced to 1. feColorMatrix works on
+ * un-premultiplied colour, so this also re-normalises blurred pixels near the
+ * edge, which would otherwise be darkened by the transparent area outside the
+ * backdrop.
+ */
+function saturate(s: number): string {
+  return [
+    0.213 + 0.787 * s, 0.715 - 0.715 * s, 0.072 - 0.072 * s, 0, 0,
+    0.213 - 0.213 * s, 0.715 + 0.285 * s, 0.072 - 0.072 * s, 0, 0,
+    0.213 - 0.213 * s, 0.715 - 0.715 * s, 0.072 + 0.928 * s, 0, 0,
+    0, 0, 0, 0, 1,
+  ]
+    .map((v) => +v.toFixed(4))
+    .join(' ');
 }
 
 let host: SVGSVGElement | null = null;
@@ -151,8 +181,10 @@ function svg(name: string, attrs: Record<string, string | number>) {
   return node;
 }
 
-function ensureFilter(w: number, h: number, mapHref: string): string {
-  const key = `${w}x${h}|${mapHref.length}:${mapHref.slice(-24)}`;
+type Tint = { color: string; alpha: number };
+
+function ensureFilter(w: number, h: number, mapHref: string, tint: Tint): string {
+  const key = `${w}x${h}|${tint.color}/${tint.alpha}|${mapHref.length}:${mapHref.slice(-24)}`;
   const existing = filterIds.get(key);
   if (existing) return existing;
 
@@ -162,7 +194,7 @@ function ensureFilter(w: number, h: number, mapHref: string): string {
     document.body.appendChild(host);
   }
 
-  const id = `lg-refract-${nextId++}`;
+  const id = `lg-glass-${nextId++}`;
   const filter = svg('filter', {
     id,
     x: 0,
@@ -172,12 +204,13 @@ function ensureFilter(w: number, h: number, mapHref: string): string {
     filterUnits: 'userSpaceOnUse',
     'color-interpolation-filters': 'sRGB',
   });
-  const image = svg('feImage', { x: 0, y: 0, width: w, height: h, result: 'map' });
-  image.setAttribute('href', mapHref);
-  filter.appendChild(image);
+  const add = (name: string, attrs: Record<string, string | number>) => filter.appendChild(svg(name, attrs));
 
+  add('feImage', { x: 0, y: 0, width: w, height: h, result: 'map', href: mapHref });
+
+  // 1. Refraction through the convex bezel.
   const displace = (scale: number, result: string) =>
-    svg('feDisplacementMap', {
+    add('feDisplacementMap', {
       in: 'SourceGraphic',
       in2: 'map',
       scale,
@@ -185,62 +218,97 @@ function ensureFilter(w: number, h: number, mapHref: string): string {
       yChannelSelector: 'B',
       result,
     });
-
-  const { refraction, dispersion } = GLASS;
+  const { refraction, dispersion, inner, outer, rimTint } = GLASS;
   if (dispersion > 0) {
-    const isolate = {
+    const only = {
       R: '1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0',
       G: '0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0',
       B: '0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0',
     };
     (['R', 'G', 'B'] as const).forEach((c, i) => {
-      filter.appendChild(displace(refraction * (1 + (i - 1) * dispersion), `d${c}`));
-      filter.appendChild(svg('feColorMatrix', { in: `d${c}`, values: isolate[c], result: `c${c}` }));
+      displace(refraction * (1 + (i - 1) * dispersion), `d${c}`);
+      add('feColorMatrix', { in: `d${c}`, values: only[c], result: `c${c}` });
     });
-    filter.appendChild(svg('feComposite', { in: 'cR', in2: 'cG', operator: 'arithmetic', k2: 1, k3: 1, result: 'cRG' }));
-    filter.appendChild(svg('feComposite', { in: 'cRG', in2: 'cB', operator: 'arithmetic', k2: 1, k3: 1 }));
+    add('feComposite', { in: 'cR', in2: 'cG', operator: 'arithmetic', k2: 1, k3: 1, result: 'cRG' });
+    add('feComposite', { in: 'cRG', in2: 'cB', operator: 'arithmetic', k2: 1, k3: 1, result: 'refracted' });
   } else {
-    filter.appendChild(displace(refraction, 'out'));
+    displace(refraction, 'refracted');
   }
+
+  // 2 + 3. Inner (frosted) and outer (clear, saturated) passes.
+  for (const [name, pass] of [['inner', inner], ['outer', outer]] as const) {
+    let src = 'refracted';
+    if (pass.blur > 0) {
+      add('feGaussianBlur', { in: src, stdDeviation: pass.blur, result: `${name}Blur` });
+      src = `${name}Blur`;
+    }
+    add('feColorMatrix', { in: src, type: 'matrix', values: saturate(pass.saturation), result: name });
+  }
+
+  // 4. Stack the outer pass over the inner one through the rim mask (map G → alpha).
+  add('feColorMatrix', { in: 'map', type: 'matrix', values: '0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 1 0 0 0', result: 'rim' });
+  add('feComposite', { in: 'outer', in2: 'rim', operator: 'in', result: 'outerRim' });
+  add('feComposite', { in: 'outerRim', in2: 'inner', operator: 'over', result: 'glass' });
+
+  // 5. Tint: full strength in the centre, `rimTint` of it at the outer edge.
+  const fade = +(1 - rimTint).toFixed(3);
+  add('feColorMatrix', { in: 'map', type: 'matrix', values: `0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 ${-fade} 0 0 1`, result: 'tintMask' });
+  add('feFlood', { 'flood-color': tint.color, 'flood-opacity': tint.alpha, result: 'wash' });
+  add('feComposite', { in: 'wash', in2: 'tintMask', operator: 'in', result: 'tint' });
+  add('feComposite', { in: 'tint', in2: 'glass', operator: 'over' });
 
   host.appendChild(filter);
   filterIds.set(key, id);
   return id;
 }
 
-/** Frost (blur) and saturation applied after the refraction in the chain. */
-const FROST = 'blur(10.8px) saturate(1.7)';
+/** Tint colour and alpha come from the --lg-tint tokens, so they follow the theme. */
+function readTint(el: HTMLElement): Tint {
+  const style = getComputedStyle(el);
+  const [r = '255', g = '255', b = '255'] = style.getPropertyValue('--lg-tint').trim().split(/[\s,]+/);
+  const alpha = parseFloat(style.getPropertyValue('--lg-tint-a')) || 0.3;
+  return { color: `rgb(${r},${g},${b})`, alpha };
+}
 
 /** Upgrade every `.lg` surface on the page to refraction where supported. */
 export function initLiquidGlass() {
   if (!supportsRefraction()) return;
   const lut = refractionLUT(GLASS.profile);
+  const refreshers: (() => void)[] = [];
 
   document.querySelectorAll<HTMLElement>('.lg').forEach((el) => {
     let last = '';
-    const apply = async (w: number, h: number) => {
+    const apply = async (force = false) => {
+      const w = el.offsetWidth; // layout size, unaffected by transforms
+      const h = el.offsetHeight;
       if (w <= 0 || h <= 0) return;
       const radius = parseFloat(getComputedStyle(el).borderTopLeftRadius) || 0;
-      const key = `${w}x${h}r${radius}`;
-      if (key === last) return;
+      const bezel = fitBezel(w, h);
+      const tint = readTint(el);
+      const key = `${w}x${h}r${radius}b${bezel}|${tint.color}/${tint.alpha}`;
+      if (key === last && !force) return;
       last = key;
 
-      const map = displacementMap(w, h, radius, GLASS.bezel, lut);
-      // Chromium treats the whole backdrop-filter chain as inert while an
-      // feImage is still decoding, so decode the map first and only then swap
-      // the frosted fallback for the refracting chain.
+      const map = glassMap(w, h, radius, bezel, lut);
+      // Chromium treats the whole backdrop-filter as inert while an feImage is
+      // still decoding, so decode the map first and only then swap the frosted
+      // fallback for the refracting filter.
       const img = new Image();
       img.src = map;
       await img.decode().catch(() => {});
       if (key !== last) return; // resized again meanwhile
 
-      const chain = `url(#${ensureFilter(w, h, map)}) ${FROST}`;
-      el.style.setProperty('-webkit-backdrop-filter', chain);
-      el.style.setProperty('backdrop-filter', chain);
+      const filter = `url(#${ensureFilter(w, h, map, tint)})`;
+      el.style.setProperty('-webkit-backdrop-filter', filter);
+      el.style.setProperty('backdrop-filter', filter);
+      el.classList.add('lg--refract');
     };
 
-    // Layout sizes, unaffected by transforms (e.g. the reveal animation).
-    apply(el.offsetWidth, el.offsetHeight);
-    new ResizeObserver(() => apply(el.offsetWidth, el.offsetHeight)).observe(el);
+    apply();
+    new ResizeObserver(() => apply()).observe(el);
+    refreshers.push(() => apply(true));
   });
+
+  // Tint tokens change with the colour scheme.
+  matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => refreshers.forEach((f) => f()));
 }

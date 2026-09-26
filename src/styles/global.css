@@ -24,9 +24,9 @@
   --btn-bg: var(--ink);
   --btn-fg: #ffffff;
 
-  /* Liquid glass tint (liqui.design, frost 0.7) */
-  --lg-tint: rgb(255 255 255 / 0.372);
-  --lg-tint-deep: rgb(255 255 255 / 0.108);
+  /* Liquid glass tint (colour channels + alpha, read by liquid-glass.ts) */
+  --lg-tint: 255 255 255;
+  --lg-tint-a: 0.3;
 
   --gradient: linear-gradient(100deg, var(--violet), var(--fuchsia));
 
@@ -60,8 +60,8 @@
     --btn-bg: #f3f1f8;
     --btn-fg: #0c0b11;
 
-    --lg-tint: rgb(30 28 42 / 0.48);
-    --lg-tint-deep: rgb(16 14 24 / 0.31);
+    --lg-tint: 26 24 38;
+    --lg-tint-a: 0.42;
   }
 }
 
@@ -233,17 +233,17 @@ a {
 }
 
 /* Liquid glass surface.
-   A single backdrop-filter chain does the whole material:
-     url(#svg filter) (convex bezel refraction) → blur (frost) → saturate
-   The SVG filter is built per surface size by src/lib/liquid-glass.ts and
-   only swapped in once its displacement map has decoded. Until then — and in
-   browsers without SVG backdrop filters (Safari, Firefox) — the surface stays
-   frosted. frost 0.7 + blur 1px → 1 + 0.7 × 14 = 10.8px (2× for the fallback);
-   tint opacity 0.25 + 0.75 × 0.7 = 0.775, pre-multiplied into --lg-tint*. */
+   In Chromium, src/lib/liquid-glass.ts replaces this with a stacked SVG
+   backdrop filter — convex bezel refraction, a lightly frosted centre, a
+   clearer and more saturated rim, and the tint — and adds .lg--refract.
+   Safari and Firefox keep this frosted fallback. */
 .lg {
-  background: linear-gradient(135deg, var(--lg-tint), var(--lg-tint-deep));
-  -webkit-backdrop-filter: blur(21.6px) saturate(1.7);
-  backdrop-filter: blur(21.6px) saturate(1.7);
+  background: rgb(var(--lg-tint) / var(--lg-tint-a));
+  -webkit-backdrop-filter: blur(8px) saturate(1.6);
+  backdrop-filter: blur(8px) saturate(1.6);
+}
+.lg.lg--refract {
+  background: none;
 }
 
 /* Page scaffolding (all pages except home) */
