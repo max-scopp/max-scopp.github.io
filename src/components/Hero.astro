@@ -1,5 +1,6 @@
 ---
 import Icon from './Icon.astro';
+import GlassLayers from './GlassLayers.astro';
 import { focusAreas } from '../data/site';
 import { sparkle } from '../lib/ascii';
 
@@ -8,9 +9,10 @@ const art = sparkle(84, 42);
 
 <section class="hero container">
   <div class="copy">
-    <a class="note" href="/future-of-ai" data-reveal>
+    <a class="note lg" href="/future-of-ai" data-reveal>
+      <GlassLayers />
       <span class="dot"></span>
-      From human-in-the-loop to orchestration
+      <span>From human-in-the-loop to orchestration</span>
       <Icon name="arrow" size={14} />
     </a>
     <h1 data-reveal style="--i:1">
@@ -56,14 +58,11 @@ const art = sparkle(84, 42);
     gap: 10px;
     padding: 6px 14px 6px 10px;
     border-radius: 999px;
-    border: 1px solid var(--line);
-    background: var(--surface-glass);
     font-size: 13px;
     color: var(--ink-2);
-    transition: border-color 0.2s;
+    transition: color 0.2s;
   }
   .note:hover {
-    border-color: var(--line-2);
     color: var(--ink);
   }
   .dot {

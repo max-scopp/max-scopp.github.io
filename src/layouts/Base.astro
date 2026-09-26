@@ -41,6 +41,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     </main>
     <Footer />
     <script>
+      import { initLiquidGlass } from '../lib/liquid-glass';
+      initLiquidGlass();
+
       const io = new IntersectionObserver(
         (entries) => {
           for (const e of entries) {

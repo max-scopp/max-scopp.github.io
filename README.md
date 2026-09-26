@@ -21,6 +21,7 @@ npm run preview   # serve the production build locally
 | `src/components/`      | Shared pieces: floating nav, footer, hero, page header |
 | `src/styles/global.css`| Light/dark tokens, pill buttons, scroll reveal         |
 | `src/lib/ascii.ts`     | Build-time ASCII sparkle used in the hero              |
+| `src/lib/liquid-glass.ts` | Liquid glass refraction (port of liqui.design, MIT) |
 | `src/pages/`           | One file per route: home, work, process, open-source,  |
 |                        | contact, future-of-ai (essay), 404                     |
 | `public/`              | Static files copied as-is (favicon)                    |
