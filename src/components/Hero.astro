@@ -1,0 +1,185 @@
+---
+import Icon from './Icon.astro';
+import { focusAreas } from '../data/site';
+import { sparkle } from '../lib/ascii';
+
+const art = sparkle(84, 42);
+---
+
+<section class="hero container">
+  <div class="copy">
+    <a class="note" href="/future-of-ai" data-reveal>
+      <span class="dot"></span>
+      <span>From human-in-the-loop to orchestration</span>
+      <Icon name="arrow" size={14} />
+    </a>
+    <h1 data-reveal style="--i:1">
+      <span class="kicker">AI-Native</span>
+      Product <span class="gradient-text">Designer</span>
+    </h1>
+    <p class="formula" data-reveal style="--i:2">
+      Design <span>×</span> Engineering <span>×</span> AI
+    </p>
+    <p class="intro" data-reveal style="--i:3">
+      I take ideas from concept to finished product — combining product thinking, design and
+      engineering with AI-native workflows. AI accelerates the work;{' '}
+      <strong>human judgment stays at the center.</strong>
+    </p>
+    <div class="actions" data-reveal style="--i:4">
+      <a class="btn btn--solid" href="/work">View my work <Icon name="arrow" size={16} /></a>
+      <a class="btn" href="/contact">Get in touch</a>
+    </div>
+    <ul class="focus mono" data-reveal style="--i:5">
+      {focusAreas.map((f) => <li>{f}</li>)}
+    </ul>
+  </div>
+
+  <pre class="texture star" aria-hidden="true">{art}</pre>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: 100svh;
+    padding-block: 120px 64px;
+  }
+  .copy {
+    position: relative;
+    z-index: 1;
+    max-width: 640px;
+  }
+  .note {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--ink-2);
+    transition: color 0.2s;
+  }
+  .note:hover {
+    color: var(--ink);
+  }
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--gradient);
+  }
+  h1 {
+    margin-top: 28px;
+    font-size: clamp(52px, 8.4vw, 100px);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
+  }
+  .kicker {
+    display: block;
+    margin-bottom: 18px;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--violet);
+  }
+  h1 .gradient-text {
+    display: inline-block;
+    padding-bottom: 0.08em;
+  }
+  .formula {
+    margin-top: 20px;
+    font-size: clamp(20px, 2.2vw, 24px);
+    letter-spacing: -0.02em;
+    color: var(--ink-3);
+  }
+  .formula span {
+    color: var(--violet);
+  }
+  .intro {
+    margin-top: 20px;
+    max-width: 46ch;
+    font-size: 17px;
+    color: var(--ink-2);
+  }
+  .intro strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    margin: 48px 0 0;
+    padding: 0;
+    list-style: none;
+    font-size: 11.5px;
+    color: var(--ink-3);
+  }
+  .focus li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+  }
+  .focus li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--line-2);
+  }
+  .focus li:first-child::before {
+    background: var(--violet);
+  }
+
+  .star {
+    position: absolute;
+    top: 50%;
+    right: -4%;
+    translate: 0 -50%;
+    margin: 0;
+    font-size: 10px;
+    line-height: 1.15;
+    letter-spacing: 0.08em;
+    background: linear-gradient(135deg, #c4b5fd 10%, #a855f7 45%, #e879f9 70%, #c4b5fd 95%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    opacity: 0.75;
+    mask-image: radial-gradient(closest-side, #000 55%, transparent);
+    animation: shimmer 16s ease-in-out infinite alternate;
+  }
+  @keyframes shimmer {
+    to {
+      background-position: 100% 100%;
+    }
+  }
+
+  @media (max-width: 960px) {
+    .star {
+      right: -40%;
+      opacity: 0.35;
+    }
+  }
+  @media (max-width: 600px) {
+    .hero {
+      overflow-x: clip;
+      padding-top: 104px;
+    }
+    .star {
+      top: 110px;
+      translate: none;
+      right: -55%;
+      font-size: 8px;
+    }
+  }
+</style>

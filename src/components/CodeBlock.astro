@@ -1,0 +1,69 @@
+---
+// Build-time syntax highlighting via Shiki (Astro's <Code />), themed with the
+// site's own colour tokens through the css-variables theme (see --astro-code-*
+// in global.css), so it follows light/dark mode and ships no client JS.
+import { Code } from 'astro:components';
+import type { ComponentProps } from 'astro/types';
+
+interface Props {
+  code: string;
+  lang: ComponentProps<typeof Code>['lang'];
+  /** Optional file name shown above the code. */
+  title?: string;
+}
+
+const { code, lang, title } = Astro.props;
+---
+
+<figure class="codeblock">
+  {
+    title && (
+      <figcaption class="mono">
+        {title}
+        <span>{lang}</span>
+      </figcaption>
+    )
+  }
+  <Code code={code} lang={lang} theme="css-variables" />
+</figure>
+
+<style>
+  .codeblock {
+    margin: 20px 0 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    background: var(--surface);
+  }
+  figcaption {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 10px 22px;
+    border-bottom: 1px solid var(--line);
+    font-size: 11.5px;
+    color: var(--ink-2);
+  }
+  figcaption span {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .codeblock :global(pre) {
+    margin: 0;
+    padding: 18px 22px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .codeblock :global(pre:focus-visible) {
+    outline-offset: -2px;
+    border-radius: 18px;
+  }
+  @media (max-width: 640px) {
+    .codeblock :global(pre) {
+      font-size: 11.5px;
+    }
+  }
+</style>

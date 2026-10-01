@@ -1,0 +1,89 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import Icon from '../components/Icon.astro';
+import { process } from '../data/site';
+---
+
+<Base title="Process — maxscopp">
+  <div class="container page">
+    <PageHead eyebrow="How I work" title="Human direction." accent="AI acceleration.">
+      I use AI to explore faster, prototype earlier and automate the repetitive parts of the
+      process. The direction, taste and final decisions stay human.
+    </PageHead>
+
+    <ol class="steps">
+      {
+        process.map((s, i) => (
+          <li data-reveal style={`--i:${i}`}>
+            <span class="icon-tile">
+              <Icon name={s.icon} size={20} />
+            </span>
+            <span class="n mono">0{i + 1}</span>
+            <h2>{s.title}</h2>
+            <p>{s.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+
+    <a class="link more" href="/future-of-ai">
+      Where this is heading: from human-in-the-loop to orchestration <Icon name="arrow" size={16} />
+    </a>
+  </div>
+</Base>
+
+<style>
+  .steps {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .n {
+    display: block;
+    margin-top: 20px;
+    font-size: 11px;
+    color: var(--ink-3);
+  }
+  h2 {
+    margin-top: 4px;
+    font-size: 17px;
+    letter-spacing: -0.01em;
+  }
+  p {
+    margin-top: 6px;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-2);
+  }
+  .more {
+    display: block;
+    width: fit-content;
+    margin-top: 64px;
+  }
+  @media (max-width: 900px) {
+    .steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+  @media (max-width: 520px) {
+    .steps {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+    li {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      column-gap: 16px;
+    }
+    li .icon-tile {
+      grid-row: span 3;
+    }
+    .n {
+      margin-top: 0;
+    }
+  }
+</style>

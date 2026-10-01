@@ -1,0 +1,326 @@
+@import '@fontsource-variable/geist';
+@import '@fontsource-variable/geist-mono';
+
+:root {
+  color-scheme: light dark;
+
+  --bg: #fbfaff;
+  --surface: #ffffff;
+  --hover: rgb(124 58 237 / 0.04);
+  --ink: #0e0b1a;
+  --ink-2: #4a4659;
+  --ink-3: #8a8699;
+  --line: #ebe8f2;
+  --line-2: #dcd7e8;
+  --chip: #f4f2f8;
+  --texture: #c4bfd3;
+
+  --violet: #7c3aed;
+  --fuchsia: #c026d3;
+  --tint: #f3edff;
+  --tint-line: #ebe1ff;
+  --glow: rgb(124 58 237 / 0.09);
+
+  --btn-bg: var(--ink);
+  --btn-fg: #ffffff;
+
+  /* Syntax highlighting (Shiki css-variables theme, see CodeBlock.astro) */
+  --astro-code-foreground: var(--ink-2);
+  --astro-code-background: var(--surface);
+  --astro-code-token-keyword: var(--violet);
+  --astro-code-token-string: #b5179e;
+  --astro-code-token-string-expression: #b5179e;
+  --astro-code-token-constant: #2563eb;
+  --astro-code-token-function: #2563eb;
+  --astro-code-token-parameter: var(--ink);
+  --astro-code-token-punctuation: var(--ink-3);
+  --astro-code-token-comment: var(--ink-3);
+  --astro-code-token-link: var(--violet);
+  --astro-code-token-inserted: #15803d;
+  --astro-code-token-deleted: #b91c1c;
+  --astro-code-token-changed: #b45309;
+
+  /* Liquid glass tint (colour channels + alpha, read by liquid-glass.ts) */
+  --lg-tint: 255 255 255;
+  --lg-tint-a: 0.34;
+
+  --gradient: linear-gradient(100deg, var(--violet), var(--fuchsia));
+
+  --sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --mono: 'Geist Mono Variable', ui-monospace, 'SFMono-Regular', monospace;
+
+  --page: 1120px;
+  --gutter: clamp(20px, 5vw, 48px);
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0b11;
+    --surface: #15131d;
+    --hover: rgb(167 139 250 / 0.06);
+    --ink: #f3f1f8;
+    --ink-2: #b3aec2;
+    --ink-3: #7c778b;
+    --line: #221f2c;
+    --line-2: #312d3d;
+    --chip: #1d1a27;
+    --texture: #3a3548;
+
+    --violet: #a78bfa;
+    --fuchsia: #e879f9;
+    --tint: rgb(167 139 250 / 0.1);
+    --tint-line: rgb(167 139 250 / 0.18);
+    --glow: rgb(167 139 250 / 0.08);
+
+    --btn-bg: #f3f1f8;
+    --btn-fg: #0c0b11;
+
+    --astro-code-token-string: #f0abfc;
+    --astro-code-token-string-expression: #f0abfc;
+    --astro-code-token-constant: #93c5fd;
+    --astro-code-token-function: #93c5fd;
+    --astro-code-token-inserted: #86efac;
+    --astro-code-token-deleted: #fca5a5;
+    --astro-code-token-changed: #fcd34d;
+
+    --lg-tint: 26 24 38;
+    --lg-tint-a: 0.46;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: clip;
+}
+
+/* One soft wash, top right */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(50vw 44vw at 85% 0%, var(--glow), transparent 70%);
+}
+
+main {
+  flex: 1;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+h1,
+h2 {
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* The UA stylesheet sets a bare `monospace` on these, which beats inheritance. */
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--mono);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--violet) 28%, transparent);
+}
+
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 3px;
+  border-radius: 999px;
+}
+
+.container {
+  width: min(100% - 2 * var(--gutter), var(--page));
+  margin-inline: auto;
+}
+
+.gradient-text {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.mono {
+  font-family: var(--mono);
+}
+
+.eyebrow {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--violet);
+}
+
+/* Pill buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid var(--line-2);
+  background: var(--surface);
+  color: var(--ink);
+  transition:
+    border-color 0.2s var(--ease),
+    background 0.2s var(--ease),
+    opacity 0.2s var(--ease);
+}
+.btn:hover {
+  border-color: var(--ink-3);
+}
+.btn--solid {
+  background: var(--btn-bg);
+  border-color: var(--btn-bg);
+  color: var(--btn-fg);
+}
+.btn--solid:hover {
+  border-color: var(--btn-bg);
+  opacity: 0.88;
+}
+.btn svg,
+.link svg {
+  transition: transform 0.2s var(--ease);
+}
+.btn:hover svg,
+.link:hover svg {
+  transform: translateX(2px);
+}
+
+.link {
+  display: inline;
+  color: var(--violet);
+  font-size: 15px;
+  font-weight: 450;
+  text-wrap: balance;
+}
+/* keep the arrow attached to the last word when the link wraps */
+.link svg {
+  margin-left: 6px;
+  vertical-align: -3px;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--chip);
+  color: var(--ink-2);
+}
+
+.icon-tile {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  background: var(--tint);
+  color: var(--violet);
+  border: 1px solid var(--tint-line);
+}
+
+/* Liquid glass surface.
+   In Chromium, src/lib/liquid-glass.ts replaces this with a stacked SVG
+   backdrop filter — convex bezel refraction, a frosted centre, a softer and
+   more saturated rim, and the tint — and adds .lg--refract.
+   Safari and Firefox keep this frosted fallback. */
+.lg {
+  background: rgb(var(--lg-tint) / var(--lg-tint-a));
+  -webkit-backdrop-filter: blur(12px) saturate(1.5);
+  backdrop-filter: blur(12px) saturate(1.5);
+}
+.lg.lg--refract {
+  background: none;
+}
+
+/* Page scaffolding (all pages except home) */
+.page {
+  padding-top: clamp(120px, 16vw, 168px);
+  padding-bottom: 96px;
+}
+
+/* Decorative ASCII texture */
+.texture {
+  font-family: var(--mono);
+  color: var(--texture);
+  white-space: pre;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* Restrained reveal */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.7s var(--ease),
+    transform 0.7s var(--ease);
+  transition-delay: calc(var(--i, 0) * 60ms);
+}
+[data-reveal].is-in,
+.no-js [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}

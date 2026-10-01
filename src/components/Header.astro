@@ -1,0 +1,141 @@
+---
+import { nav } from '../data/site';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+// Localised pages (e.g. /de/future-of-ai) highlight their English nav entry.
+const isActive = (href: string) => path === href || path === `/de${href}`;
+---
+
+<header class="header">
+  <div class="bar lg">
+    <a class="brand" href="/" aria-label="maxscopp — home">
+      <svg class="mark" viewBox="0 0 32 32" width="16" height="16" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M16 2c.9 7.6 6.4 13.1 14 14-7.6.9-13.1 6.4-14 14-.9-7.6-6.4-13.1-14-14 7.6-.9 13.1-6.4 14-14Z"
+        ></path>
+      </svg>
+      <span class="name">maxscopp</span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          nav.map((item) => (
+            <li>
+              <a href={item.href} aria-current={isActive(item.href) ? 'page' : undefined}>
+                <span class="long">{item.label}</span>
+                <span class="short">{item.short ?? item.label}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <a class="cta" href="/contact" aria-current={isActive('/contact') ? 'page' : undefined}>
+      Let’s talk
+    </a>
+  </div>
+</header>
+
+<style>
+  .header {
+    position: fixed;
+    top: 16px;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: center;
+    padding-inline: 12px;
+    pointer-events: none;
+  }
+  .bar {
+    pointer-events: auto;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    max-width: 100%;
+    padding: 6px;
+    border-radius: 999px;
+  }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 12px 0 10px;
+    font-weight: 500;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+  .mark {
+    color: var(--violet);
+  }
+  nav {
+    min-width: 0;
+  }
+  ul {
+    display: flex;
+    gap: 2px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav a,
+  .cta {
+    display: block;
+    padding: 7px 14px;
+    border-radius: 999px;
+    font-size: 14px;
+    white-space: nowrap;
+    color: var(--ink-2);
+    transition:
+      color 0.2s,
+      background 0.2s;
+  }
+  nav a:hover {
+    color: var(--ink);
+    background: var(--hover);
+  }
+  nav a[aria-current='page'] {
+    color: var(--ink);
+    background: var(--chip);
+  }
+  .cta {
+    margin-left: 4px;
+    background: var(--btn-bg);
+    color: var(--btn-fg);
+    font-weight: 500;
+  }
+  .cta:hover {
+    opacity: 0.88;
+  }
+
+  .short {
+    display: none;
+  }
+
+  @media (max-width: 640px) {
+    .long {
+      display: none;
+    }
+    .short {
+      display: inline;
+    }
+    .header {
+      top: 10px;
+    }
+    .name {
+      display: none;
+    }
+    .brand {
+      padding: 0 6px 0 10px;
+    }
+    nav a,
+    .cta {
+      padding: 7px 10px;
+      font-size: 13px;
+    }
+  }
+</style>
