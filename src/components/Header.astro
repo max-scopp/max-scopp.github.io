@@ -1,5 +1,5 @@
 ---
-import { nav } from '../data/site';
+import { links, nav } from '../data/site';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 // Localised pages (e.g. /de/future-of-ai) highlight their English nav entry.
@@ -31,8 +31,8 @@ const isActive = (href: string) => path === href || path === `/de${href}`;
         }
       </ul>
     </nav>
-    <a class="cta" href="/contact" aria-current={isActive('/contact') ? 'page' : undefined}>
-      Let’s talk
+    <a class="cta" href={links.email}>
+      Say hello
     </a>
   </div>
 </header>

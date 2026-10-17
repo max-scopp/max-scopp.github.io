@@ -5,10 +5,8 @@ export const links = {
 };
 
 export const nav: { label: string; short?: string; href: string }[] = [
-  { label: 'Work', href: '/work' },
-  { label: 'Process', href: '/process' },
-  { label: 'Open Source', short: 'OSS', href: '/open-source' },
-  { label: 'Future of AI', short: 'AI', href: '/future-of-ai' },
+  { label: 'Development', short: 'Dev', href: 'https://dev.maxscopp.de' },
+  { label: 'Mobile Detailing', short: 'Auto', href: 'https://auto.maxscopp.de' },
 ];
 
 export const focusAreas = [

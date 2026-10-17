@@ -1,8 +1,121 @@
 ---
 import Base from '../layouts/Base.astro';
-import Hero from '../components/Hero.astro';
 ---
 
-<Base>
-  <Hero />
+<Base
+  title="Max Scopp — Developer from Prüm"
+  description="Hi, I'm Max from Prüm, Germany. I've spent 10+ years building software, work AI-first, create open-source projects and offer mobile detailing."
+>
+  <section class="home container">
+    <div class="intro" data-reveal>
+      <p class="eyebrow">Prüm, Germany</p>
+      <h1>Hi, I’m <span class="gradient-text">Max.</span></h1>
+      <p class="summary">
+        I’ve spent more than 10 years building software. I work AI-first, contribute to open
+        source, and run a mobile detailing service.
+      </p>
+    </div>
+
+    <nav class="cards" aria-label="Explore my work">
+      <a class="card" href="https://dev.maxscopp.de" data-reveal style="--i:1">
+        <span class="eyebrow">Software &amp; product</span>
+        <span class="card-title">Development <span aria-hidden="true">↗</span></span>
+        <span class="card-copy">My work, ideas and open-source projects.</span>
+      </a>
+      <a class="card" href="https://auto.maxscopp.de" data-reveal style="--i:2">
+        <span class="eyebrow">Prüm &amp; Eifel</span>
+        <span class="card-title">Mobile detailing <span aria-hidden="true">↗</span></span>
+        <span class="card-copy">Professional car care, wherever you are.</span>
+      </a>
+      <a class="card" href="https://github.com/max-scopp" data-reveal style="--i:3">
+        <span class="eyebrow">Built in the open</span>
+        <span class="card-title">Open source <span aria-hidden="true">↗</span></span>
+        <span class="card-copy">A few useful things I’ve made and shared.</span>
+      </a>
+    </nav>
+  </section>
 </Base>
+
+<style>
+  .home {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(56px, 10vh, 104px);
+    min-height: min(780px, 100svh);
+    padding-block: 120px 80px;
+  }
+  .intro {
+    max-width: 720px;
+  }
+  h1 {
+    margin: 20px 0 0 -0.06em;
+    font-size: clamp(56px, 9vw, 104px);
+    font-weight: 600;
+    letter-spacing: -0.06em;
+    line-height: 0.98;
+  }
+  .summary {
+    max-width: 52ch;
+    margin-top: 24px;
+    color: var(--ink-2);
+    font-size: clamp(18px, 2.2vw, 22px);
+    line-height: 1.55;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .card {
+    display: flex;
+    min-height: 190px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 24px;
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    background: var(--surface);
+    transition:
+      border-color 0.2s var(--ease),
+      transform 0.2s var(--ease),
+      background 0.2s var(--ease);
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: var(--line-2);
+    background: var(--hover);
+  }
+  .card-title {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 28px;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+  }
+  .card-title span {
+    color: var(--violet);
+    font-size: 18px;
+  }
+  .card-copy {
+    margin-top: 6px;
+    color: var(--ink-2);
+    font-size: 14px;
+  }
+  @media (max-width: 720px) {
+    .home {
+      gap: 48px;
+      padding-block: 116px 56px;
+    }
+    .cards {
+      grid-template-columns: 1fr;
+    }
+    .card {
+      min-height: 150px;
+    }
+  }
+</style>
