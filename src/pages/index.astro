@@ -27,7 +27,12 @@ import Base from '../layouts/Base.astro';
         <span class="card-title">Mobile detailing <span aria-hidden="true">↗</span></span>
         <span class="card-copy">Professional car care, wherever you are.</span>
       </a>
-      <a class="card" href="https://github.com/max-scopp" data-reveal style="--i:3">
+      <a class="card" href="https://slicer.maxscopp.de" data-reveal style="--i:3">
+        <span class="eyebrow">Open source · 3D printing</span>
+        <span class="card-title">Slicer <span aria-hidden="true">↗</span></span>
+        <span class="card-copy">Slice 3D models in your browser, with no install.</span>
+      </a>
+      <a class="card" href="https://github.com/max-scopp" data-reveal style="--i:4">
         <span class="eyebrow">Built in the open</span>
         <span class="card-title">Open source <span aria-hidden="true">↗</span></span>
         <span class="card-copy">A few useful things I’ve made and shared.</span>
@@ -64,7 +69,7 @@ import Base from '../layouts/Base.astro';
   }
   .cards {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 16px;
   }
   .card {
@@ -105,6 +110,11 @@ import Base from '../layouts/Base.astro';
     margin-top: 6px;
     color: var(--ink-2);
     font-size: 14px;
+  }
+  @media (max-width: 1000px) {
+    .cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   @media (max-width: 720px) {
     .home {
